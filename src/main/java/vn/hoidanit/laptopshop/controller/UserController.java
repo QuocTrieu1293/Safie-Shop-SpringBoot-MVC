@@ -19,7 +19,9 @@ public class UserController {
   @RequestMapping("/")
   public String getHomePage() {
     String text = userService.handleHello();
-    return "trieu.html";
+    // return "triu.html"; //loi ne
+    // return "trieu.html"; // phai tra ve mot view, la ten cua file html
+    return "hello"; // trả về view hello.jsp
   }
 }
 
