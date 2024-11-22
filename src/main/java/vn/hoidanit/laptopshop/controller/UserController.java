@@ -7,27 +7,34 @@ import org.springframework.web.bind.annotation.RestController;
 
 import vn.hoidanit.laptopshop.service.UserService;
 
-// @Controller
-// public class UserController {
-
-//   @RequestMapping("/")
-//   public String getHomePage() {
-//     return "hello from controller";
-//   }
-// }
-
-@RestController
+@Controller
 public class UserController {
 
   final private UserService userService;
 
-  // DI: dependency Injection
   public UserController(UserService userService) {
     this.userService = userService;
   }
 
-  @GetMapping("")
+  @RequestMapping("/")
   public String getHomePage() {
-    return userService.handleHello();
+    String text = userService.handleHello();
+    return "trieu.html";
   }
 }
+
+// @RestController
+// public class UserController {
+
+// final private UserService userService;
+
+// // DI: dependency Injection
+// public UserController(UserService userService) {
+// this.userService = userService;
+// }
+
+// @GetMapping("")
+// public String getHomePage() {
+// return userService.handleHello();
+// }
+// }
