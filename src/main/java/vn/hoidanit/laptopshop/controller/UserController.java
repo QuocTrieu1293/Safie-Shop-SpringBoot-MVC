@@ -3,10 +3,14 @@ package vn.hoidanit.laptopshop.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import vn.hoidanit.laptopshop.domain.User;
 import vn.hoidanit.laptopshop.service.UserService;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class UserController {
@@ -28,6 +32,19 @@ public class UserController {
 
     return "hello"; // trả về view hello.jsp
   }
+
+  @RequestMapping("/admin/user")
+  public String getCreateUserPage(Model model) {
+    model.addAttribute("newUser", new User());
+    return "admin/user/create";
+  }
+
+  @RequestMapping(value = "/admin/user", method = RequestMethod.POST)
+  public String createUser(Model model, @ModelAttribute("newUser") User user) {
+    System.out.println("create user controller: " + user);
+    return "hello";
+  }
+
 }
 
 // @RestController
