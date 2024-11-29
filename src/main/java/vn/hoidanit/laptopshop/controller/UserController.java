@@ -23,11 +23,10 @@ public class UserController {
 
   @RequestMapping("/")
   public String getHomePage(Model model) {
-    String test = userService.handleHello();
     // return "triu.html"; //loi ne
     // return "trieu.html"; // phai tra ve mot view, la ten cua file html
 
-    model.addAttribute("test", test);
+    model.addAttribute("test", "test");
     model.addAttribute("trieu", "tre tuoi, nhieu tien");
 
     return "hello"; // trả về view hello.jsp
@@ -41,7 +40,9 @@ public class UserController {
 
   @RequestMapping(value = "/admin/user", method = RequestMethod.POST)
   public String createUser(Model model, @ModelAttribute("newUser") User user) {
-    System.out.println("create user controller: " + user);
+    System.out.println("User from form: " + user);
+    User saved_user = userService.handleSaveUser(user);
+    System.out.println("Saved user: " + saved_user);
     return "hello";
   }
 
