@@ -6,7 +6,7 @@ uri="http://www.springframework.org/tags/form" prefix="form"%>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>Update User</title>
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
       rel="stylesheet"
@@ -28,14 +28,28 @@ uri="http://www.springframework.org/tags/form" prefix="form"%>
     <div class="container mt-5">
       <div class="row justify-content-md-center">
         <div class="col-md-6 col">
-          <h1>Create a user</h1>
+          <h1>Update User</h1>
           <hr />
           <form:form
             method="post"
-            action="/admin/user/create"
+            action="/admin/user/update"
             novalidate="not empty string here"
-            modelAttribute="newUser"
+            modelAttribute="user"
           >
+            <!--jsp tạo một đối tượng User mới để gửi tới controller-->
+            <div class="container-fluid">
+              <div class="mb-3 row">
+                <label for="id" class="form-label col-form-label col-1 px-0"
+                  >ID:</label
+                >
+                <form:input
+                  type="text"
+                  class="form-control-plaintext col"
+                  id="id"
+                  path="id"
+                />
+              </div>
+            </div>
             <div class="mb-3">
               <label for="email" class="form-label">Email:</label>
               <form:input
@@ -46,16 +60,6 @@ uri="http://www.springframework.org/tags/form" prefix="form"%>
                 path="email"
               />
               <div class="invalid-feedback">Email không hợp lệ</div>
-            </div>
-            <div class="mb-3">
-              <label for="password" class="form-label">Password:</label>
-              <form:input
-                type="password"
-                class="form-control"
-                id="password"
-                required="not empty string here"
-                path="password"
-              />
             </div>
             <div class="mb-3">
               <label for="phone" class="form-label">Phone number:</label>
@@ -88,6 +92,12 @@ uri="http://www.springframework.org/tags/form" prefix="form"%>
               />
             </div>
             <button type="submit" class="btn btn-primary">Submit</button>
+            <form:input
+              type="text"
+              path="password"
+              class="d-none"
+              readonly="không được sửa"
+            />
           </form:form>
         </div>
       </div>

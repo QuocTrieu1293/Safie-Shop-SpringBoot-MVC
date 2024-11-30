@@ -1,9 +1,13 @@
 package vn.hoidanit.laptopshop.controller;
 
+import java.util.List;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -33,17 +37,51 @@ public class UserController {
   }
 
   @RequestMapping("/admin/user")
+  public String getUserPage(Model model) {
+    List<User> userList = userService.getAll();
+    model.addAttribute("userList", userList);
+    return "admin/user/table-user";
+  }
+
+  @RequestMapping("/admin/user/create")
   public String getCreateUserPage(Model model) {
     model.addAttribute("newUser", new User());
     return "admin/user/create";
   }
 
-  @RequestMapping(value = "/admin/user", method = RequestMethod.POST)
-  public String createUser(Model model, @ModelAttribute("newUser") User user) {
-    System.out.println("User from form: " + user);
+  @RequestMapping(value = "/admin/user/create", method = RequestMethod.POST)
+  public String createUser(@ModelAttribute("newUser") User user) {
+    // System.out.println("User from form: " + user);
     User saved_user = userService.handleSaveUser(user);
-    System.out.println("Saved user: " + saved_user);
-    return "hello";
+    // System.out.println("Saved user: " + saved_user);
+    return "redirect:/admin/user";
+  }
+
+  @GetMapping("/admin/user/{id}")
+  public String getUserDetailPage(@PathVariable long id, Model model) {
+    User user = userService.get(id);
+    model.addAttribute("user", user != null ? user
+        : new User("None", "None",
+            "None", "None",
+            "None"));
+    return "/admin/user/detail";
+  }
+
+  @GetMapping("/admin/user/update/{id}")
+  public String getUserUpdatePage(@PathVariable long id, Model model) {
+    User user = userService.get(id);
+    model.addAttribute("user", user != null ? user
+        : new User("None", "None",
+            "None", "None",
+            "None"));
+    return "/admin/user/update";
+  }
+
+  @PostMapping("/admin/user/update")
+  public String updateUser(@ModelAttribute("user") User user) {
+    userService.handleSaveUser(user);
+
+    return "redirect:/admin/user";
   }
 
 }

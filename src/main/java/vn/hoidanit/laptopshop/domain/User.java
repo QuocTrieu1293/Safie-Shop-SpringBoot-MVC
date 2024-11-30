@@ -19,12 +19,12 @@ public class User {
   private String address;
   private String phone;
 
-  private synchronized long generateId() {
-    return idCounter++;
-  }
+  // private synchronized long generateId() {
+  // return idCounter++;
+  // }
 
   public User() {
-    // System.out.println("User created");
+    System.out.println("User created");
   }
 
   public User(String email, String password, String fullName, String address, String phone) {
@@ -33,7 +33,11 @@ public class User {
     this.fullName = fullName;
     this.address = address;
     this.phone = phone;
-    this.id = generateId();
+    this.id = -1;
+  }
+
+  public void setId(long id) { // Phải tạo public setter thì jsp form:form mới có thể truy cập, gán giá trị đc
+    this.id = id;
   }
 
   public void setEmail(String email) {
