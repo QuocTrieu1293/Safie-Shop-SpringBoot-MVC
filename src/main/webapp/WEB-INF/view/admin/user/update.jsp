@@ -30,6 +30,15 @@ uri="http://www.springframework.org/tags/form" prefix="form"%>
         <div class="col-md-6 col">
           <h1>Update User</h1>
           <hr />
+          <c:if test="${not empty errorMessage}">
+            <div
+              class="alert alert-danger alert-dismissible fade show"
+              role="alert"
+            >
+              ${errorMessage}
+              <button class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+          </c:if>
           <form:form
             method="post"
             action="/admin/user/update"
@@ -47,6 +56,7 @@ uri="http://www.springframework.org/tags/form" prefix="form"%>
                   class="form-control-plaintext col"
                   id="id"
                   path="id"
+                  required="true"
                 />
               </div>
             </div>
@@ -55,6 +65,7 @@ uri="http://www.springframework.org/tags/form" prefix="form"%>
               <form:input
                 type="email"
                 class="form-control"
+                readonly="true"
                 id="email"
                 required="not empty string here"
                 path="email"
@@ -70,6 +81,7 @@ uri="http://www.springframework.org/tags/form" prefix="form"%>
                 required="not empty string here"
                 path="phone"
               />
+              <div class="invalid-feedback">Không được để trống</div>
             </div>
             <div class="mb-3">
               <label for="fullname" class="form-label">Full Name:</label>
@@ -80,6 +92,7 @@ uri="http://www.springframework.org/tags/form" prefix="form"%>
                 required="not empty string here"
                 path="fullName"
               />
+              <div class="invalid-feedback">Không được để trống</div>
             </div>
             <div class="mb-3">
               <label for="address" class="form-label">Address:</label>
@@ -90,14 +103,15 @@ uri="http://www.springframework.org/tags/form" prefix="form"%>
                 required="not empty string here"
                 path="address"
               />
+              <div class="invalid-feedback">Không được để trống</div>
             </div>
             <button type="submit" class="btn btn-primary">Submit</button>
-            <form:input
-              type="text"
+            <!-- <form:input
+              type="password"
               path="password"
               class="d-none"
               readonly="không được sửa"
-            />
+            /> -->
           </form:form>
         </div>
       </div>

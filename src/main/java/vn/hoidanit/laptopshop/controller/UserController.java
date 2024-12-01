@@ -78,9 +78,28 @@ public class UserController {
   }
 
   @PostMapping("/admin/user/update")
-  public String updateUser(@ModelAttribute("user") User user) {
-    userService.handleSaveUser(user);
+  public String updateUser(@ModelAttribute("user") User updated_user, Model model) {
+    User user = userService.get(updated_user.getId());
+    if (user != null) {
+      user.setAddress(updated_user.getAddress());
+      user.setFullName(updated_user.getFullName());
+      user.setPhone(updated_user.getPhone());
+      userService.handleSaveUser(user);
+      return "redirect:/admin/user";
+    }
+    model.addAttribute("errorMessage", "Update failed");
+    return "admin/user/update";
+  }
 
+  @GetMapping("/admin/user/delete/{id}")
+  public String getUserDeletePage(@PathVariable long id, Model model) {
+    model.addAttribute("id", id);
+    return "/admin/user/delete";
+  }
+
+  @PostMapping("/admin/user/delete/{id}")
+  public String deleteUser(@PathVariable long id) {
+    userService.delete(id);
     return "redirect:/admin/user";
   }
 
