@@ -1,0 +1,11 @@
+.btn-remove {
+  position: absolute;
+  top: -3px;
+  right: -3px;
+  background-color: #ff2c2c;
+  opacity: 1;
+}
+
+.btn-remove:hover {
+  opacity: 0.9;
+}

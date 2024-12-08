@@ -1,11 +1,19 @@
 package vn.hoidanit.laptopshop.domain;
 
+import java.util.Set;
+
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 
 @Entity
+@Table(name = "users")
 public class User {
   private static long idCounter = 0;
 
@@ -18,6 +26,14 @@ public class User {
   private String fullName;
   private String address;
   private String phone;
+  private String avatar;
+
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "role_id") // mặc định Spring tự tạo cột khoá ngoại này, tên mặc định là <tên entity>_id
+  private Role role;
+
+  @OneToMany(mappedBy = "user")
+  private Set<Order> orders;
 
   // private synchronized long generateId() {
   // return idCounter++;
@@ -60,6 +76,10 @@ public class User {
     this.phone = phone;
   }
 
+  public void setAvatar(String avatar) {
+    this.avatar = avatar;
+  }
+
   public long getId() {
     return id;
   }
@@ -84,10 +104,30 @@ public class User {
     return phone;
   }
 
+  public String getAvatar() {
+    return avatar;
+  }
+
+  public Role getRole() {
+    return role;
+  }
+
+  public void setRole(Role role) {
+    this.role = role;
+  }
+
+  public Set<Order> getOrders() {
+    return orders;
+  }
+
+  public void setOrders(Set<Order> orders) {
+    this.orders = orders;
+  }
+
   @Override
   public String toString() {
-    return String.format("User{id=%d, email=%s, password=%s, fullName=%s, address=%s, phone=%s}",
-        id, email, password, fullName, address, phone);
+    return "User [id=" + id + ", email=" + email + ", password=" + password + ", fullName=" + fullName + ", address="
+        + address + ", phone=" + phone + ", avatar=" + avatar + ", role=" + role + ", orders=" + orders + "]";
   }
 
 }

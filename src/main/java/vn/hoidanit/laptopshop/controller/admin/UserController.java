@@ -1,4 +1,4 @@
-package vn.hoidanit.laptopshop.controller;
+package vn.hoidanit.laptopshop.controller.admin;
 
 import java.util.List;
 
@@ -9,20 +9,26 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-import vn.hoidanit.laptopshop.domain.User;
-import vn.hoidanit.laptopshop.service.UserService;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import vn.hoidanit.laptopshop.domain.User;
+import vn.hoidanit.laptopshop.repository.UserRepository;
+import vn.hoidanit.laptopshop.service.FileService;
+import vn.hoidanit.laptopshop.service.FileService.Type;
+import vn.hoidanit.laptopshop.service.UserService;
 
 @Controller
 public class UserController {
 
   final private UserService userService;
+  final private FileService fileService;
 
-  public UserController(UserService userService) {
+  public UserController(UserService userService, FileService fileService) {
     this.userService = userService;
+    this.fileService = fileService;
   }
 
   @RequestMapping("/")
@@ -40,7 +46,7 @@ public class UserController {
   public String getUserPage(Model model) {
     List<User> userList = userService.getAll();
     model.addAttribute("userList", userList);
-    return "admin/user/table-user";
+    return "admin/user/show";
   }
 
   @RequestMapping("/admin/user/create")
@@ -50,10 +56,12 @@ public class UserController {
   }
 
   @RequestMapping(value = "/admin/user/create", method = RequestMethod.POST)
-  public String createUser(@ModelAttribute("newUser") User user) {
-    // System.out.println("User from form: " + user);
-    User saved_user = userService.handleSaveUser(user);
-    // System.out.println("Saved user: " + saved_user);
+  public String createUser(@ModelAttribute("newUser") User user, @RequestParam("avatar_file") MultipartFile file) {
+    if (!file.isEmpty()) {
+      String savedFile = fileService.saveImage(file, Type.AVATAR);
+      user.setAvatar(savedFile);
+    }
+    User newUser = userService.registerUser(user);
     return "redirect:/admin/user";
   }
 
@@ -78,27 +86,45 @@ public class UserController {
   }
 
   @PostMapping("/admin/user/update")
-  public String updateUser(@ModelAttribute("user") User updated_user, Model model) {
-    User user = userService.get(updated_user.getId());
-    if (user != null) {
-      user.setAddress(updated_user.getAddress());
-      user.setFullName(updated_user.getFullName());
-      user.setPhone(updated_user.getPhone());
-      userService.handleSaveUser(user);
-      return "redirect:/admin/user";
+  public String updateUser(@ModelAttribute User user,
+      @RequestParam("avatar_file") MultipartFile file,
+      @RequestParam(defaultValue = "false") boolean isDeleteAvatar,
+      RedirectAttributes redirectAttributes) {
+    if (isDeleteAvatar) {
+      fileService.deleteImage(user.getAvatar(), Type.AVATAR);
+      user.setAvatar(null);
     }
-    model.addAttribute("errorMessage", "Update failed");
-    return "admin/user/update";
+    if (!file.isEmpty()) {
+      String savedFile = fileService.saveImage(file, Type.AVATAR);
+      user.setAvatar(savedFile);
+    }
+    try {
+      User updatedUser = userService.updateUser(user);
+      redirectAttributes.addFlashAttribute("successMessage", "User updated successfully!");
+    } catch (Exception e) {
+      e.printStackTrace();
+      redirectAttributes.addFlashAttribute("errorMessage", "Fail to update user. Please try again later.");
+    }
+    return "redirect:/admin/user/update/" + user.getId();
   }
 
   @GetMapping("/admin/user/delete/{id}")
   public String getUserDeletePage(@PathVariable long id, Model model) {
-    model.addAttribute("id", id);
+    User user = userService.get(id);
+    model.addAttribute("user", user);
     return "/admin/user/delete";
   }
 
   @PostMapping("/admin/user/delete/{id}")
   public String deleteUser(@PathVariable long id) {
+    User user = userService.get(id);
+    if (user == null)
+      return "redirect:/admin/user";
+
+    String fileName = user.getAvatar();
+    if (fileName != null && !fileName.isEmpty()) {
+      fileService.deleteImage(fileName, Type.AVATAR);
+    }
     userService.delete(id);
     return "redirect:/admin/user";
   }
