@@ -107,24 +107,11 @@ uri="http://www.springframework.org/tags/form" prefix="form"%>
                               required="not empty string here"
                               path="email"
                             />
-                            <div class="invalid-feedback">
-                              Email không hợp lệ
-                            </div>
+                            <div class="invalid-feedback">Email is not</div>
                           </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                  <div class="mb-3">
-                    <label for="phone" class="form-label">Phone number:</label>
-                    <form:input
-                      type="number"
-                      class="form-control"
-                      id="phone"
-                      required="not empty string here"
-                      path="phone"
-                    />
-                    <div class="invalid-feedback">Không được để trống</div>
                   </div>
                   <div class="mb-3">
                     <label for="fullname" class="form-label">Full name:</label>
@@ -135,7 +122,15 @@ uri="http://www.springframework.org/tags/form" prefix="form"%>
                       required="not empty string here"
                       path="fullName"
                     />
-                    <div class="invalid-feedback">Không được để trống</div>
+                  </div>
+                  <div class="mb-3">
+                    <label for="phone" class="form-label">Phone number:</label>
+                    <form:input
+                      type="number"
+                      class="form-control"
+                      id="phone"
+                      path="phone"
+                    />
                   </div>
                   <div class="mb-3">
                     <label for="address" class="form-label">Address:</label>
@@ -143,10 +138,8 @@ uri="http://www.springframework.org/tags/form" prefix="form"%>
                       type="text"
                       class="form-control"
                       id="address"
-                      required="not empty string here"
                       path="address"
                     />
-                    <div class="invalid-feedback">Không được để trống</div>
                   </div>
                   <div class="mb-3 row">
                     <label for="role" class="form-label col-auto col-form-label"
@@ -159,10 +152,8 @@ uri="http://www.springframework.org/tags/form" prefix="form"%>
                         required="not empty string here"
                         path="role.name"
                       >
+                        <form:option value="User">User</form:option>
                         <form:option value="Admin">Admin</form:option>
-                        <form:option value="User" selected="true"
-                          >User</form:option
-                        >
                       </form:select>
                     </div>
                     <label
@@ -181,7 +172,7 @@ uri="http://www.springframework.org/tags/form" prefix="form"%>
                     </div>
                   </div>
                   <div class="d-flex justify-content-center mb-3">
-                    <c:choose>
+                    <!-- <c:choose>
                       <c:when test="${not empty user.avatar}">
                         <div style="position: relative" id="avatar_preview">
                           <button class="btn-remove btn-close"></button>
@@ -206,7 +197,20 @@ uri="http://www.springframework.org/tags/form" prefix="form"%>
                           />
                         </div>
                       </c:otherwise>
-                    </c:choose>
+                    </c:choose> -->
+                    <div
+                      style="position: relative"
+                      class="${empty user.avatar ? 'd-none' : ''}"
+                      id="avatar_preview"
+                    >
+                      <button class="btn-remove btn-close"></button>
+                      <img
+                        alt="avatar preview"
+                        class="img-thumbnail"
+                        style="max-width: 180px; aspect-ratio: 3/4"
+                        src="/images/avatar/${not empty user.avatar ? user.avatar : ''}"
+                      />
+                    </div>
                   </div>
                   <div class="mb-3">
                     <button type="submit" class="btn btn-success me-2">
@@ -242,16 +246,18 @@ uri="http://www.springframework.org/tags/form" prefix="form"%>
     ></script>
     <script src="/js/scripts.js"></script>
     <script>
-      form = document.getElementById("form");
-      form.addEventListener("submit", (e) => {
-        if (!form.checkValidity()) {
-          e.preventDefault();
-        }
-
-        form.classList.add("was-validated");
-      });
-
       $(document).ready(() => {
+        $("#form").submit(function (e) {
+          if (!this.checkValidity()) {
+            e.preventDefault();
+            e.stopPropagation();
+          }
+
+          $(this).addClass("was-validated");
+          $(".server-validate-feedback").css({ display: "none" });
+          $(".client-validate-feedback").css({ display: "block" });
+        });
+
         $("#avatar").change(function (e) {
           // console.log(e.target.files);
           let imgURL = "";
@@ -261,7 +267,8 @@ uri="http://www.springframework.org/tags/form" prefix="form"%>
               $("#isDeleteAvatar").prop("checked", true);
           }
           $("#avatar_preview img").attr("src", imgURL);
-          $("#avatar_preview").css({ display: imgURL ? "block" : "none" });
+          if (imgURL) $("#avatar_preview").removeClass("d-none");
+          else $("#avatar_preview").addClass("d-none");
         });
 
         $(".btn-remove").click(function (e) {
@@ -272,7 +279,7 @@ uri="http://www.springframework.org/tags/form" prefix="form"%>
 
           $("#avatar").val("");
           $("#avatar_preview img").attr("src", "");
-          $("#avatar_preview").css({ display: "none" });
+          $("#avatar_preview").addClass("d-none");
         });
       });
     </script>

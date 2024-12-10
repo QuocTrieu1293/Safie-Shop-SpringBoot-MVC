@@ -30,11 +30,60 @@ uri="http://java.sun.com/jsp/jstl/core" %>
       <div id="layoutSidenav_content">
         <main>
           <div class="container-fluid px-4">
-            <h1 class="mt-4">Manage Products</h1>
-            <ol class="breadcrumb mb-4">
-              <li class="breadcrumb-item active">Products</li>
-            </ol>
-            <div class="col">product page</div>
+            <div class="row">
+              <div class="col">
+                <div class="d-flex align-items-end justify-content-between">
+                  <div>
+                    <h1 class="mt-4">Manage Products</h1>
+                    <ol class="breadcrumb mb-4">
+                      <li class="breadcrumb-item active">Products</li>
+                    </ol>
+                  </div>
+                  <a href="/admin/product/create" class="btn btn-primary btn-lg"
+                    >Create a product</a
+                  >
+                </div>
+                <hr />
+                <table class="table table-hover table-bordered">
+                  <thead>
+                    <tr>
+                      <th>ID</th>
+                      <th>Email</th>
+                      <th>Full Name</th>
+                      <th>Role</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody class="table-group-divider">
+                    <c:forEach var="user" items="${userList}">
+                      <tr>
+                        <td>${user.id}</td>
+                        <td>${user.email}</td>
+                        <td>${user.fullName}</td>
+                        <td>${user.role.name}</td>
+                        <td>
+                          <a
+                            href="/admin/user/${user.id}"
+                            class="btn btn-success me-2"
+                            >View</a
+                          >
+                          <a
+                            href="/admin/user/update/${user.id}"
+                            class="btn btn-warning me-2"
+                            >Update</a
+                          >
+                          <a
+                            href="/admin/user/delete/${user.id}"
+                            class="btn btn-danger"
+                            >Delete</a
+                          >
+                        </td>
+                      </tr>
+                    </c:forEach>
+                  </tbody>
+                </table>
+              </div>
+            </div>
           </div>
         </main>
         <jsp:include page="../layout/footer.jsp" />

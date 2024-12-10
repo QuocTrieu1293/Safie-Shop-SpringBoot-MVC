@@ -42,7 +42,7 @@ uri="http://java.sun.com/jsp/jstl/core" %>
               <div
                 class="col-md-3 col-12 d-flex justify-content-center align-items-start"
               >
-                <c:choose>
+                <!-- <c:choose>
                   <c:when test="${not empty user.avatar}">
                     <img
                       src="/images/avatar/${user.avatar}"
@@ -59,7 +59,10 @@ uri="http://java.sun.com/jsp/jstl/core" %>
                       style="max-width: 180px; aspect-ratio: 3/4"
                     />
                   </c:otherwise>
-                </c:choose>
+                </c:choose> -->
+                <img src="/images/avatar/${not empty user.avatar ? user.avatar :
+                "user_placeholder.png"}" alt="avatar" class="img-thumbnail"
+                style="max-width: 180px; aspect-ratio: 3/4" />
               </div>
               <div class="col-md-6 col-12">
                 <div class="card">

@@ -3,10 +3,14 @@ package vn.hoidanit.laptopshop.domain;
 import java.util.Set;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -24,8 +28,18 @@ public class Product {
   private String shortDesc;
   private long quantity;
   private long sold;
-  private String factory;
-  private String target;
+
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "category_id")
+  private Category category;
+
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "brand_id")
+  private Brand brand;
+
+  @ManyToMany
+  @JoinTable(name = "product_size", joinColumns = @JoinColumn(name = "product_id"), inverseJoinColumns = @JoinColumn(name = "size_id"))
+  private Set<Size> sizes;
 
   public long getId() {
     return id;
@@ -91,27 +105,35 @@ public class Product {
     this.sold = sold;
   }
 
-  public String getFactory() {
-    return factory;
+  public Category getCategory() {
+    return category;
   }
 
-  public void setFactory(String factory) {
-    this.factory = factory;
+  public void setCategory(Category category) {
+    this.category = category;
   }
 
-  public String getTarget() {
-    return target;
+  public Brand getBrand() {
+    return brand;
   }
 
-  public void setTarget(String target) {
-    this.target = target;
+  public void setBrand(Brand brand) {
+    this.brand = brand;
+  }
+
+  public Set<Size> getSizes() {
+    return sizes;
+  }
+
+  public void setSizes(Set<Size> sizes) {
+    this.sizes = sizes;
   }
 
   @Override
   public String toString() {
     return "Product [id=" + id + ", name=" + name + ", price=" + price + ", image=" + image + ", detailDesc="
-        + detailDesc + ", shortDesc=" + shortDesc + ", quantity=" + quantity + ", sold=" + sold + ", factory=" + factory
-        + ", target=" + target + "]";
+        + detailDesc + ", shortDesc=" + shortDesc + ", quantity=" + quantity + ", sold=" + sold + ", brand=" + brand
+        + ", category=" + category + "]";
   }
 
 }

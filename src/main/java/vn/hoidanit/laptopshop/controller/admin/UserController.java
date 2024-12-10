@@ -2,9 +2,14 @@ package vn.hoidanit.laptopshop.controller.admin;
 
 import java.util.List;
 
+import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,8 +19,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import jakarta.validation.Valid;
 import vn.hoidanit.laptopshop.domain.User;
-import vn.hoidanit.laptopshop.repository.UserRepository;
 import vn.hoidanit.laptopshop.service.FileService;
 import vn.hoidanit.laptopshop.service.FileService.Type;
 import vn.hoidanit.laptopshop.service.UserService;
@@ -26,21 +31,26 @@ public class UserController {
   final private UserService userService;
   final private FileService fileService;
 
+  @InitBinder
+  public void initBinder(WebDataBinder binder) {
+    binder.registerCustomEditor(String.class, new StringTrimmerEditor(true)); // Converts "" to null
+  }
+
   public UserController(UserService userService, FileService fileService) {
     this.userService = userService;
     this.fileService = fileService;
   }
 
-  @RequestMapping("/")
-  public String getHomePage(Model model) {
-    // return "triu.html"; //loi ne
-    // return "trieu.html"; // phai tra ve mot view, la ten cua file html
+  // @RequestMapping("/")
+  // public String getHomePage(Model model) {
+  // // return "triu.html"; //loi ne
+  // // return "trieu.html"; // phai tra ve mot view, la ten cua file html
 
-    model.addAttribute("test", "test");
-    model.addAttribute("trieu", "tre tuoi, nhieu tien");
+  // model.addAttribute("test", "test");
+  // model.addAttribute("trieu", "tre tuoi, nhieu tien");
 
-    return "hello"; // trả về view hello.jsp
-  }
+  // return "hello"; // trả về view hello.jsp
+  // }
 
   @RequestMapping("/admin/user")
   public String getUserPage(Model model) {
@@ -56,7 +66,20 @@ public class UserController {
   }
 
   @RequestMapping(value = "/admin/user/create", method = RequestMethod.POST)
-  public String createUser(@ModelAttribute("newUser") User user, @RequestParam("avatar_file") MultipartFile file) {
+  public String createUser(@Valid @ModelAttribute("newUser") User user, BindingResult userBindingResult,
+      @RequestParam("avatar_file") MultipartFile file) {
+
+    if (userService.emailExists(user.getEmail()))
+      userBindingResult.rejectValue("email", "Unique", "Email already exists");
+
+    if (userBindingResult.hasFieldErrors()) {
+      List<FieldError> errors = userBindingResult.getFieldErrors();
+      errors.forEach((e) -> System.out.println(">>> ERR: " + e.getField() + " - " + e.getDefaultMessage()));
+      return "admin/user/create"; // return view -> dữ liệu input vẫn còn lưu
+      // return "redirect:/admin/user/create"; // redirect thì như refresh lại vào lại
+      // url đó -> dữ liệu input bị mất
+    }
+
     if (!file.isEmpty()) {
       String savedFile = fileService.saveImage(file, Type.AVATAR);
       user.setAvatar(savedFile);
