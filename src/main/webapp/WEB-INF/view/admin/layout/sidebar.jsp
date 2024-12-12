@@ -27,6 +27,12 @@
           </div>
           Order
         </a>
+        <a class="nav-link" href="/admin/utils/clear-images">
+          <div class="sb-nav-link-icon">
+            <i class="fa-solid fa-trash"></i>
+          </div>
+          Clear images
+        </a>
       </div>
     </div>
   </nav>

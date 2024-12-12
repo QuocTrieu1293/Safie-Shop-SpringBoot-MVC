@@ -44,39 +44,84 @@ uri="http://java.sun.com/jsp/jstl/core" %>
                   >
                 </div>
                 <hr />
+                <!-- Hiện thông báo thành công / thất bại -->
+                <c:choose>
+                  <c:when test="${not empty successMessage}">
+                    <div
+                      class="alert alert-success alert-dismissible fade show"
+                      role="alert"
+                    >
+                      ${successMessage}
+                      <button
+                        class="btn-close"
+                        data-bs-dismiss="alert"
+                      ></button>
+                    </div>
+                  </c:when>
+                  <c:when test="${not empty errorMessage}">
+                    <div
+                      class="alert alert-danger alert-dismissible fade show"
+                      role="alert"
+                    >
+                      ${errorMessage}
+                      <button
+                        class="btn-close"
+                        data-bs-dismiss="alert"
+                      ></button>
+                    </div>
+                  </c:when>
+                </c:choose>
                 <table class="table table-hover table-bordered">
                   <thead>
-                    <tr>
+                    <tr class="text-center">
                       <th>ID</th>
-                      <th>Email</th>
-                      <th>Full Name</th>
-                      <th>Role</th>
-                      <th>Action</th>
+                      <th>Name</th>
+                      <th>Brand</th>
+                      <th>Cate</th>
+                      <th>Price</th>
+                      <th>Quant</th>
+                      <th style="width: 200px">Image</th>
+                      <th style="width: 80px">Action</th>
                     </tr>
                   </thead>
                   <tbody class="table-group-divider">
-                    <c:forEach var="user" items="${userList}">
+                    <c:forEach var="product" items="${productList}">
                       <tr>
-                        <td>${user.id}</td>
-                        <td>${user.email}</td>
-                        <td>${user.fullName}</td>
-                        <td>${user.role.name}</td>
+                        <td class="text-center fw-bold">${product.id}</td>
+                        <td style="width: 30%">${product.name}</td>
+                        <td class="text-nowrap text-center">
+                          ${product.brand.name}
+                        </td>
+                        <td class="text-nowrap text-center">
+                          ${product.category.name}
+                        </td>
+                        <td class="text-center">${product.price}</td>
+                        <td class="text-center">${product.quantity}</td>
                         <td>
-                          <a
-                            href="/admin/user/${user.id}"
-                            class="btn btn-success me-2"
-                            >View</a
-                          >
-                          <a
-                            href="/admin/user/update/${user.id}"
-                            class="btn btn-warning me-2"
-                            >Update</a
-                          >
-                          <a
-                            href="/admin/user/delete/${user.id}"
-                            class="btn btn-danger"
-                            >Delete</a
-                          >
+                          <img
+                            src="/images/product/${product.image}"
+                            alt="product image"
+                            class="img-fluid rounded"
+                          />
+                        </td>
+                        <td>
+                          <div class="d-flex flex-column">
+                            <a
+                              href="/admin/product/${product.id}"
+                              class="btn btn-success mb-2"
+                              >View</a
+                            >
+                            <a
+                              href="/admin/product/update/${product.id}"
+                              class="btn btn-warning mb-2"
+                              >Update</a
+                            >
+                            <a
+                              href="/admin/product/delete/${product.id}"
+                              class="btn btn-danger"
+                              >Delete</a
+                            >
+                          </div>
                         </td>
                       </tr>
                     </c:forEach>

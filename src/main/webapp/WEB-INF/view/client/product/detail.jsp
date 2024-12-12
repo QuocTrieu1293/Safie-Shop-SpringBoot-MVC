@@ -1,11 +1,13 @@
 <%@page contentType="text/html" pageEncoding="UTF-8" %> <%@ taglib prefix="c"
-uri="http://java.sun.com/jsp/jstl/core" %>
+uri="http://java.sun.com/jsp/jstl/core" %> <%@ taglib
+uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %> <%@ taglib
+uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <title>BabieFash - Thời trang cho bé</title>
+    <title>${product.name} - babiefash</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
     <meta content="" name="keywords" />
     <meta content="" name="description" />
@@ -40,6 +42,19 @@ uri="http://java.sun.com/jsp/jstl/core" %>
 
     <!-- Template Stylesheet -->
     <link href="/client/css/style.css" rel="stylesheet" />
+
+    <style>
+      .card-title {
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        font-size: 14px;
+        letter-spacing: 1px;
+        color: #45595b;
+      }
+    </style>
   </head>
 
   <body>
@@ -54,20 +69,17 @@ uri="http://java.sun.com/jsp/jstl/core" %>
 
     <jsp:include page="../layout/header.jsp" />
 
-    <!-- Single Page Header start -->
-    <div class="container-fluid page-header py-5">
-      <h1 class="text-center text-white display-6">Chi tiết sản phẩm</h1>
-      <ol class="breadcrumb justify-content-center mb-0">
-        <li class="breadcrumb-item"><a href="#">Home</a></li>
-        <li class="breadcrumb-item"><a href="#">Pages</a></li>
-        <li class="breadcrumb-item active text-white">Shop Detail</li>
-      </ol>
-    </div>
-    <!-- Single Page Header End -->
-
     <!-- Single Product Start -->
-    <div class="container-fluid py-5 mt-5">
-      <div class="container py-5">
+    <div class="container-fluid" style="margin-top: 180px">
+      <div class="container py-4">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb mb-3">
+            <li class="breadcrumb-item"><a href="/">Trang chủ</a></li>
+            <li class="breadcrumb-item active text-secondary">
+              Chi tiết sản phẩm
+            </li>
+          </ol>
+        </nav>
         <div class="row g-5 mb-5">
           <div class="col-lg-8 col-xl-9">
             <div class="row g-4">
@@ -75,7 +87,7 @@ uri="http://java.sun.com/jsp/jstl/core" %>
                 <div class="border rounded">
                   <a href="#">
                     <img
-                      src="/client/img/single-item.jpg"
+                      src="/images/product/${product.image}"
                       class="img-fluid rounded"
                       alt="Image"
                     />
@@ -83,9 +95,13 @@ uri="http://java.sun.com/jsp/jstl/core" %>
                 </div>
               </div>
               <div class="col-lg-6">
-                <h4 class="fw-bold mb-3">Brocoli</h4>
-                <p class="mb-3">Category: Vegetables</p>
-                <h5 class="fw-bold mb-3">3,35 $</h5>
+                <h4 class="fw-bold mb-3">${product.name}</h4>
+                <p class="mb-3">
+                  Danh mục: <a href="#">${product.category.name}</a>
+                </p>
+                <h5 class="fw-bold mb-3">
+                  <fmt:formatNumber type="number" value="${product.price}" /> đ
+                </h5>
                 <div class="d-flex mb-4">
                   <i class="fa fa-star text-secondary"></i>
                   <i class="fa fa-star text-secondary"></i>
@@ -93,15 +109,8 @@ uri="http://java.sun.com/jsp/jstl/core" %>
                   <i class="fa fa-star text-secondary"></i>
                   <i class="fa fa-star"></i>
                 </div>
-                <p class="mb-4">
-                  The generated Lorem Ipsum is therefore always free from
-                  repetition injected humour, or non-characteristic words etc.
-                </p>
-                <p class="mb-4">
-                  Susp endisse ultricies nisi vel quam suscipit. Sabertooth
-                  peacock flounder; chain pickerel hatchetfish, pencilfish
-                  snailfish
-                </p>
+                <p class="mb-4">${product.shortDesc}</p>
+
                 <div class="input-group quantity mb-5" style="width: 100px">
                   <div class="input-group-btn">
                     <button
@@ -126,10 +135,11 @@ uri="http://java.sun.com/jsp/jstl/core" %>
                 <a
                   href="#"
                   class="btn border border-secondary rounded-pill px-4 py-2 mb-4 text-primary"
-                  ><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to
-                  cart</a
+                  ><i class="fa fa-shopping-bag me-2 text-primary"></i> Thêm vào
+                  giỏ hàng</a
                 >
               </div>
+              <!-- Nav Tab -->
               <div class="col-lg-12">
                 <nav>
                   <div class="nav nav-tabs mb-3">
@@ -159,6 +169,7 @@ uri="http://java.sun.com/jsp/jstl/core" %>
                     </button>
                   </div>
                 </nav>
+                <!-- Tab -->
                 <div class="tab-content mb-5">
                   <div
                     class="tab-pane active"
@@ -166,7 +177,7 @@ uri="http://java.sun.com/jsp/jstl/core" %>
                     role="tabpanel"
                     aria-labelledby="nav-about-tab"
                   >
-                    <p>
+                    <!-- <p>
                       The generated Lorem Ipsum is therefore always free from
                       repetition injected humour, or non-characteristic words
                       etc. Susp endisse ultricies nisi vel quam suscipit
@@ -176,7 +187,8 @@ uri="http://java.sun.com/jsp/jstl/core" %>
                       pencilfish snailfish filefish Antarctic icefish goldeye
                       aholehole trumpetfish pilot fish airbreathing catfish,
                       electric ray sweeper.
-                    </p>
+                    </p> -->
+                    <p>${product.detailDesc}</p>
                     <div class="px-2">
                       <div class="row g-4">
                         <div class="col-6">
@@ -378,210 +390,65 @@ uri="http://java.sun.com/jsp/jstl/core" %>
             <div class="row g-4 fruite">
               <div class="col-lg-12">
                 <div class="mb-4">
-                  <h4>Categories</h4>
+                  <h4>Danh mục sản phẩm</h4>
                   <ul class="list-unstyled fruite-categorie">
-                    <li>
-                      <div class="d-flex justify-content-between fruite-name">
-                        <a href="#"
-                          ><i class="fas fa-apple-alt me-2"></i>Apples</a
-                        >
-                        <span>(3)</span>
-                      </div>
-                    </li>
-                    <li>
-                      <div class="d-flex justify-content-between fruite-name">
-                        <a href="#"
-                          ><i class="fas fa-apple-alt me-2"></i>Oranges</a
-                        >
-                        <span>(5)</span>
-                      </div>
-                    </li>
-                    <li>
-                      <div class="d-flex justify-content-between fruite-name">
-                        <a href="#"
-                          ><i class="fas fa-apple-alt me-2"></i>Strawbery</a
-                        >
-                        <span>(2)</span>
-                      </div>
-                    </li>
-                    <li>
-                      <div class="d-flex justify-content-between fruite-name">
-                        <a href="#"
-                          ><i class="fas fa-apple-alt me-2"></i>Banana</a
-                        >
-                        <span>(8)</span>
-                      </div>
-                    </li>
-                    <li>
-                      <div class="d-flex justify-content-between fruite-name">
-                        <a href="#"
-                          ><i class="fas fa-apple-alt me-2"></i>Pumpkin</a
-                        >
-                        <span>(5)</span>
-                      </div>
-                    </li>
+                    <c:forEach var="category" items="${categories}">
+                      <li>
+                        <div class="d-flex justify-content-between fruite-name">
+                          <a href="#"
+                            ><i
+                              class="${category.name == 'Bé trai' ? 'fas fa-mars' : category.name == 'Bé gái' ? 'fas fa-venus' : 'fas fa-baby'}"
+                            ></i>
+                            ${category.name}</a
+                          >
+                          <span>${fn:length(category.products)}</span>
+                        </div>
+                      </li>
+                    </c:forEach>
                   </ul>
                 </div>
               </div>
               <div class="col-lg-12">
-                <h4 class="mb-4">Featured products</h4>
-                <div class="d-flex align-items-center justify-content-start">
-                  <div class="rounded" style="width: 100px; height: 100px">
-                    <img
-                      src="/client/img/featur-1.jpg"
-                      class="img-fluid rounded"
-                      alt="Image"
-                    />
-                  </div>
-                  <div>
-                    <h6 class="mb-2">Big Banana</h6>
-                    <div class="d-flex mb-2">
-                      <i class="fa fa-star text-secondary"></i>
-                      <i class="fa fa-star text-secondary"></i>
-                      <i class="fa fa-star text-secondary"></i>
-                      <i class="fa fa-star text-secondary"></i>
-                      <i class="fa fa-star"></i>
+                <h5 class="mb-4">Sản phẩm ưa chuộng</h5>
+                <c:forEach var="product" items="${featuredProducts}">
+                  <div class="d-flex align-items-start justify-content-start">
+                    <div
+                      class="rounded flex-shrink-0 me-2"
+                      style="width: 100px; height: 100px"
+                    >
+                      <a href="/product/${product.id}"
+                        ><img
+                          src="/images/product/${product.image}"
+                          class="img-fluid rounded"
+                          alt="Image"
+                      /></a>
                     </div>
-                    <div class="d-flex mb-2">
-                      <h5 class="fw-bold me-2">2.99 $</h5>
-                      <h5 class="text-danger text-decoration-line-through">
-                        4.11 $
-                      </h5>
-                    </div>
-                  </div>
-                </div>
-                <div class="d-flex align-items-center justify-content-start">
-                  <div class="rounded" style="width: 100px; height: 100px">
-                    <img
-                      src="/client/img/featur-2.jpg"
-                      class="img-fluid rounded"
-                      alt=""
-                    />
-                  </div>
-                  <div>
-                    <h6 class="mb-2">Big Banana</h6>
-                    <div class="d-flex mb-2">
-                      <i class="fa fa-star text-secondary"></i>
-                      <i class="fa fa-star text-secondary"></i>
-                      <i class="fa fa-star text-secondary"></i>
-                      <i class="fa fa-star text-secondary"></i>
-                      <i class="fa fa-star"></i>
-                    </div>
-                    <div class="d-flex mb-2">
-                      <h5 class="fw-bold me-2">2.99 $</h5>
-                      <h5 class="text-danger text-decoration-line-through">
-                        4.11 $
-                      </h5>
+                    <div class="flex-shrink-1">
+                      <a href="/product/${product.id}" class="mb-2 card-title"
+                        >${product.name}</a
+                      >
+                      <div class="d-flex mb-2">
+                        <i class="fa fa-star text-secondary"></i>
+                        <i class="fa fa-star text-secondary"></i>
+                        <i class="fa fa-star text-secondary"></i>
+                        <i class="fa fa-star text-secondary"></i>
+                        <i class="fa fa-star"></i>
+                      </div>
+                      <div class="d-flex mb-2">
+                        <h5 class="fw-bold me-2" style="font-size: 16px">
+                          <fmt:formatNumber
+                            type="number"
+                            value="${product.price}"
+                          />
+                          đ
+                        </h5>
+                        <!-- <h5 class="text-danger text-decoration-line-through">
+                          4.11 $
+                        </h5> -->
+                      </div>
                     </div>
                   </div>
-                </div>
-                <div class="d-flex align-items-center justify-content-start">
-                  <div class="rounded" style="width: 100px; height: 100px">
-                    <img
-                      src="/client/img/featur-3.jpg"
-                      class="img-fluid rounded"
-                      alt=""
-                    />
-                  </div>
-                  <div>
-                    <h6 class="mb-2">Big Banana</h6>
-                    <div class="d-flex mb-2">
-                      <i class="fa fa-star text-secondary"></i>
-                      <i class="fa fa-star text-secondary"></i>
-                      <i class="fa fa-star text-secondary"></i>
-                      <i class="fa fa-star text-secondary"></i>
-                      <i class="fa fa-star"></i>
-                    </div>
-                    <div class="d-flex mb-2">
-                      <h5 class="fw-bold me-2">2.99 $</h5>
-                      <h5 class="text-danger text-decoration-line-through">
-                        4.11 $
-                      </h5>
-                    </div>
-                  </div>
-                </div>
-                <div class="d-flex align-items-center justify-content-start">
-                  <div class="rounded me-4" style="width: 100px; height: 100px">
-                    <img
-                      src="/client/img/vegetable-item-4.jpg"
-                      class="img-fluid rounded"
-                      alt=""
-                    />
-                  </div>
-                  <div>
-                    <h6 class="mb-2">Big Banana</h6>
-                    <div class="d-flex mb-2">
-                      <i class="fa fa-star text-secondary"></i>
-                      <i class="fa fa-star text-secondary"></i>
-                      <i class="fa fa-star text-secondary"></i>
-                      <i class="fa fa-star text-secondary"></i>
-                      <i class="fa fa-star"></i>
-                    </div>
-                    <div class="d-flex mb-2">
-                      <h5 class="fw-bold me-2">2.99 $</h5>
-                      <h5 class="text-danger text-decoration-line-through">
-                        4.11 $
-                      </h5>
-                    </div>
-                  </div>
-                </div>
-                <div class="d-flex align-items-center justify-content-start">
-                  <div class="rounded me-4" style="width: 100px; height: 100px">
-                    <img
-                      src="/client/img/vegetable-item-5.jpg"
-                      class="img-fluid rounded"
-                      alt=""
-                    />
-                  </div>
-                  <div>
-                    <h6 class="mb-2">Big Banana</h6>
-                    <div class="d-flex mb-2">
-                      <i class="fa fa-star text-secondary"></i>
-                      <i class="fa fa-star text-secondary"></i>
-                      <i class="fa fa-star text-secondary"></i>
-                      <i class="fa fa-star text-secondary"></i>
-                      <i class="fa fa-star"></i>
-                    </div>
-                    <div class="d-flex mb-2">
-                      <h5 class="fw-bold me-2">2.99 $</h5>
-                      <h5 class="text-danger text-decoration-line-through">
-                        4.11 $
-                      </h5>
-                    </div>
-                  </div>
-                </div>
-                <div class="d-flex align-items-center justify-content-start">
-                  <div class="rounded me-4" style="width: 100px; height: 100px">
-                    <img
-                      src="/client/img/vegetable-item-6.jpg"
-                      class="img-fluid rounded"
-                      alt=""
-                    />
-                  </div>
-                  <div>
-                    <h6 class="mb-2">Big Banana</h6>
-                    <div class="d-flex mb-2">
-                      <i class="fa fa-star text-secondary"></i>
-                      <i class="fa fa-star text-secondary"></i>
-                      <i class="fa fa-star text-secondary"></i>
-                      <i class="fa fa-star text-secondary"></i>
-                      <i class="fa fa-star"></i>
-                    </div>
-                    <div class="d-flex mb-2">
-                      <h5 class="fw-bold me-2">2.99 $</h5>
-                      <h5 class="text-danger text-decoration-line-through">
-                        4.11 $
-                      </h5>
-                    </div>
-                  </div>
-                </div>
-                <div class="d-flex justify-content-center my-4">
-                  <a
-                    href="#"
-                    class="btn border border-secondary px-4 py-3 rounded-pill text-primary w-100"
-                    >Vew More</a
-                  >
-                </div>
+                </c:forEach>
               </div>
               <div class="col-lg-12">
                 <div class="position-relative">
@@ -608,273 +475,54 @@ uri="http://java.sun.com/jsp/jstl/core" %>
         </div>
 
         <!-- Related Products start -->
-        <h1 class="fw-bold mb-0">Related products</h1>
+        <h1 class="fw-bold mb-0">Sản phẩm tương tự</h1>
         <div class="vesitable">
           <div class="owl-carousel vegetable-carousel justify-content-center">
-            <div
-              class="border border-primary rounded position-relative vesitable-item"
-            >
-              <div class="vesitable-img">
-                <img
-                  src="/client/img/vegetable-item-6.jpg"
-                  class="img-fluid w-100 rounded-top"
-                  alt=""
-                />
-              </div>
+            <c:forEach var="product" items="${relatedProducts}">
               <div
-                class="text-white bg-primary px-3 py-1 rounded position-absolute"
-                style="top: 10px; right: 10px"
+                class="border border-primary rounded position-relative vesitable-item"
               >
-                Vegetable
-              </div>
-              <div class="p-4 pb-0 rounded-bottom">
-                <h4>Parsely</h4>
-                <p>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit sed do
-                  eiusmod te incididunt
-                </p>
-                <div class="d-flex justify-content-between flex-lg-wrap">
-                  <p class="text-dark fs-5 fw-bold">$4.99 / kg</p>
+                <div class="vesitable-img">
+                  <a href="/product/${product.id}"
+                    ><img
+                      src="/images/product/${product.image}"
+                      class="img-fluid w-100 rounded-top"
+                      alt=""
+                  /></a>
+                </div>
+                <div
+                  class="text-white bg-primary px-3 py-1 rounded position-absolute"
+                  style="top: 10px; right: 10px"
+                >
+                  ${product.brand.name}
+                </div>
+                <div class="p-4 pb-0 rounded-bottom">
                   <a
-                    href="#"
-                    class="btn border border-secondary rounded-pill px-3 py-1 mb-4 text-primary"
-                    ><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to
-                    cart</a
+                    class="text-start fw-bold card-title"
+                    href="/product/${product.id}"
                   >
+                    ${product.name}
+                  </a>
+                  <div
+                    class="d-flex justify-content-between flex-lg-wrap mt-auto"
+                  >
+                    <p class="text-dark fs-5 fw-bold">
+                      <fmt:formatNumber
+                        type="number"
+                        value="${product.price}"
+                      />
+                      đ
+                    </p>
+                    <a
+                      href="#"
+                      class="btn border border-secondary rounded-pill px-3 py-1 mb-4 text-primary"
+                      ><i class="fa fa-shopping-bag me-2 text-primary"></i>Thêm
+                      vào giỏ hàng</a
+                    >
+                  </div>
                 </div>
               </div>
-            </div>
-            <div
-              class="border border-primary rounded position-relative vesitable-item"
-            >
-              <div class="vesitable-img">
-                <img
-                  src="/client/img/vegetable-item-1.jpg"
-                  class="img-fluid w-100 rounded-top"
-                  alt=""
-                />
-              </div>
-              <div
-                class="text-white bg-primary px-3 py-1 rounded position-absolute"
-                style="top: 10px; right: 10px"
-              >
-                Vegetable
-              </div>
-              <div class="p-4 pb-0 rounded-bottom">
-                <h4>Parsely</h4>
-                <p>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit sed do
-                  eiusmod te incididunt
-                </p>
-                <div class="d-flex justify-content-between flex-lg-wrap">
-                  <p class="text-dark fs-5 fw-bold">$4.99 / kg</p>
-                  <a
-                    href="#"
-                    class="btn border border-secondary rounded-pill px-3 py-1 mb-4 text-primary"
-                    ><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to
-                    cart</a
-                  >
-                </div>
-              </div>
-            </div>
-            <div
-              class="border border-primary rounded position-relative vesitable-item"
-            >
-              <div class="vesitable-img">
-                <img
-                  src="/client/img/vegetable-item-3.png"
-                  class="img-fluid w-100 rounded-top bg-light"
-                  alt=""
-                />
-              </div>
-              <div
-                class="text-white bg-primary px-3 py-1 rounded position-absolute"
-                style="top: 10px; right: 10px"
-              >
-                Vegetable
-              </div>
-              <div class="p-4 pb-0 rounded-bottom">
-                <h4>Banana</h4>
-                <p>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit sed do
-                  eiusmod te incididunt
-                </p>
-                <div class="d-flex justify-content-between flex-lg-wrap">
-                  <p class="text-dark fs-5 fw-bold">$7.99 / kg</p>
-                  <a
-                    href="#"
-                    class="btn border border-secondary rounded-pill px-3 py-1 mb-4 text-primary"
-                    ><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to
-                    cart</a
-                  >
-                </div>
-              </div>
-            </div>
-            <div
-              class="border border-primary rounded position-relative vesitable-item"
-            >
-              <div class="vesitable-img">
-                <img
-                  src="/client/img/vegetable-item-4.jpg"
-                  class="img-fluid w-100 rounded-top"
-                  alt=""
-                />
-              </div>
-              <div
-                class="text-white bg-primary px-3 py-1 rounded position-absolute"
-                style="top: 10px; right: 10px"
-              >
-                Vegetable
-              </div>
-              <div class="p-4 pb-0 rounded-bottom">
-                <h4>Bell Papper</h4>
-                <p>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit sed do
-                  eiusmod te incididunt
-                </p>
-                <div class="d-flex justify-content-between flex-lg-wrap">
-                  <p class="text-dark fs-5 fw-bold">$7.99 / kg</p>
-                  <a
-                    href="#"
-                    class="btn border border-secondary rounded-pill px-3 py-1 mb-4 text-primary"
-                    ><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to
-                    cart</a
-                  >
-                </div>
-              </div>
-            </div>
-            <div
-              class="border border-primary rounded position-relative vesitable-item"
-            >
-              <div class="vesitable-img">
-                <img
-                  src="/client/img/vegetable-item-5.jpg"
-                  class="img-fluid w-100 rounded-top"
-                  alt=""
-                />
-              </div>
-              <div
-                class="text-white bg-primary px-3 py-1 rounded position-absolute"
-                style="top: 10px; right: 10px"
-              >
-                Vegetable
-              </div>
-              <div class="p-4 pb-0 rounded-bottom">
-                <h4>Potatoes</h4>
-                <p>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit sed do
-                  eiusmod te incididunt
-                </p>
-                <div class="d-flex justify-content-between flex-lg-wrap">
-                  <p class="text-dark fs-5 fw-bold">$7.99 / kg</p>
-                  <a
-                    href="#"
-                    class="btn border border-secondary rounded-pill px-3 py-1 mb-4 text-primary"
-                    ><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to
-                    cart</a
-                  >
-                </div>
-              </div>
-            </div>
-            <div
-              class="border border-primary rounded position-relative vesitable-item"
-            >
-              <div class="vesitable-img">
-                <img
-                  src="/client/img/vegetable-item-6.jpg"
-                  class="img-fluid w-100 rounded-top"
-                  alt=""
-                />
-              </div>
-              <div
-                class="text-white bg-primary px-3 py-1 rounded position-absolute"
-                style="top: 10px; right: 10px"
-              >
-                Vegetable
-              </div>
-              <div class="p-4 pb-0 rounded-bottom">
-                <h4>Parsely</h4>
-                <p>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit sed do
-                  eiusmod te incididunt
-                </p>
-                <div class="d-flex justify-content-between flex-lg-wrap">
-                  <p class="text-dark fs-5 fw-bold">$7.99 / kg</p>
-                  <a
-                    href="#"
-                    class="btn border border-secondary rounded-pill px-3 py-1 mb-4 text-primary"
-                    ><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to
-                    cart</a
-                  >
-                </div>
-              </div>
-            </div>
-            <div
-              class="border border-primary rounded position-relative vesitable-item"
-            >
-              <div class="vesitable-img">
-                <img
-                  src="/client/img/vegetable-item-5.jpg"
-                  class="img-fluid w-100 rounded-top"
-                  alt=""
-                />
-              </div>
-              <div
-                class="text-white bg-primary px-3 py-1 rounded position-absolute"
-                style="top: 10px; right: 10px"
-              >
-                Vegetable
-              </div>
-              <div class="p-4 pb-0 rounded-bottom">
-                <h4>Potatoes</h4>
-                <p>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit sed do
-                  eiusmod te incididunt
-                </p>
-                <div class="d-flex justify-content-between flex-lg-wrap">
-                  <p class="text-dark fs-5 fw-bold">$7.99 / kg</p>
-                  <a
-                    href="#"
-                    class="btn border border-secondary rounded-pill px-3 py-1 mb-4 text-primary"
-                    ><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to
-                    cart</a
-                  >
-                </div>
-              </div>
-            </div>
-            <div
-              class="border border-primary rounded position-relative vesitable-item"
-            >
-              <div class="vesitable-img">
-                <img
-                  src="/client/img/vegetable-item-6.jpg"
-                  class="img-fluid w-100 rounded-top"
-                  alt=""
-                />
-              </div>
-              <div
-                class="text-white bg-primary px-3 py-1 rounded position-absolute"
-                style="top: 10px; right: 10px"
-              >
-                Vegetable
-              </div>
-              <div class="p-4 pb-0 rounded-bottom">
-                <h4>Parsely</h4>
-                <p>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit sed do
-                  eiusmod te incididunt
-                </p>
-                <div class="d-flex justify-content-between flex-lg-wrap">
-                  <p class="text-dark fs-5 fw-bold">$7.99 / kg</p>
-                  <a
-                    href="#"
-                    class="btn border border-secondary rounded-pill px-3 py-1 mb-4 text-primary"
-                    ><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to
-                    cart</a
-                  >
-                </div>
-              </div>
-            </div>
+            </c:forEach>
           </div>
         </div>
         <!-- Related Products end -->

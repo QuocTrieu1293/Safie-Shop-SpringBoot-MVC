@@ -2,6 +2,7 @@ package vn.hoidanit.laptopshop.domain;
 
 import java.util.Set;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -20,6 +21,7 @@ public class Category {
   @OneToMany(mappedBy = "category")
   private Set<Product> products;
 
+  @Column(unique = true, nullable = false)
   private String name;
 
   public long getId() {

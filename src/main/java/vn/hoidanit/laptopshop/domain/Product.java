@@ -1,7 +1,9 @@
 package vn.hoidanit.laptopshop.domain;
 
+import java.util.Arrays;
 import java.util.Set;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -9,9 +11,15 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
+import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "products")
@@ -21,24 +29,39 @@ public class Product {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private long id;
 
+  @NotBlank(message = "Name cannot be blank")
+  @Column(unique = true, nullable = false)
   private String name;
+
+  @DecimalMin(value = "0", inclusive = true, message = "Price must be greater than or equal to 0")
+  @Column(scale = 2)
   private double price;
   private String image;
+
+  @Column(columnDefinition = "mediumtext")
+  // @Lob
   private String detailDesc;
   private String shortDesc;
+
+  @Min(value = 0, message = "Quantity must be greater than or equal to 0")
   private long quantity;
+
+  @Min(value = 0, message = "Sold must be greater than or equal to 0")
   private long sold;
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "category_id")
+  @NotNull(message = "Category cannot be null")
   private Category category;
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "brand_id")
+  @NotNull(message = "Brand cannot be null")
   private Brand brand;
 
-  @ManyToMany
+  @ManyToMany(fetch = FetchType.LAZY)
   @JoinTable(name = "product_size", joinColumns = @JoinColumn(name = "product_id"), inverseJoinColumns = @JoinColumn(name = "size_id"))
+  @NotEmpty(message = "Product sizes cannot be empty")
   private Set<Size> sizes;
 
   public long getId() {
@@ -132,8 +155,12 @@ public class Product {
   @Override
   public String toString() {
     return "Product [id=" + id + ", name=" + name + ", price=" + price + ", image=" + image + ", detailDesc="
-        + detailDesc + ", shortDesc=" + shortDesc + ", quantity=" + quantity + ", sold=" + sold + ", brand=" + brand
-        + ", category=" + category + "]";
+        + detailDesc + ", shortDesc=" + shortDesc + ", quantity=" + quantity + ", sold=" + sold + ", category=[id="
+        + category.getId() + ", name=" + category.getName() + "], brand=[id=" + brand.getId() + ", name="
+        + brand.getName() + "], sizes="
+        + Arrays.toString(
+            sizes.stream().map(size -> "[id=" + size.getId() + ", name=" + size.getName() + "]").toArray())
+        + "]";
   }
 
 }

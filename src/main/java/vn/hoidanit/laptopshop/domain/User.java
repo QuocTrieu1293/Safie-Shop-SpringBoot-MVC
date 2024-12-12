@@ -2,6 +2,7 @@ package vn.hoidanit.laptopshop.domain;
 
 import java.util.Set;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -27,6 +28,7 @@ public class User {
 
   @Email(message = "Email is not valid", regexp = "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$")
   @NotBlank(message = "Email cannot be blank")
+  @Column(unique = true, nullable = false)
   private String email;
 
   @NotBlank(message = "Password cannot be blank")

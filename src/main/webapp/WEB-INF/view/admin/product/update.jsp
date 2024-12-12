@@ -33,25 +33,72 @@ uri="http://www.springframework.org/tags/form" %>
       <div id="layoutSidenav_content">
         <main>
           <div class="container-fluid px-4">
-            <h1 class="mt-4">Create Product</h1>
+            <h1 class="mt-4">Update Product</h1>
             <ol class="breadcrumb mb-4">
               <li class="breadcrumb-item">
-                <a href="/admin/user/product">Products</a>
+                <a href="/admin/product">Products</a>
               </li>
-              <li class="breadcrumb-item active">Create</li>
+              <li class="breadcrumb-item active">Update</li>
             </ol>
             <hr />
+            <!-- Hiện thông báo thành công / thất bại -->
+            <c:choose>
+              <c:when test="${not empty successMessage}">
+                <div
+                  class="alert alert-success alert-dismissible fade show"
+                  role="alert"
+                >
+                  ${successMessage}
+                  <button class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+              </c:when>
+              <c:when test="${not empty errorMessage}">
+                <div
+                  class="alert alert-danger alert-dismissible fade show"
+                  role="alert"
+                >
+                  ${errorMessage}
+                  <button class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+              </c:when>
+            </c:choose>
             <form:form
               method="post"
-              action="/admin/product/create"
+              action="/admin/product/update"
               enctype="multipart/form-data"
               novalidate="not empty string here"
-              modelAttribute="newProduct"
+              modelAttribute="product"
               id="form"
               class="row g-3 mb-3"
             >
               <div class="col-md-6 col-12">
                 <div class="row g-3">
+                  <div class="col-12">
+                    <div class="row me-0">
+                      <c:set var="idBindError">
+                        <form:errors
+                          path="id"
+                          cssClass="invalid-feedback server-validate-feedback"
+                        />
+                      </c:set>
+                      <label
+                        for="id"
+                        class="form-label col-form-label col-1 fw-bold"
+                        >ID:</label
+                      >
+                      <div class="col">
+                        <form:input
+                          type="text"
+                          class="form-control-plaintext ${not empty idBindError ? 'is-invalid' : ''} fw-bold"
+                          id="id"
+                          required="not empty string here"
+                          path="id"
+                          readonly="true"
+                        />
+                        ${idBindError}
+                      </div>
+                    </div>
+                  </div>
                   <div class="col-12">
                     <c:set var="nameBindError">
                       <form:errors
@@ -235,7 +282,6 @@ uri="http://www.springframework.org/tags/form" %>
                         class="form-control ${not empty imageBindError ? 'is-invalid' : ''}"
                         id="image"
                         name="image_file"
-                        required="true"
                       />
                       ${imageBindError}
                     </div>
@@ -243,20 +289,31 @@ uri="http://www.springframework.org/tags/form" %>
                     <div
                       id="image_preview"
                       class="text-center"
-                      style="display: none"
+                      class="${empty product.image ? 'd-none' : ''}"
                     >
                       <!-- <button class="btn-remove btn-close"></button> -->
-                      <img alt="image preview" class="img-fluid rounded" />
+                      <img
+                        alt="image preview"
+                        class="img-fluid rounded"
+                        src="/images/product/${not empty product.image ? product.image : ''}"
+                      />
                     </div>
                   </div>
                 </div>
               </div>
               <div class="col-12 d-flex justify-content-end">
                 <button type="submit" class="btn btn-primary me-3">
-                  Create
+                  Update
                 </button>
                 <a class="btn btn-secondary" href="/admin/product">Cancel</a>
               </div>
+              <form:input
+                type="text"
+                readonly="true"
+                style="display: none"
+                path="image"
+                id="image_tmp"
+              />
             </form:form>
           </div>
         </main>

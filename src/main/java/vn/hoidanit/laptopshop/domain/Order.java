@@ -2,6 +2,7 @@ package vn.hoidanit.laptopshop.domain;
 
 import java.util.Set;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -20,6 +21,7 @@ public class Order {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private long id;
 
+  @Column(scale = 2)
   private double totalPrice;
 
   @ManyToOne(fetch = FetchType.LAZY)

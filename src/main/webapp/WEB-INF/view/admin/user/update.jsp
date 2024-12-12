@@ -35,10 +35,13 @@ uri="http://www.springframework.org/tags/form" prefix="form"%>
           <div class="container-fluid px-4">
             <h1 class="mt-4">Update User</h1>
             <ol class="breadcrumb mb-4">
-              <li class="breadcrumb-item"><a href="/admin/user">Users</a></li>
+              <li class="breadcrumb-item">
+                <a href="/admin/user">Users</a>
+              </li>
               <li class="breadcrumb-item active">Update</li>
             </ol>
             <hr />
+            <!-- Hiện thông báo thành công / thất bại -->
             <c:choose>
               <c:when test="${not empty successMessage}">
                 <div
@@ -72,14 +75,14 @@ uri="http://www.springframework.org/tags/form" prefix="form"%>
                   <!--jsp tạo một đối tượng User mới để gửi tới controller-->
                   <div class="container-fluid">
                     <div class="row">
-                      <div class="col-4">
+                      <div class="col-md-4 col-12">
                         <div class="row">
                           <label
                             for="id"
-                            class="form-label col-form-label col-sm-2 ps-0 fw-bold"
+                            class="form-label col-form-label col-md-2 col-1 ps-0 fw-bold"
                             >ID:</label
                           >
-                          <div class="col-sm-10">
+                          <div class="col">
                             <form:input
                               type="text"
                               class="form-control-plaintext fw-bold"
@@ -91,55 +94,86 @@ uri="http://www.springframework.org/tags/form" prefix="form"%>
                           </div>
                         </div>
                       </div>
-                      <div class="col-8">
+                      <div class="col-md-8 col-12">
                         <div class="row">
+                          <c:set var="emailBindError">
+                            <form:errors
+                              path="email"
+                              cssClass="invalid-feedback server-validate-feedback"
+                            />
+                          </c:set>
                           <label
                             for="email"
-                            class="form-label col-sm-2 col-form-label"
+                            class="form-label col-md-2 col-1 col-form-label ps-0"
                             >Email:</label
                           >
-                          <div class="col-sm-10 px-0">
+                          <div class="col">
                             <form:input
                               type="email"
-                              class="form-control-plaintext"
+                              class="form-control form-control-plaintext"
                               readonly="true"
                               id="email"
                               required="not empty string here"
                               path="email"
                             />
-                            <div class="invalid-feedback">Email is not</div>
+                            ${emailBindError}
+                            <span
+                              class="invalid-feedback client-validate-feedback d-none"
+                              >Email is not valid</span
+                            >
                           </div>
                         </div>
                       </div>
                     </div>
                   </div>
                   <div class="mb-3">
+                    <c:set var="fullNameBindError">
+                      <form:errors
+                        path="fullName"
+                        cssClass="invalid-feedback server-validate-feedback"
+                      />
+                    </c:set>
                     <label for="fullname" class="form-label">Full name:</label>
                     <form:input
                       type="text"
-                      class="form-control"
+                      class="form-control ${not empty fullNameBindError ? 'is-invalid' : ''}"
                       id="fullname"
                       required="not empty string here"
                       path="fullName"
                     />
+                    ${fullNameBindError}
                   </div>
                   <div class="mb-3">
+                    <c:set var="phoneBindError">
+                      <form:errors
+                        path="phone"
+                        cssClass="invalid-feedback server-validate-feedback"
+                      />
+                    </c:set>
                     <label for="phone" class="form-label">Phone number:</label>
                     <form:input
-                      type="number"
-                      class="form-control"
+                      type="text"
+                      class="form-control ${not empty phoneBindError ? 'is-invalid' : ''}"
                       id="phone"
                       path="phone"
                     />
+                    ${phoneBindError}
                   </div>
                   <div class="mb-3">
+                    <c:set var="addressBindError">
+                      <form:errors
+                        path="address"
+                        cssClass="invalid-feedback server-validate-feedback"
+                      />
+                    </c:set>
                     <label for="address" class="form-label">Address:</label>
                     <form:input
                       type="text"
-                      class="form-control"
+                      class="form-control ${not empty addressBindError ? 'is-invalid' : ''}"
                       id="address"
                       path="address"
                     />
+                    ${addressBindError}
                   </div>
                   <div class="mb-3 row">
                     <label for="role" class="form-label col-auto col-form-label"
@@ -150,10 +184,13 @@ uri="http://www.springframework.org/tags/form" prefix="form"%>
                         class="form-select"
                         id="role"
                         required="not empty string here"
-                        path="role.name"
+                        path="role.id"
                       >
-                        <form:option value="User">User</form:option>
-                        <form:option value="Admin">Admin</form:option>
+                        <c:forEach var="role" items="${roles}">
+                          <form:option value="${role.id}"
+                            >${role.name}</form:option
+                          >
+                        </c:forEach>
                       </form:select>
                     </div>
                     <label
@@ -164,7 +201,7 @@ uri="http://www.springframework.org/tags/form" prefix="form"%>
                     <div class="col ps-0">
                       <input
                         type="file"
-                        accept=".png, .jpg, .jpeg"
+                        accept=".png, .jpg, .jpeg, .webp"
                         class="form-control"
                         id="avatar"
                         name="avatar_file"
@@ -172,32 +209,6 @@ uri="http://www.springframework.org/tags/form" prefix="form"%>
                     </div>
                   </div>
                   <div class="d-flex justify-content-center mb-3">
-                    <!-- <c:choose>
-                      <c:when test="${not empty user.avatar}">
-                        <div style="position: relative" id="avatar_preview">
-                          <button class="btn-remove btn-close"></button>
-                          <img
-                            src="/images/avatar/${user.avatar}"
-                            alt="avatar preview"
-                            class="img-thumbnail"
-                            style="max-width: 180px; aspect-ratio: 3/4"
-                          />
-                        </div>
-                      </c:when>
-                      <c:otherwise>
-                        <div
-                          style="position: relative; display: none"
-                          id="avatar_preview"
-                        >
-                          <button class="btn-remove btn-close"></button>
-                          <img
-                            alt="avatar preview"
-                            class="img-thumbnail"
-                            style="max-width: 180px; aspect-ratio: 3/4"
-                          />
-                        </div>
-                      </c:otherwise>
-                    </c:choose> -->
                     <div
                       style="position: relative"
                       class="${empty user.avatar ? 'd-none' : ''}"
@@ -232,6 +243,8 @@ uri="http://www.springframework.org/tags/form" prefix="form"%>
                     path="avatar"
                     id="avatar_tmp"
                   />
+                  <!-- password giả để không bị dính cái validate @Size(min=8) của password-->
+                  <form:input type="hidden" value="00000000" path="password" />
                 </form:form>
               </div>
             </div>
@@ -254,8 +267,8 @@ uri="http://www.springframework.org/tags/form" prefix="form"%>
           }
 
           $(this).addClass("was-validated");
-          $(".server-validate-feedback").css({ display: "none" });
-          $(".client-validate-feedback").css({ display: "block" });
+          $(".server-validate-feedback").remove();
+          $(".client-validate-feedback").removeClass("d-none");
         });
 
         $("#avatar").change(function (e) {
@@ -280,6 +293,12 @@ uri="http://www.springframework.org/tags/form" prefix="form"%>
           $("#avatar").val("");
           $("#avatar_preview img").attr("src", "");
           $("#avatar_preview").addClass("d-none");
+        });
+
+        $(".form-control").on("input", function () {
+          $(this).removeClass("is-invalid");
+          $(this).siblings(".server-validate-feedback").remove();
+          $(".client-validate-feedback").removeClass("d-none");
         });
       });
     </script>

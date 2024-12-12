@@ -44,9 +44,36 @@ uri="http://java.sun.com/jsp/jstl/core" %>
                   >
                 </div>
                 <hr />
+                <!-- Hiện thông báo thành công / thất bại -->
+                <c:choose>
+                  <c:when test="${not empty successMessage}">
+                    <div
+                      class="alert alert-success alert-dismissible fade show"
+                      role="alert"
+                    >
+                      ${successMessage}
+                      <button
+                        class="btn-close"
+                        data-bs-dismiss="alert"
+                      ></button>
+                    </div>
+                  </c:when>
+                  <c:when test="${not empty errorMessage}">
+                    <div
+                      class="alert alert-danger alert-dismissible fade show"
+                      role="alert"
+                    >
+                      ${errorMessage}
+                      <button
+                        class="btn-close"
+                        data-bs-dismiss="alert"
+                      ></button>
+                    </div>
+                  </c:when>
+                </c:choose>
                 <table class="table table-hover table-bordered">
                   <thead>
-                    <tr>
+                    <tr class="text-center">
                       <th>ID</th>
                       <th>Email</th>
                       <th>Full Name</th>

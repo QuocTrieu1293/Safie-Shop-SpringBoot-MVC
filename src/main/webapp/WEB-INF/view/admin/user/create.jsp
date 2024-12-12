@@ -117,7 +117,7 @@ uri="http://www.springframework.org/tags/form" %>
                     </c:set>
                     <label for="phone" class="form-label">Phone number:</label>
                     <form:input
-                      type="number"
+                      type="text"
                       class="form-control ${not empty phoneBindError ? 'is-invalid' : ''}"
                       id="phone"
                       path="phone"
@@ -145,17 +145,22 @@ uri="http://www.springframework.org/tags/form" %>
                       class="form-select"
                       id="role"
                       required="not empty string here"
-                      path="role.name"
+                      path="role.id"
                     >
-                      <form:option value="User">User</form:option>
-                      <form:option value="Admin">Admin</form:option>
+                      <c:forEach var="role" items="${roles}">
+                        <form:option
+                          value="${role.id}"
+                          selected="${role.name == 'User' ? 'true' : 'false'}"
+                          >${role.name}</form:option
+                        >
+                      </c:forEach>
                     </form:select>
                   </div>
                   <div class="col-md-6 col-12">
                     <label for="avatar" class="form-label">Avatar:</label>
                     <input
                       type="file"
-                      accept=".png, .jpg, .jpeg"
+                      accept=".png, .jpg, .jpeg, .webp"
                       class="form-control"
                       id="avatar"
                       name="avatar_file"
