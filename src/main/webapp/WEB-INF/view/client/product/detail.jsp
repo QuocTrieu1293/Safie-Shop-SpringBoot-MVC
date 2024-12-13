@@ -54,10 +54,33 @@ uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
         letter-spacing: 1px;
         color: #45595b;
       }
+
+      .size-tag {
+        padding: 5px;
+        border: solid 2px var(--bs-secondary);
+        border-radius: 5px;
+        font-size: 14px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: background-color 150ms linear;
+        background-color: whitesmoke;
+      }
+
+      .size-tag:hover:not([selected="true"]) {
+        background-color: rgba(0, 0, 0, 0.3);
+        color: var(--bs-white);
+      }
+
+      .size-tag[selected="true"] {
+        border-color: var(--bs-primary);
+        background-color: #81c40835;
+        /* color: var(--bs-secondary); */
+      }
     </style>
   </head>
 
   <body>
+    <c:set var="view" value="product detail" scope="session" />
     <!-- Spinner Start -->
     <div
       id="spinner"
@@ -96,12 +119,26 @@ uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
               </div>
               <div class="col-lg-6">
                 <h4 class="fw-bold mb-3">${product.name}</h4>
-                <p class="mb-3">
-                  Danh mục: <a href="#">${product.category.name}</a>
-                </p>
-                <h5 class="fw-bold mb-3">
+                <div class="mb-3">
+                  <p>Danh mục: <a href="#">${product.category.name}</a></p>
+                  <p>Thương hiệu: <a href="#">${product.brand.name}</a></p>
+                  <div>
+                    <p class="col-12">Kích thước:</p>
+                    <div class="row m-0">
+                      <c:forEach var="size" items="${product.sizes}">
+                        <span class="size-tag col-auto me-2 mb-2"
+                          >${size.name}</span
+                        >
+                      </c:forEach>
+                      <!-- <span class="size-tag col-auto me-2 mb-2" selected="true"
+                        >12-18 tháng</span
+                      > -->
+                    </div>
+                  </div>
+                </div>
+                <h3 class="fw-bold mb-3">
                   <fmt:formatNumber type="number" value="${product.price}" /> đ
-                </h5>
+                </h3>
                 <div class="d-flex mb-4">
                   <i class="fa fa-star text-secondary"></i>
                   <i class="fa fa-star text-secondary"></i>
@@ -111,7 +148,10 @@ uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
                 </div>
                 <p class="mb-4">${product.shortDesc}</p>
 
-                <div class="input-group quantity mb-5" style="width: 100px">
+                <div
+                  class="input-group quantity mb-5 align-items-center"
+                  style="width: 100px"
+                >
                   <div class="input-group-btn">
                     <button
                       class="btn btn-sm btn-minus rounded-circle bg-light border"
@@ -121,7 +161,8 @@ uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
                   </div>
                   <input
                     type="text"
-                    class="form-control form-control-sm text-center border-0"
+                    class="form-control form-control-sm text-center border-0 fw-bold"
+                    style="font-size: 18px"
                     value="1"
                   />
                   <div class="input-group-btn">

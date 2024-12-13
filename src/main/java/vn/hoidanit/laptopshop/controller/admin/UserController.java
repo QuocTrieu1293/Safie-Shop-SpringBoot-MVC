@@ -29,7 +29,7 @@ import vn.hoidanit.laptopshop.service.FileService.Type;
 import vn.hoidanit.laptopshop.service.UserService;
 
 @Controller
-@SessionAttributes("roles")
+// @SessionAttributes("roles")
 public class UserController {
 
   final private UserService userService;
@@ -41,10 +41,10 @@ public class UserController {
     binder.registerCustomEditor(String.class, new StringTrimmerEditor(true)); // Converts "" to null
   }
 
-  @ModelAttribute("roles")
-  public List<Role> populateRoles() {
-    return roleService.getAll();
-  }
+  // @ModelAttribute("roles")
+  // public List<Role> populateRoles() {
+  // return roleService.getAll();
+  // }
 
   public UserController(UserService userService, FileService fileService, RoleService roleService) {
     this.userService = userService;
@@ -75,14 +75,15 @@ public class UserController {
     model.addAttribute("newUser", new User());
     // Không cần truyền xuống mỗi lân request nx do đã lưu trong session bằng
     // @SessionAttribute
-    // model.addAttribute("roles", roleService.getAll());
+    model.addAttribute("roles", roleService.getAll());
     return "admin/user/create";
   }
 
   @RequestMapping(value = "/admin/user/create", method = RequestMethod.POST)
   public String createUser(@Valid @ModelAttribute("newUser") User user, BindingResult userBindingResult,
       @RequestParam("avatar_file") MultipartFile file,
-      RedirectAttributes redirectAttributes) {
+      RedirectAttributes redirectAttributes,
+      Model model) {
 
     if (userService.emailExists(user.getEmail()))
       userBindingResult.rejectValue("email", "Unique", "Email already exists");
@@ -90,6 +91,7 @@ public class UserController {
     if (userBindingResult.hasFieldErrors()) {
       List<FieldError> errors = userBindingResult.getFieldErrors();
       errors.forEach((e) -> System.out.println(">>> ERR Create User: " + e.getField() + " - " + e.getDefaultMessage()));
+      model.addAttribute("roles", roleService.getAll());
       return "admin/user/create"; // return view -> dữ liệu input vẫn còn lưu
       // return "redirect:/admin/user/create"; // redirect thì như refresh lại vào lại
       // url đó -> dữ liệu input bị mất
@@ -111,7 +113,7 @@ public class UserController {
         : new User("None", "None",
             "None", "None",
             "None"));
-    return "/admin/user/detail";
+    return "admin/user/detail";
   }
 
   @GetMapping("/admin/user/update/{id}")
@@ -124,20 +126,22 @@ public class UserController {
 
     // Không cần truyền xuống mỗi lân request nx do đã lưu trong session bằng
     // @SessionAttribute
-    // model.addAttribute("roles", roleService.getAll());
+    model.addAttribute("roles", roleService.getAll());
 
-    return "/admin/user/update";
+    return "admin/user/update";
   }
 
   @PostMapping("/admin/user/update")
   public String updateUser(@Valid @ModelAttribute User user, BindingResult userBindingResult,
       @RequestParam("avatar_file") MultipartFile file,
       @RequestParam(defaultValue = "false") boolean isDeleteAvatar,
-      RedirectAttributes redirectAttributes) {
+      RedirectAttributes redirectAttributes,
+      Model model) {
 
     if (userBindingResult.hasFieldErrors()) {
       List<FieldError> errors = userBindingResult.getFieldErrors();
       errors.forEach((e) -> System.out.println(">>> ERR Update User: " + e.getField() + " - " + e.getDefaultMessage()));
+      model.addAttribute("roles", roleService.getAll());
       return "admin/user/update";
     }
 
@@ -163,7 +167,7 @@ public class UserController {
   public String getUserDeletePage(@PathVariable long id, Model model) {
     User user = userService.get(id);
     model.addAttribute("user", user);
-    return "/admin/user/delete";
+    return "admin/user/delete";
   }
 
   @PostMapping("/admin/user/delete/{id}")

@@ -2,7 +2,6 @@ package vn.hoidanit.laptopshop.controller.admin;
 
 import java.util.List;
 
-import org.antlr.v4.runtime.atn.PredictionMode;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,7 +19,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import jakarta.validation.Valid;
 import vn.hoidanit.laptopshop.domain.Product;
-import vn.hoidanit.laptopshop.domain.User;
 import vn.hoidanit.laptopshop.service.BrandService;
 import vn.hoidanit.laptopshop.service.CategoryService;
 import vn.hoidanit.laptopshop.service.FileService;
@@ -112,7 +110,7 @@ public class ProductController {
 
     populateSelects(model);
 
-    return "/admin/product/update";
+    return "admin/product/update";
   }
 
   @PostMapping("/admin/product/update")
@@ -152,7 +150,7 @@ public class ProductController {
   public String getProductDeletePage(@PathVariable long id, Model model) {
     Product product = productService.get(id);
     model.addAttribute("product", product);
-    return "/admin/product/delete";
+    return "admin/product/delete";
   }
 
   @PostMapping("/admin/product/delete/{id}")
@@ -173,7 +171,7 @@ public class ProductController {
   @GetMapping("/admin/product/{id}")
   public String getProductDetailPage(@PathVariable long id, Model model) {
     model.addAttribute("product", productService.get(id));
-    return "/admin/product/detail";
+    return "admin/product/detail";
   }
 
 }

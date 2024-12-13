@@ -19,6 +19,7 @@ uri="http://www.springframework.org/tags/form" %>
       src="https://use.fontawesome.com/releases/v6.3.0/js/all.js"
       crossorigin="anonymous"
     ></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
   </head>
   <body class="bg-primary">
     <div id="layoutAuthentication">
@@ -34,78 +35,132 @@ uri="http://www.springframework.org/tags/form" %>
                     </h3>
                   </div>
                   <div class="card-body">
-                    <form>
+                    <form:form
+                      modelAttribute="registerUser"
+                      method="post"
+                      action="/register"
+                      novalidate="true"
+                      id="form"
+                    >
                       <div class="row mb-3">
                         <div class="col-md-6">
                           <div class="form-floating mb-3 mb-md-0">
-                            <input
-                              class="form-control"
+                            <c:set var="firstNameBindErrors"
+                              ><form:errors
+                                path="firstName"
+                                cssClass="invalid-feedback server-validate-feedback"
+                            /></c:set>
+                            <form:input
+                              class="form-control ${not empty firstNameBindErrors ? 'is-invalid' : ''}"
                               id="inputFirstName"
                               type="text"
                               placeholder="Enter your first name"
+                              path="firstName"
+                              required="true"
                             />
                             <label for="inputFirstName">First name</label>
+                            ${firstNameBindErrors}
                           </div>
                         </div>
                         <div class="col-md-6">
                           <div class="form-floating">
-                            <input
-                              class="form-control"
+                            <c:set var="lastNameBindErrors"
+                              ><form:errors
+                                path="lastName"
+                                cssClass="invalid-feedback server-validate-feedback"
+                            /></c:set>
+                            <form:input
+                              class="form-control ${not empty lastNameBindErrors ? 'is-invalid' : ''}"
                               id="inputLastName"
                               type="text"
                               placeholder="Enter your last name"
+                              path="lastName"
+                              required="true"
                             />
                             <label for="inputLastName">Last name</label>
+                            ${lastNameBindErrors}
                           </div>
                         </div>
                       </div>
-                      <div class="form-floating mb-3">
-                        <input
-                          class="form-control"
-                          id="inputEmail"
-                          type="email"
-                          placeholder="name@example.com"
-                        />
-                        <label for="inputEmail">Email address</label>
+
+                      <!-- email -->
+                      <div>
+                        <c:set var="emailBindErrors"
+                          ><form:errors
+                            path="email"
+                            cssClass="invalid-feedback server-validate-feedback"
+                        /></c:set>
+                        <div class="form-floating mb-3">
+                          <form:input
+                            class="form-control ${not empty emailBindErrors ? 'is-invalid' : ''}"
+                            id="inputEmail"
+                            type="email"
+                            placeholder="name@example.com"
+                            path="email"
+                            required="true"
+                          />
+                          <label for="inputEmail">Email address</label>
+                          ${emailBindErrors}
+                        </div>
                       </div>
+
                       <div class="row mb-3">
                         <div class="col-md-6">
+                          <c:set var="passwordBindErrors"
+                            ><form:errors
+                              path="password"
+                              cssClass="invalid-feedback server-validate-feedback"
+                          /></c:set>
                           <div class="form-floating mb-3 mb-md-0">
-                            <input
-                              class="form-control"
+                            <form:input
+                              class="form-control ${not empty passwordBindErrors ? 'is-invalid' : ''}"
                               id="inputPassword"
                               type="password"
                               placeholder="Create a password"
+                              path="password"
+                              required="true"
                             />
                             <label for="inputPassword">Password</label>
+                            ${passwordBindErrors}
                           </div>
                         </div>
                         <div class="col-md-6">
+                          <c:set var="CfPasswordBindErrors"
+                            ><form:errors
+                              path="confirmPassword"
+                              cssClass="invalid-feedback server-validate-feedback"
+                          /></c:set>
                           <div class="form-floating mb-3 mb-md-0">
-                            <input
-                              class="form-control"
+                            <form:input
+                              class="form-control ${not empty CfPasswordBindErrors ? 'is-invalid' : ''}"
                               id="inputPasswordConfirm"
                               type="password"
                               placeholder="Confirm password"
+                              path="confirmPassword"
+                              required="true"
                             />
                             <label for="inputPasswordConfirm"
                               >Confirm Password</label
                             >
+                            ${CfPasswordBindErrors}
                           </div>
                         </div>
                       </div>
                       <div class="mt-4 mb-0">
                         <div class="d-grid">
-                          <a class="btn btn-primary btn-block" href="login.html"
-                            >Create Account</a
+                          <button
+                            type="submit"
+                            class="btn btn-primary btn-block"
                           >
+                            Create Account
+                          </button>
                         </div>
                       </div>
-                    </form>
+                    </form:form>
                   </div>
                   <div class="card-footer text-center py-3">
                     <div class="small">
-                      <a href="login.html">Have an account? Go to login</a>
+                      <a href="/login">Have an account? Go to login</a>
                     </div>
                   </div>
                 </div>
@@ -120,5 +175,25 @@ uri="http://www.springframework.org/tags/form" %>
       crossorigin="anonymous"
     ></script>
     <script src="js/scripts.js"></script>
+    <script>
+      $(document).ready(() => {
+        $("#form").submit(function (e) {
+          if (!this.checkValidity()) {
+            e.preventDefault();
+            e.stopPropagation();
+          }
+
+          $(this).addClass("was-validated");
+          $(".server-validate-feedback").remove();
+          $(".client-validate-feedback").removeClass("d-none");
+        });
+
+        $(".form-control").on("input", function () {
+          $(this).removeClass("is-invalid");
+          $(this).siblings(".server-validate-feedback").remove();
+          $(".client-validate-feedback").removeClass("d-none");
+        });
+      });
+    </script>
   </body>
 </html>

@@ -56,6 +56,8 @@ uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
   </head>
 
   <body>
+    <c:set var="view" value="homepage" scope="session" />
+
     <!-- Spinner Start -->
     <div
       id="spinner"

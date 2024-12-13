@@ -1,6 +1,8 @@
-<%@page contentType="text/html" pageEncoding="UTF-8" %>
+<%@page contentType="text/html" pageEncoding="UTF-8" %> <%@ taglib prefix="c"
+uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!-- Navbar start -->
+
 <div class="container-fluid fixed-top px-0">
   <div
     class="mb-1"
@@ -55,12 +57,27 @@
       >
         <span class="fa fa-bars text-primary"></span>
       </button>
-      <div class="collapse navbar-collapse bg-white" id="navbarCollapse">
-        <div class="navbar-nav mx-auto">
-          <a href="/" class="nav-item nav-link active">Trang chủ</a>
-          <a href="shop.html" class="nav-item nav-link">Sản phẩm</a>
-          <a href="shop-detail.html" class="nav-item nav-link"></a>
-          <a href="contact.html" class="nav-item nav-link">Liên hệ</a>
+      <div
+        class="collapse navbar-collapse bg-white justify-content-between px-3"
+        id="navbarCollapse"
+      >
+        <div class="navbar-nav">
+          <a
+            href="/"
+            class="nav-item nav-link ${view == 'homepage' ? 'active' : ''}"
+            >Trang chủ</a
+          >
+          <a
+            href="shop.html"
+            class="nav-item nav-link ${view == 'products' ? 'active' : ''}"
+            >Sản phẩm</a
+          >
+          <!-- <a href="shop-detail.html" class="nav-item nav-link "></a> -->
+          <a
+            href="contact.html"
+            class="nav-item nav-link ${view == 'contact' ? 'active' : ''}"
+            >Liên hệ</a
+          >
           <div class="nav-item dropdown">
             <a
               href="#"
@@ -76,6 +93,7 @@
               >
             </div>
           </div>
+          <!-- <div style="color: red">${view}</div> -->
         </div>
         <div class="d-flex m-3 me-0">
           <button
@@ -93,9 +111,74 @@
               >3</span
             >
           </a>
-          <a href="#" class="my-auto">
-            <i class="fas fa-user fa-2x"></i>
-          </a>
+          <div class="dropdown my-auto">
+            <a
+              href="#"
+              class="dropdown-toggle"
+              role="button"
+              id="dropdownMenuLink"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              <i class="fas fa-user fa-2x"></i>
+            </a>
+
+            <ul
+              class="dropdown-menu dropdown-menu-end p-4"
+              aria-labelledby="dropdownMenuLink"
+            >
+              <li
+                class="d-flex align-items-center flex-column"
+                style="min-width: 200px"
+              >
+                <img
+                  style="
+                    width: 85px;
+                    height: 85px;
+                    border-radius: 50%;
+                    overflow: hidden;
+                  "
+                  src="/images/avatar/${not empty avatar ? avatar : 'user_placeholder.png'}"
+                />
+                <div class="text-center my-3">
+                  <c:choose>
+                    <c:when
+                      test="${not empty pageContext.request.userPrincipal}"
+                    >
+                      <!-- biến fullName lấy từ session. Nếu có biến trùng tên thì dùng sessionScope.fullName -->
+                      <span> ${fullName}</span>
+                    </c:when>
+                    <c:otherwise>
+                      <a href="/login" class="btn btn-primary">Đăng nhập</a>
+                    </c:otherwise>
+                  </c:choose>
+                </div>
+              </li>
+
+              <c:if test="${not empty pageContext.request.userPrincipal}">
+                <li>
+                  <a class="dropdown-item" href="#">Quản lý tài khoản</a>
+                </li>
+
+                <li><a class="dropdown-item" href="#">Lịch sử mua hàng</a></li>
+                <li>
+                  <hr class="dropdown-divider" />
+                </li>
+                <li>
+                  <form action="/logout" method="post">
+                    <input
+                      type="hidden"
+                      name="${_csrf.parameterName}"
+                      value="${_csrf.token}"
+                    />
+                    <button class="dropdown-item">Đăng xuất</button>
+                  </form>
+                </li>
+              </c:if>
+            </ul>
+          </div>
         </div>
       </div>
     </nav>

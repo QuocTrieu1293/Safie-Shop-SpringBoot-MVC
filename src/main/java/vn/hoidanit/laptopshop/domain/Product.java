@@ -49,17 +49,17 @@ public class Product {
   @Min(value = 0, message = "Sold must be greater than or equal to 0")
   private long sold;
 
-  @ManyToOne(fetch = FetchType.LAZY)
+  @ManyToOne(fetch = FetchType.EAGER)
   @JoinColumn(name = "category_id")
   @NotNull(message = "Category cannot be null")
   private Category category;
 
-  @ManyToOne(fetch = FetchType.LAZY)
+  @ManyToOne(fetch = FetchType.EAGER)
   @JoinColumn(name = "brand_id")
   @NotNull(message = "Brand cannot be null")
   private Brand brand;
 
-  @ManyToMany(fetch = FetchType.LAZY)
+  @ManyToMany(fetch = FetchType.EAGER)
   @JoinTable(name = "product_size", joinColumns = @JoinColumn(name = "product_id"), inverseJoinColumns = @JoinColumn(name = "size_id"))
   @NotEmpty(message = "Product sizes cannot be empty")
   private Set<Size> sizes;

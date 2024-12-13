@@ -16,17 +16,17 @@ import vn.hoidanit.laptopshop.repository.ProductRepository;
 import vn.hoidanit.laptopshop.service.ProductService;
 
 @Controller
-@SessionAttributes("categories")
+// @SessionAttributes("categories")
 public class DetailPageController {
 
   private final ProductService productService;
   private final ProductRepository productRepository;
   private final CategoryRepository categoryRepository;
 
-  @ModelAttribute("categories")
-  public List<Category> populateCategories() {
-    return categoryRepository.findAll();
-  }
+  // @ModelAttribute("categories")
+  // public List<Category> populateCategories() {
+  // return categoryRepository.findAll();
+  // }
 
   public DetailPageController(ProductService productService, ProductRepository productRepository,
       CategoryRepository categoryRepository) {
@@ -45,6 +45,7 @@ public class DetailPageController {
     model.addAttribute("relatedProducts",
         productRepository.findByCategoryIdAndIdNot(cateId, id));
     model.addAttribute("featuredProducts", featuredProducts);
+    model.addAttribute("categories", categoryRepository.findAll());
 
     return "client/product/detail";
   }

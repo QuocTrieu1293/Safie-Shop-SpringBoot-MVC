@@ -24,7 +24,7 @@ public class Order {
   @Column(scale = 2)
   private double totalPrice;
 
-  @ManyToOne(fetch = FetchType.LAZY)
+  @ManyToOne(fetch = FetchType.EAGER)
   @JoinColumn(name = "user_id")
   private User user;
 
