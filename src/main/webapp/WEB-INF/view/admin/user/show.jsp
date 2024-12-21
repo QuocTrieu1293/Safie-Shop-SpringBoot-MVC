@@ -82,6 +82,9 @@ uri="http://java.sun.com/jsp/jstl/core" %>
                     </tr>
                   </thead>
                   <tbody class="table-group-divider">
+                    <c:if test="${empty userList}">
+                      <td class="text-center" colspan="5">No user found</td>
+                    </c:if>
                     <c:forEach var="user" items="${userList}">
                       <tr>
                         <td>${user.id}</td>

@@ -1,7 +1,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8" %>
 
 <!-- Footer Start -->
-<div class="container-fluid bg-dark text-white-50 footer mt-5">
+<div class="container-fluid bg-danger text-white-50 footer mt-5">
   <div class="container py-5">
     <div
       class="pb-4 mb-4"
@@ -10,8 +10,12 @@
       <div class="row g-4 justify-content-between">
         <div class="col-lg-3">
           <a href="#">
-            <h1 class="text-primary mb-0">BabieFash</h1>
-            <p class="text-secondary mb-0">Thời trang cho bé</p>
+            <img
+              src="/images/others/logo.png"
+              alt=""
+              style="height: 100px; object-fit: cover"
+            />
+            <!-- <p class="mb-0 fw-bold text-white text-end">An tâm cho con</p> -->
           </a>
         </div>
         <!-- <div class="col-lg-6">
@@ -34,24 +38,26 @@
         <!-- Các liên kết mạng xã hội -->
         <div class="col-lg-auto">
           <div class="d-flex justify-content-end pt-3 align-items-center">
-            <span class="me-2">Theo dõi chúng tôi trên: </span>
+            <span class="me-2 fw-bold text-light"
+              >Theo dõi chúng tôi trên:
+            </span>
             <a
-              class="btn btn-outline-secondary me-2 btn-md-square rounded-circle"
-              href=""
-              ><i class="fab fa-twitter"></i
+              class="btn btn-outline-primary me-2 btn-md-square rounded-circle"
+              href="https://www.instagram.com/safie_baby_official/"
+              ><i class="fab fa-instagram"></i
             ></a>
             <a
-              class="btn btn-outline-secondary me-2 btn-md-square rounded-circle"
-              href=""
+              class="btn btn-outline-primary me-2 btn-md-square rounded-circle"
+              href="https://www.facebook.com/profile.php?id=61569808828505"
               ><i class="fab fa-facebook-f"></i
             ></a>
             <a
-              class="btn btn-outline-secondary me-2 btn-md-square rounded-circle"
+              class="btn btn-outline-primary me-2 btn-md-square rounded-circle"
               href=""
               ><i class="fab fa-youtube"></i
             ></a>
             <a
-              class="btn btn-outline-secondary btn-md-square rounded-circle"
+              class="btn btn-outline-primary btn-md-square rounded-circle"
               href=""
               ><i class="fab fa-linkedin-in"></i
             ></a>
@@ -77,11 +83,17 @@
       <div class="col-lg-3 col-md-6">
         <div class="footer-item">
           <h4 class="text-light mb-3">LIÊN HỆ</h4>
-          <p>Địa chỉ: Đường Hàn Thuyên, khu phố 6 P, Thủ Đức, Hồ Chí Minh</p>
-          <p>Email: contact@babiefash.com</p>
-          <p>SĐT: 0359924897</p>
-          <p>Hỗ trợ thanh toán trực tuyến</p>
-          <img src="/client/img/payment.png" class="img-fluid" alt="" />
+          <div class="text-dark">
+            <p>Địa chỉ: Đường Hàn Thuyên, khu phố 6 P, Thủ Đức, Hồ Chí Minh</p>
+            <p>Email: contact@safie.com</p>
+            <p>SĐT: 0359924897</p>
+            <p>Hỗ trợ thanh toán trực tuyến</p>
+          </div>
+          <img
+            src="/client/img/payment.png"
+            class="img-fluid object-fit-cover"
+            alt=""
+          />
         </div>
       </div>
       <div class="col-lg-auto col-md-6">
@@ -107,7 +119,7 @@
       <div class="col-lg-auto col-md-6">
         <div class="d-flex flex-column text-start footer-item">
           <h4 class="text-light mb-3">FANPAGE</h4>
-          <iframe
+          <!-- <iframe
             src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2Fprofile.php%3Fid%3D100063541151020&tabs&width=307&height=130&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=true&appId"
             width="307"
             height="130"
@@ -116,7 +128,13 @@
             frameborder="0"
             allowfullscreen="true"
             allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
-          ></iframe>
+          ></iframe> -->
+          <a href="https://vn.shp.ee/Lzkhw9L"
+            ><img
+              src="/images/others/shopee.png"
+              alt=""
+              class="object-fit-cover"
+          /></a>
         </div>
       </div>
     </div>
@@ -125,18 +143,17 @@
 <!-- Footer End -->
 
 <!-- Copyright Start -->
-<div class="container-fluid copyright bg-dark py-4">
+<div class="container-fluid copyright bg-danger py-4">
   <div class="container">
     <div class="row">
       <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
-        <span class="text-light"
+        <span class="text-dark"
           ><a href="/"
-            ><i class="fas fa-copyright text-light me-2"></i
-            >www.babiefash.com</a
+            ><i class="fas fa-copyright text-dark me-2"></i>www.safie.com</a
           >, All right reserved.</span
         >
       </div>
-      <div class="col-md-6 my-auto text-center text-md-end text-white">
+      <div class="col-md-6 my-auto text-center text-md-end text-dark">
         <!--/*** This template is free as long as you keep the below author’s credit link/attribution link/backlink. ***/-->
         <!--/*** If you'd like to use the template without the below author’s credit link/attribution link/backlink, ***/-->
         <!--/*** you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". ***/-->

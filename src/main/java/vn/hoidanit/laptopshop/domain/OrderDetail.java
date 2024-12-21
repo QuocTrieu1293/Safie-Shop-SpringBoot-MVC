@@ -30,6 +30,12 @@ public class OrderDetail {
   @JoinColumn(name = "product_id")
   private Product product;
 
+  @ManyToOne
+  @JoinColumn(name = "size_id")
+  Size size;
+
+  double productPrice;
+
   public long getId() {
     return id;
   }
@@ -70,10 +76,25 @@ public class OrderDetail {
     this.product = product;
   }
 
+  public Size getSize() {
+    return size;
+  }
+
+  public void setSize(Size size) {
+    this.size = size;
+  }
+
+  public double getProductPrice() {
+    return productPrice;
+  }
+
+  public void setProductPrice(double productPrice) {
+    this.productPrice = productPrice;
+  }
+
   @Override
   public String toString() {
     return "OrderDetail [id=" + id + ", quantity=" + quantity + ", price=" + price + ", order=" + order + ", product="
         + product + "]";
   }
-
 }

@@ -5,19 +5,23 @@ import java.util.List;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import vn.hoidanit.laptopshop.domain.Cart;
 import vn.hoidanit.laptopshop.domain.Role;
 import vn.hoidanit.laptopshop.domain.User;
 import vn.hoidanit.laptopshop.domain.dto.RegisterDTO;
+import vn.hoidanit.laptopshop.repository.CartRepository;
 import vn.hoidanit.laptopshop.repository.UserRepository;
 
 @Service
 public class UserService {
   private final UserRepository userRepository;
   private final PasswordEncoder passwordEncoder;
+  private final CartRepository cartRepository;
 
-  public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+  public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, CartRepository cartRepository) {
     this.userRepository = userRepository;
     this.passwordEncoder = passwordEncoder;
+    this.cartRepository = cartRepository;
   }
 
   public User registerUser(User user) {
@@ -27,7 +31,7 @@ public class UserService {
   }
 
   public User updateUser(User user) throws Exception {
-    User updatedUser = userRepository.findById(user.getId()).orElse(null);
+    User updatedUser = get(user.getId());
     // Role role1 = user.getRole(); // null
     // Role role2 = updatedUser.getRole(); // null
     // String name1 = role1.getName(); //null
@@ -76,6 +80,22 @@ public class UserService {
 
   public User getUserByEmail(String email) {
     return userRepository.findByEmail(email);
+  }
+
+  public Cart getCart(long id) {
+    User user = get(id);
+    if (user == null)
+      return null;
+
+    Cart cart = user.getCart();
+    if (cart != null)
+      return cart;
+
+    cart = new Cart();
+    cart.setUser(user);
+    cart = cartRepository.save(cart);
+
+    return cart;
   }
 
 }

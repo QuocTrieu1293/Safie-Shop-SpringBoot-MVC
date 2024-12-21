@@ -85,6 +85,13 @@
 			<artifactId>spring-session-jdbc</artifactId>
 		</dependency>
 
+		<!-- javatime JSP tag -->
+		<dependency>
+			<groupId>net.sargue</groupId>
+			<artifactId>java-time-jsptags</artifactId>
+			<version>2.0.0</version>
+		</dependency>
+
 
 	</dependencies>
 

@@ -14,8 +14,8 @@ public class CartDetail {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private long id;
-  private long quantity;
-  private double price;
+  private int quantity;
+
   // cart_id: long
   @ManyToOne
   @JoinColumn(name = "cart_id")
@@ -25,6 +25,10 @@ public class CartDetail {
   @JoinColumn(name = "product_id")
   private Product product;
 
+  @ManyToOne
+  @JoinColumn(name = "size_id")
+  Size size;
+
   public long getId() {
     return id;
   }
@@ -33,20 +37,12 @@ public class CartDetail {
     this.id = id;
   }
 
-  public long getQuantity() {
+  public int getQuantity() {
     return quantity;
   }
 
-  public void setQuantity(long quantity) {
+  public void setQuantity(int quantity) {
     this.quantity = quantity;
-  }
-
-  public double getPrice() {
-    return price;
-  }
-
-  public void setPrice(double price) {
-    this.price = price;
   }
 
   public Cart getCart() {
@@ -65,11 +61,23 @@ public class CartDetail {
     this.product = product;
   }
 
-  @Override
-  public String toString() {
-    return "CartDetail [id=" + id + ", quantity=" + quantity + ", price=" + price + ", cart=[id=" + cart.getId()
-        + "], product="
-        + product + "]";
+  public Size getSize() {
+    return size;
   }
 
+  public void setSize(Size size) {
+    this.size = size;
+  }
+
+  public double getPrice() {
+    return quantity * product.getPrice();
+  }
+
+  @Override
+  public String toString() {
+    return "CartDetail [id=" + id + ", quantity=" + quantity + ", price=" + quantity * product.getPrice()
+        + ", cart=[id=" + cart.getId()
+        + "], product="
+        + product + ", size=[id=" + size.getId() + ",name=" + size.getName() + "]]";
+  }
 }

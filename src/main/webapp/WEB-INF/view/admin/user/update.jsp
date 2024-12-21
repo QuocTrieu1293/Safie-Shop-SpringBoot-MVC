@@ -217,7 +217,7 @@ uri="http://www.springframework.org/tags/form" prefix="form"%>
                       <button class="btn-remove btn-close"></button>
                       <img
                         alt="avatar preview"
-                        class="img-thumbnail"
+                        class="img-thumbnail object-fit-cover"
                         style="max-width: 180px; aspect-ratio: 3/4"
                         src="/images/avatar/${not empty user.avatar ? user.avatar : ''}"
                       />

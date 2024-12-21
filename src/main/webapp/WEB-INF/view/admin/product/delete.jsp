@@ -66,7 +66,7 @@ uri="http://java.sun.com/jsp/jstl/core" %>
                 <img
                   src="/images/product/${product.image}"
                   alt="product"
-                  style="max-width: 200px"
+                  style="max-width: 200px; object-fit: cover"
                   class="rounded"
                 />
               </div>
@@ -152,6 +152,11 @@ uri="http://java.sun.com/jsp/jstl/core" %>
                 >
                   <button class="btn btn-danger me-2">Confirm</button>
                   <a class="btn btn-secondary" href="/admin/product">Cancel</a>
+                  <input
+                    type="hidden"
+                    name="${_csrf.parameterName}"
+                    value="${_csrf.token}"
+                  />
                 </form>
               </div>
             </div>

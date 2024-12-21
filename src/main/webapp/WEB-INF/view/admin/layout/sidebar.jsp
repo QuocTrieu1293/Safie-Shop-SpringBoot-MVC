@@ -1,7 +1,10 @@
+<%@page contentType="text/html" pageEncoding="UTF-8" %> <%@ taglib prefix="c"
+uri="http://java.sun.com/jsp/jstl/core" %>
+
 <div id="layoutSidenav_nav">
   <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
     <div class="sb-sidenav-menu">
-      <div class="nav">
+      <div class="nav h-100 pb-3">
         <div class="sb-sidenav-menu-heading">General</div>
         <a class="nav-link" href="/admin">
           <div class="sb-nav-link-icon">
@@ -27,6 +30,7 @@
           </div>
           Order
         </a>
+        <div class="sb-sidenav-menu-heading mt-auto">Utilities</div>
         <a class="nav-link" href="/admin/utils/clear-images">
           <div class="sb-nav-link-icon">
             <i class="fa-solid fa-trash"></i>

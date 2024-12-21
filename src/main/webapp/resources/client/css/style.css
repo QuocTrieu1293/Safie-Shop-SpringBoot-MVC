@@ -69,7 +69,7 @@
 
 .btn.border-secondary:hover {
   background: var(--bs-secondary) !important;
-  color: var(--bs-white) !important;
+  color: var(--bs-dark) !important;
 }
 
 /*** Topbar Start ***/
@@ -177,10 +177,10 @@
 /*** Hero Header ***/
 .hero-header {
   background: linear-gradient(
-      rgba(248, 223, 173, 0.1),
-      rgba(248, 223, 173, 0.1)
+      rgba(248, 223, 173, 0.3),
+      rgba(248, 223, 173, 0.3)
     ),
-    url(../img/hero-img.jpg);
+    url("/images/others/background_photo.webp");
   background-position: center center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -281,7 +281,7 @@
 }
 
 .fruite .tab-class .nav-item a.active span {
-  color: var(--bs-white) !important;
+  color: var(--bs-dark) !important;
 }
 
 .fruite .fruite-categorie .fruite-name {
@@ -361,7 +361,7 @@
 
 .vesitable .owl-nav .owl-prev:hover {
   background: var(--bs-secondary);
-  color: var(--bs-white);
+  color: var(--bs-dark);
 }
 
 .vesitable .owl-nav .owl-next {
@@ -377,7 +377,7 @@
 
 .vesitable .owl-nav .owl-next:hover {
   background: var(--bs-secondary);
-  color: var(--bs-white);
+  color: var(--bs-dark);
 }
 /*** vesitable End ***/
 
@@ -424,7 +424,7 @@
 
 .testimonial .owl-nav .owl-prev:hover {
   background: var(--bs-secondary);
-  color: var(--bs-white);
+  color: var(--bs-dark);
 }
 
 .testimonial .owl-nav .owl-next {
@@ -440,7 +440,7 @@
 
 .testimonial .owl-nav .owl-next:hover {
   background: var(--bs-secondary);
-  color: var(--bs-white);
+  color: var(--bs-dark);
 }
 /*** testimonial End ***/
 
@@ -476,12 +476,12 @@
 /*** Footer Start ***/
 .footer .footer-item .btn-link {
   line-height: 35px;
-  color: rgba(255, 255, 255, 0.5);
+  color: #45595b;
   transition: 0.5s;
 }
 
 .footer .footer-item .btn-link:hover {
-  color: var(--bs-secondary) !important;
+  color: var(--bs-primary) !important;
 }
 
 .footer .footer-item p.mb-4 {

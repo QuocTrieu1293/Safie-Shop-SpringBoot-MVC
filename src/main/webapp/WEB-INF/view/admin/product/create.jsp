@@ -246,7 +246,11 @@ uri="http://www.springframework.org/tags/form" %>
                       style="display: none"
                     >
                       <!-- <button class="btn-remove btn-close"></button> -->
-                      <img alt="image preview" class="img-fluid rounded" />
+                      <img
+                        alt="image preview"
+                        class="img-fluid rounded"
+                        style="object-fit: cover"
+                      />
                     </div>
                   </div>
                 </div>

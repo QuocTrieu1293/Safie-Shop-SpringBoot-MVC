@@ -21,7 +21,7 @@ public class UtilsController {
   public String clearImages(@RequestHeader(value = "referer", required = false) String referer) {
     long num = fileService.clearImages();
     System.out.println(num);
-    return "redirect:" + (referer != null ? referer : "/admin");
+    return "redirect:referer" + (referer != null ? referer : "/admin");
   }
 
 }

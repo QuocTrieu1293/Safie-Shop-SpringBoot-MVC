@@ -63,7 +63,7 @@ uri="http://java.sun.com/jsp/jstl/core" %>
                 <img
                   src="/images/product/${product.image}"
                   alt="product"
-                  style="max-width: 200px"
+                  style="max-width: 200px; object-fit: cover"
                   class="rounded"
                 />
               </div>

@@ -17,6 +17,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import vn.hoidanit.laptopshop.domain.Cart;
 import vn.hoidanit.laptopshop.domain.User;
 import vn.hoidanit.laptopshop.service.UserService;
 
@@ -62,6 +63,12 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
     session.setAttribute("fullName", loggedInUser.getFullName());
     session.setAttribute("avatar", loggedInUser.getAvatar());
     session.setAttribute("email", loggedInUser.getEmail());
+    session.setAttribute("userId", loggedInUser.getId());
+
+    Cart cart = userService.getCart(loggedInUser.getId());
+    session.setAttribute("cartSum", cart.getSum());
+    session.setAttribute("cartId", cart.getId());
+
   }
 
   protected void clearAuthenticationAttributes(HttpServletRequest request) {

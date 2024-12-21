@@ -85,6 +85,9 @@ uri="http://java.sun.com/jsp/jstl/core" %>
                     </tr>
                   </thead>
                   <tbody class="table-group-divider">
+                    <c:if test="${empty productList}">
+                      <td class="text-center" colspan="8">No product found</td>
+                    </c:if>
                     <c:forEach var="product" items="${productList}">
                       <tr>
                         <td class="text-center fw-bold">${product.id}</td>
@@ -101,7 +104,7 @@ uri="http://java.sun.com/jsp/jstl/core" %>
                           <img
                             src="/images/product/${product.image}"
                             alt="product image"
-                            class="img-fluid rounded"
+                            class="img-fluid rounded object-fit-cover"
                           />
                         </td>
                         <td>

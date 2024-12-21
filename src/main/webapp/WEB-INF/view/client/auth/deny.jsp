@@ -8,7 +8,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
   </head>
   <body>
-    <div class="container">
+    <div class="container py-5">
       <h1 data-content="404">403 - ACCESS DENIED</h1>
 
       <p class="fs-3">Oops, You don't have permission to access this page.</p>

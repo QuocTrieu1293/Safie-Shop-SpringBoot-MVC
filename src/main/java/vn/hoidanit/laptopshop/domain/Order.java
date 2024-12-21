@@ -1,10 +1,10 @@
 package vn.hoidanit.laptopshop.domain;
 
-import java.util.Set;
+import java.time.LocalDateTime;
+import java.util.List;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -21,15 +21,27 @@ public class Order {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private long id;
 
+  private int sum;
+
   @Column(scale = 2)
   private double totalPrice;
 
-  @ManyToOne(fetch = FetchType.EAGER)
+  @ManyToOne
   @JoinColumn(name = "user_id")
   private User user;
 
   @OneToMany(mappedBy = "order")
-  private Set<OrderDetail> orderDetails;
+  private List<OrderDetail> orderDetails;
+
+  private String receiverName;
+  private String receiverAddress;
+  private String receiverPhone;
+  private String notes;
+  private String status;
+  private String paymentMethod;
+  private String paymentStatus;
+  private String paymentRef;
+  private LocalDateTime date;
 
   public long getId() {
     return id;
@@ -55,17 +67,96 @@ public class Order {
     this.user = user;
   }
 
-  public Set<OrderDetail> getOrderDetails() {
+  public List<OrderDetail> getOrderDetails() {
     return orderDetails;
   }
 
-  public void setOrderDetails(Set<OrderDetail> orderDetails) {
+  public void setOrderDetails(List<OrderDetail> orderDetails) {
     this.orderDetails = orderDetails;
+  }
+
+  public String getReceiverName() {
+    return receiverName;
+  }
+
+  public void setReceiverName(String receiverName) {
+    this.receiverName = receiverName;
+  }
+
+  public String getReceiverAddress() {
+    return receiverAddress;
+  }
+
+  public void setReceiverAddress(String receiverAddress) {
+    this.receiverAddress = receiverAddress;
+  }
+
+  public String getReceiverPhone() {
+    return receiverPhone;
+  }
+
+  public void setReceiverPhone(String receiverPhone) {
+    this.receiverPhone = receiverPhone;
+  }
+
+  public String getNotes() {
+    return notes;
+  }
+
+  public void setNotes(String notes) {
+    this.notes = notes;
+  }
+
+  public int getSum() {
+    return sum;
+  }
+
+  public void setSum(int sum) {
+    this.sum = sum;
+  }
+
+  public String getStatus() {
+    return status;
+  }
+
+  public void setStatus(String status) {
+    this.status = status;
+  }
+
+  public String getPaymentMethod() {
+    return paymentMethod;
+  }
+
+  public void setPaymentMethod(String paymentMethod) {
+    this.paymentMethod = paymentMethod;
+  }
+
+  public String getPaymentStatus() {
+    return paymentStatus;
+  }
+
+  public void setPaymentStatus(String paymentStatus) {
+    this.paymentStatus = paymentStatus;
+  }
+
+  public String getPaymentRef() {
+    return paymentRef;
+  }
+
+  public void setPaymentRef(String paymentRef) {
+    this.paymentRef = paymentRef;
+  }
+
+  public LocalDateTime getDate() {
+    return date;
+  }
+
+  public void setDate(LocalDateTime date) {
+    this.date = date;
   }
 
   @Override
   public String toString() {
     return "Order [id=" + id + ", totalPrice=" + totalPrice + ", user=" + user + ", orderDetails=" + orderDetails + "]";
   }
-
 }

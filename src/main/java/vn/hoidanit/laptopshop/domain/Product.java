@@ -1,7 +1,7 @@
 package vn.hoidanit.laptopshop.domain;
 
 import java.util.Arrays;
-import java.util.Set;
+import java.util.List;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -11,7 +11,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
-import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
@@ -62,7 +61,7 @@ public class Product {
   @ManyToMany(fetch = FetchType.EAGER)
   @JoinTable(name = "product_size", joinColumns = @JoinColumn(name = "product_id"), inverseJoinColumns = @JoinColumn(name = "size_id"))
   @NotEmpty(message = "Product sizes cannot be empty")
-  private Set<Size> sizes;
+  private List<Size> sizes;
 
   public long getId() {
     return id;
@@ -144,11 +143,11 @@ public class Product {
     this.brand = brand;
   }
 
-  public Set<Size> getSizes() {
+  public List<Size> getSizes() {
     return sizes;
   }
 
-  public void setSizes(Set<Size> sizes) {
+  public void setSizes(List<Size> sizes) {
     this.sizes = sizes;
   }
 

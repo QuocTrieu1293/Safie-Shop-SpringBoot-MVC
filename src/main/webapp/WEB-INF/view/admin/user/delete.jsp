@@ -63,7 +63,8 @@ uri="http://java.sun.com/jsp/jstl/core" %>
                 </c:choose> -->
                 <img src="/images/avatar/${not empty user.avatar ? user.avatar :
                 "user_placeholder.png"}" alt="avatar" class="img-thumbnail"
-                style="max-width: 180px; aspect-ratio: 3/4" />
+                style="max-width: 180px; aspect-ratio: 3/4; object-fit: cover;"
+                />
               </div>
               <div class="col-md-6 col">
                 <div class="card mb-3">
@@ -84,6 +85,11 @@ uri="http://java.sun.com/jsp/jstl/core" %>
                 >
                   <button class="btn btn-danger me-2">Confirm</button>
                   <a class="btn btn-secondary" href="/admin/user">Cancel</a>
+                  <input
+                    type="hidden"
+                    name="${_csrf.parameterName}"
+                    value="${_csrf.token}"
+                  />
                 </form>
               </div>
             </div>

@@ -10,4 +10,6 @@ import vn.hoidanit.laptopshop.domain.Size;
 @Repository
 public interface SizeRepository extends JpaRepository<Size, Long> {
   List<Size> findAll();
+
+  Size findById(long id);
 }

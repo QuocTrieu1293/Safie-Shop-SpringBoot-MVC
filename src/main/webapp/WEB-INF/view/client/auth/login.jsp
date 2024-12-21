@@ -122,7 +122,7 @@ uri="http://www.springframework.org/tags/form" %>
                         <label for="inputPassword">Password</label>
                         <!-- ${passwordBindErrors} -->
                       </div>
-                      <div class="form-check mb-3">
+                      <!-- <div class="form-check mb-3">
                         <input
                           class="form-check-input"
                           id="inputRememberPassword"
@@ -134,7 +134,7 @@ uri="http://www.springframework.org/tags/form" %>
                           for="inputRememberPassword"
                           >Remember Password</label
                         >
-                      </div>
+                      </div> -->
                       <div
                         class="d-flex align-items-center justify-content-between mt-4 mb-0"
                       >

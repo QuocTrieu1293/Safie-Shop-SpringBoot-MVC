@@ -175,7 +175,7 @@ uri="http://www.springframework.org/tags/form" %>
                       <img
                         alt="avatar preview"
                         style="max-width: 180px; aspect-ratio: 3/4"
-                        class="img-thumbnail"
+                        class="img-thumbnail object-fit-cover"
                       />
                     </div>
                   </div>

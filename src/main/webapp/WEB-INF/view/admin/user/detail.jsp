@@ -62,7 +62,8 @@ uri="http://java.sun.com/jsp/jstl/core" %>
                 </c:choose> -->
                 <img src="/images/avatar/${not empty user.avatar ? user.avatar :
                 "user_placeholder.png"}" alt="avatar" class="img-thumbnail"
-                style="max-width: 180px; aspect-ratio: 3/4" />
+                style="max-width: 180px; aspect-ratio: 3/4; object-fit: cover;"
+                />
               </div>
               <div class="col-md-6 col-12">
                 <div class="card">

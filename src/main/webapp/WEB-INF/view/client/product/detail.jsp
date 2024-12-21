@@ -7,7 +7,7 @@ uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <title>${product.name} - babiefash</title>
+    <title>${product.name} - Safie</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
     <meta content="" name="keywords" />
     <meta content="" name="description" />
@@ -23,7 +23,10 @@ uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
     <!-- Icon Font Stylesheet -->
     <link
       rel="stylesheet"
-      href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css"
+      integrity="sha512-5Hs3dF2AEPkpNAR7UiOHba+lRSJNeM2ECkwxUIxC1Q/FLycGTbNapWXB4tP889k5T5Ju8fs4b1P5z/iB4nMfSQ=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
     />
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css"
@@ -57,7 +60,7 @@ uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 
       .size-tag {
         padding: 5px;
-        border: solid 2px var(--bs-secondary);
+        border: solid 1px var(--bs-secondary);
         border-radius: 5px;
         font-size: 14px;
         font-weight: bold;
@@ -66,14 +69,14 @@ uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
         background-color: whitesmoke;
       }
 
-      .size-tag:hover:not([selected="true"]) {
+      .size-tag:has(input[type="radio"]:not(:checked)):hover {
         background-color: rgba(0, 0, 0, 0.3);
         color: var(--bs-white);
       }
 
-      .size-tag[selected="true"] {
+      .size-tag:has(input[type="radio"]:checked) {
         border-color: var(--bs-primary);
-        background-color: #81c40835;
+        background-color: #e0b8b835;
         /* color: var(--bs-secondary); */
       }
     </style>
@@ -98,88 +101,112 @@ uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb mb-3">
             <li class="breadcrumb-item"><a href="/">Trang chủ</a></li>
-            <li class="breadcrumb-item active text-secondary">
-              Chi tiết sản phẩm
-            </li>
+            <li class="breadcrumb-item active">Chi tiết sản phẩm</li>
           </ol>
         </nav>
         <div class="row g-5 mb-5">
           <div class="col-lg-8 col-xl-9">
             <div class="row g-4">
-              <div class="col-lg-6">
-                <div class="border rounded">
-                  <a href="#">
-                    <img
-                      src="/images/product/${product.image}"
-                      class="img-fluid rounded"
-                      alt="Image"
-                    />
-                  </a>
+              <form
+                id="add-to-cart-form"
+                action="/add-product-to-cart/${product.id}"
+                method="post"
+                class="row g-4"
+              >
+                <div class="col-lg-6">
+                  <div class="border rounded">
+                    <a href="#">
+                      <img
+                        src="/images/product/${product.image}"
+                        class="img-fluid rounded object-fit-cover"
+                        alt="Image"
+                      />
+                    </a>
+                  </div>
                 </div>
-              </div>
-              <div class="col-lg-6">
-                <h4 class="fw-bold mb-3">${product.name}</h4>
-                <div class="mb-3">
-                  <p>Danh mục: <a href="#">${product.category.name}</a></p>
-                  <p>Thương hiệu: <a href="#">${product.brand.name}</a></p>
-                  <div>
-                    <p class="col-12">Kích thước:</p>
-                    <div class="row m-0">
-                      <c:forEach var="size" items="${product.sizes}">
-                        <span class="size-tag col-auto me-2 mb-2"
-                          >${size.name}</span
-                        >
-                      </c:forEach>
-                      <!-- <span class="size-tag col-auto me-2 mb-2" selected="true"
+                <div class="col-lg-6">
+                  <h4 class="fw-bold mb-3">${product.name}</h4>
+                  <div class="mb-3">
+                    <p>Danh mục: <a href="#">${product.category.name}</a></p>
+                    <p>Thương hiệu: <a href="#">${product.brand.name}</a></p>
+                    <div>
+                      <p class="col-12">Kích thước:</p>
+                      <div class="row m-0">
+                        <c:forEach var="size" items="${product.sizes}">
+                          <label
+                            for="sizeId-${size.id}"
+                            class="size-tag col-auto me-2 mb-2"
+                          >
+                            ${size.name}
+                            <input
+                              id="sizeId-${size.id}"
+                              type="radio"
+                              name="sizeId"
+                              value="${size.id}"
+                              class="d-none"
+                              required
+                            />
+                          </label>
+                        </c:forEach>
+                        <!-- <span class="size-tag col-auto me-2 mb-2" selected="true"
                         >12-18 tháng</span
                       > -->
+                      </div>
                     </div>
                   </div>
-                </div>
-                <h3 class="fw-bold mb-3">
-                  <fmt:formatNumber type="number" value="${product.price}" /> đ
-                </h3>
-                <div class="d-flex mb-4">
-                  <i class="fa fa-star text-secondary"></i>
-                  <i class="fa fa-star text-secondary"></i>
-                  <i class="fa fa-star text-secondary"></i>
-                  <i class="fa fa-star text-secondary"></i>
-                  <i class="fa fa-star"></i>
-                </div>
-                <p class="mb-4">${product.shortDesc}</p>
+                  <h3 class="fw-bold mb-3">
+                    <fmt:formatNumber type="number" value="${product.price}" />
+                    đ
+                  </h3>
+                  <div class="d-flex mb-4">
+                    <i class="fa fa-star text-warning"></i>
+                    <i class="fa fa-star text-warning"></i>
+                    <i class="fa fa-star text-warning"></i>
+                    <i class="fa fa-star text-warning"></i>
+                    <i class="fa fa-star"></i>
+                  </div>
+                  <p class="mb-4">${product.shortDesc}</p>
 
-                <div
-                  class="input-group quantity mb-5 align-items-center"
-                  style="width: 100px"
-                >
-                  <div class="input-group-btn">
-                    <button
-                      class="btn btn-sm btn-minus rounded-circle bg-light border"
-                    >
-                      <i class="fa fa-minus"></i>
-                    </button>
+                  <div
+                    class="input-group quantity mb-5 align-items-center"
+                    style="width: 100px"
+                  >
+                    <div class="input-group-btn">
+                      <button
+                        class="btn btn-sm btn-minus rounded-circle bg-light border"
+                      >
+                        <i class="fa fa-minus"></i>
+                      </button>
+                    </div>
+                    <input
+                      type="text"
+                      class="form-control form-control-sm text-center border-0 fw-bold"
+                      style="font-size: 18px"
+                      value="1"
+                      name="quantity"
+                      id="quantity-input"
+                    />
+                    <div class="input-group-btn">
+                      <button
+                        class="btn btn-sm btn-plus rounded-circle bg-light border"
+                      >
+                        <i class="fa fa-plus"></i>
+                      </button>
+                    </div>
                   </div>
-                  <input
-                    type="text"
-                    class="form-control form-control-sm text-center border-0 fw-bold"
-                    style="font-size: 18px"
-                    value="1"
-                  />
-                  <div class="input-group-btn">
-                    <button
-                      class="btn btn-sm btn-plus rounded-circle bg-light border"
-                    >
-                      <i class="fa fa-plus"></i>
-                    </button>
-                  </div>
+                  <button
+                    class="btn border border-secondary rounded-pill px-4 py-2 mb-4 text-primary"
+                  >
+                    <i class="fa fa-shopping-bag me-2 text-primary"></i> Thêm
+                    vào giỏ hàng
+                  </button>
                 </div>
-                <a
-                  href="#"
-                  class="btn border border-secondary rounded-pill px-4 py-2 mb-4 text-primary"
-                  ><i class="fa fa-shopping-bag me-2 text-primary"></i> Thêm vào
-                  giỏ hàng</a
-                >
-              </div>
+                <input
+                  type="hidden"
+                  name="${_csrf.parameterName}"
+                  value="${_csrf.token}"
+                />
+              </form>
               <!-- Nav Tab -->
               <div class="col-lg-12">
                 <nav>
@@ -237,50 +264,31 @@ uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
                             class="row bg-light align-items-center text-center justify-content-center py-2"
                           >
                             <div class="col-6">
-                              <p class="mb-0">Weight</p>
+                              <p class="mb-0">Size</p>
                             </div>
                             <div class="col-6">
-                              <p class="mb-0">1 kg</p>
+                              <p class="mb-0">0-3 tháng, 3-6 tháng</p>
                             </div>
                           </div>
                           <div
                             class="row text-center align-items-center justify-content-center py-2"
                           >
                             <div class="col-6">
-                              <p class="mb-0">Country of Origin</p>
+                              <p class="mb-0">Chứng chỉ</p>
                             </div>
                             <div class="col-6">
-                              <p class="mb-0">Agro Farm</p>
+                              <p class="mb-0">GOTS</p>
                             </div>
                           </div>
+
                           <div
-                            class="row bg-light text-center align-items-center justify-content-center py-2"
+                            class="row text-center align-items-center justify-content-center py-2 bg-light"
                           >
                             <div class="col-6">
-                              <p class="mb-0">Quality</p>
+                              <p class="mb-0">Chất lượng</p>
                             </div>
                             <div class="col-6">
                               <p class="mb-0">Organic</p>
-                            </div>
-                          </div>
-                          <div
-                            class="row text-center align-items-center justify-content-center py-2"
-                          >
-                            <div class="col-6">
-                              <p class="mb-0">Сheck</p>
-                            </div>
-                            <div class="col-6">
-                              <p class="mb-0">Healthy</p>
-                            </div>
-                          </div>
-                          <div
-                            class="row bg-light text-center align-items-center justify-content-center py-2"
-                          >
-                            <div class="col-6">
-                              <p class="mb-0">Min Weight</p>
-                            </div>
-                            <div class="col-6">
-                              <p class="mb-0">250 Kg</p>
                             </div>
                           </div>
                         </div>
@@ -296,7 +304,7 @@ uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
                     <div class="d-flex">
                       <img
                         src="/client/img/avatar.jpg"
-                        class="img-fluid rounded-circle p-3"
+                        class="img-fluid rounded-circle p-3 object-fit-cover"
                         style="width: 100px; height: 100px"
                         alt=""
                       />
@@ -307,10 +315,10 @@ uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
                         <div class="d-flex justify-content-between">
                           <h5>Jason Smith</h5>
                           <div class="d-flex mb-3">
-                            <i class="fa fa-star text-secondary"></i>
-                            <i class="fa fa-star text-secondary"></i>
-                            <i class="fa fa-star text-secondary"></i>
-                            <i class="fa fa-star text-secondary"></i>
+                            <i class="fa fa-star text-warning"></i>
+                            <i class="fa fa-star text-warning"></i>
+                            <i class="fa fa-star text-warning"></i>
+                            <i class="fa fa-star text-warning"></i>
                             <i class="fa fa-star"></i>
                           </div>
                         </div>
@@ -325,7 +333,7 @@ uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
                     <div class="d-flex">
                       <img
                         src="/client/img/avatar.jpg"
-                        class="img-fluid rounded-circle p-3"
+                        class="img-fluid rounded-circle p-3 object-fit-cover"
                         style="width: 100px; height: 100px"
                         alt=""
                       />
@@ -336,9 +344,9 @@ uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
                         <div class="d-flex justify-content-between">
                           <h5>Sam Peters</h5>
                           <div class="d-flex mb-3">
-                            <i class="fa fa-star text-secondary"></i>
-                            <i class="fa fa-star text-secondary"></i>
-                            <i class="fa fa-star text-secondary"></i>
+                            <i class="fa fa-star text-warning"></i>
+                            <i class="fa fa-star text-warning"></i>
+                            <i class="fa fa-star text-warning"></i>
                             <i class="fa fa-star"></i>
                             <i class="fa fa-star"></i>
                           </div>
@@ -460,7 +468,7 @@ uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
                       <a href="/product/${product.id}"
                         ><img
                           src="/images/product/${product.image}"
-                          class="img-fluid rounded"
+                          class="img-fluid rounded object-fit-cover"
                           alt="Image"
                       /></a>
                     </div>
@@ -469,10 +477,10 @@ uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
                         >${product.name}</a
                       >
                       <div class="d-flex mb-2">
-                        <i class="fa fa-star text-secondary"></i>
-                        <i class="fa fa-star text-secondary"></i>
-                        <i class="fa fa-star text-secondary"></i>
-                        <i class="fa fa-star text-secondary"></i>
+                        <i class="fa fa-star text-warning"></i>
+                        <i class="fa fa-star text-warning"></i>
+                        <i class="fa fa-star text-warning"></i>
+                        <i class="fa fa-star text-warning"></i>
                         <i class="fa fa-star"></i>
                       </div>
                       <div class="d-flex mb-2">
@@ -494,18 +502,19 @@ uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
               <div class="col-lg-12">
                 <div class="position-relative">
                   <img
-                    src="/client/img/banner-fruits.jpg"
-                    class="img-fluid w-100 rounded"
+                    src="/images/others/baby-banner.webp"
+                    class="img-fluid w-100 rounded object-fit-cover"
                     alt=""
                   />
                   <div
                     class="position-absolute"
                     style="top: 50%; right: 10px; transform: translateY(-50%)"
                   >
-                    <h3 class="text-secondary fw-bold">
-                      Fresh <br />
-                      Fruits <br />
-                      Banner
+                    <h3 class="text-white fw-bold">
+                      Bộ <br />
+                      Sưu <br />
+                      Tập <br />
+                      Mới
                     </h3>
                   </div>
                 </div>
@@ -527,7 +536,7 @@ uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
                   <a href="/product/${product.id}"
                     ><img
                       src="/images/product/${product.image}"
-                      class="img-fluid w-100 rounded-top"
+                      class="img-fluid w-100 rounded-top object-fit-cover"
                       alt=""
                   /></a>
                 </div>
@@ -554,12 +563,14 @@ uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
                       />
                       đ
                     </p>
-                    <a
+                    <button
                       href="#"
-                      class="btn border border-secondary rounded-pill px-3 py-1 mb-4 text-primary"
-                      ><i class="fa fa-shopping-bag me-2 text-primary"></i>Thêm
-                      vào giỏ hàng</a
+                      class="btn border border-secondary rounded-pill px-3 py-1 mb-4 text-primary add-to-cart-btn"
+                      data-product-id="${product.id}"
                     >
+                      <i class="fa fa-shopping-bag me-2 text-primary"></i>Thêm
+                      vào giỏ hàng
+                    </button>
                   </div>
                 </div>
               </div>
@@ -580,6 +591,12 @@ uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
       ><i class="fa fa-arrow-up"></i
     ></a>
 
+    <!-- alert modal cho biết thành công/thất bại khi add to cart -->
+    <jsp:include page="../layout/alertModal.jsp" />
+
+    <!-- size modal for related products -->
+    <jsp:include page="../layout/sizeModal.jsp" />
+
     <!-- JavaScript Libraries -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
@@ -590,5 +607,86 @@ uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 
     <!-- Template Javascript -->
     <script src="/client/js/main.js"></script>
+
+    <script>
+      $(document).ready(function () {
+        if ("${addedProduct}" && "${addedSize}") {
+          $("#alert-modal").modal("show");
+        }
+
+        $(".quantity button")
+          .off("click")
+          .on("click", function (e) {
+            e.preventDefault();
+            const input = $("#quantity-input");
+            const quantity = parseInt(input.val());
+            const button = $(this);
+
+            if (button.hasClass("btn-minus") && quantity > 1) {
+              input.val(quantity - 1);
+            } else if (button.hasClass("btn-plus")) {
+              input.val(quantity + 1);
+            }
+          });
+
+        $(".add-to-cart-btn").click(function () {
+          if ("${userId}") {
+            $("#rightSideModal").modal("show");
+          } else {
+            window.location.href = "/login";
+          }
+        });
+
+        $(".add-to-cart-btn").click(function () {
+          const productId = $(this).data("product-id");
+
+          // Make an AJAX request to fetch the sizes for the selected product
+          $.ajax({
+            url: "/api/product", // URL to fetch sizes
+            method: "GET",
+            data: { id: productId },
+            timeout: 600000,
+            success: function (product) {
+              console.log({ product });
+              console.log(product.image);
+              $("#size-modal-form").attr(
+                "action",
+                "/add-product-to-cart/" + product.id
+              );
+              $("#size-modal-img").attr(
+                "src",
+                "/images/product/" + product.image
+              );
+              $("#size-modal-name").text(product.name);
+              $("#size-modal-brand").text(product.brand);
+              const sizeSelect = $("#size-modal-size-radios");
+              sizeSelect.empty();
+              $.each(product.sizes, function (index, size) {
+                const sizeTag =
+                  "<label for=size-" +
+                  size.id +
+                  ' class="size-tag col-auto me-2 mb-2">' +
+                  size.name +
+                  '<input required id="size-' +
+                  size.id +
+                  '" type="radio" name="sizeId" value="' +
+                  size.id +
+                  '" class="d-none"/></label>';
+                sizeSelect.append(sizeTag);
+              });
+              $("#size-modal-price").text(
+                new Intl.NumberFormat("vi-VN", {
+                  style: "currency",
+                  currency: "VND",
+                }).format(parseFloat(product.price))
+              );
+            },
+            error: function () {
+              alert("Something errors, please try again later!");
+            },
+          });
+        });
+      });
+    </script>
   </body>
 </html>

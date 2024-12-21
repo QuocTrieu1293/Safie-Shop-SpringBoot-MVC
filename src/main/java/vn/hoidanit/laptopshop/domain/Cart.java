@@ -18,7 +18,7 @@ public class Cart {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private long id;
-  @Min(value = 0)
+  // @Min(value = 0)
   private int sum;
   // user_id
   @OneToOne()
