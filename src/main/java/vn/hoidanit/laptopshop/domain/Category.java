@@ -1,6 +1,5 @@
 package vn.hoidanit.laptopshop.domain;
 
-import java.io.Serializable;
 import java.util.Set;
 
 import jakarta.persistence.Column;

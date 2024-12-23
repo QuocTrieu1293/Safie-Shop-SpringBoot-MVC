@@ -3,6 +3,7 @@ package vn.hoidanit.laptopshop.controller.client;
 import java.util.List;
 
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -17,6 +18,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
+import vn.hoidanit.laptopshop.domain.Product;
 import vn.hoidanit.laptopshop.domain.User;
 import vn.hoidanit.laptopshop.domain.dto.RegisterDTO;
 import vn.hoidanit.laptopshop.repository.RoleRepository;
@@ -45,7 +47,8 @@ public class HomePageController {
   @GetMapping("/")
   public String getHomePage(Model model, HttpServletRequest request) {
 
-    model.addAttribute("products", productService.getAll());
+    List<Product> products = productService.getPage(PageRequest.of(0, 8)).getContent();
+    model.addAttribute("products", products);
 
     return "client/homepage/show";
   }

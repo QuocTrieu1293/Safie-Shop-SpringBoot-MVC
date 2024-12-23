@@ -174,8 +174,12 @@ uri="http://www.springframework.org/tags/form" %>
                       <button class="btn-remove btn-close"></button>
                       <img
                         alt="avatar preview"
-                        style="max-width: 180px; aspect-ratio: 3/4"
-                        class="img-thumbnail object-fit-cover"
+                        style="
+                          max-width: 180px;
+                          aspect-ratio: 3/4;
+                          object-fit: cover;
+                        "
+                        class="img-thumbnail"
                       />
                     </div>
                   </div>

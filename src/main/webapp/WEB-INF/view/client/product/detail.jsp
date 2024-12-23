@@ -83,7 +83,6 @@ uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
   </head>
 
   <body>
-    <c:set var="view" value="product detail" scope="session" />
     <!-- Spinner Start -->
     <div
       id="spinner"
@@ -97,9 +96,9 @@ uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 
     <!-- Single Product Start -->
     <div class="container-fluid" style="margin-top: 180px">
-      <div class="container py-4">
+      <div class="container py-md-4">
         <nav aria-label="breadcrumb">
-          <ol class="breadcrumb mb-3">
+          <ol class="breadcrumb mb-5">
             <li class="breadcrumb-item"><a href="/">Trang chủ</a></li>
             <li class="breadcrumb-item active">Chi tiết sản phẩm</li>
           </ol>
@@ -118,7 +117,8 @@ uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
                     <a href="#">
                       <img
                         src="/images/product/${product.image}"
-                        class="img-fluid rounded object-fit-cover"
+                        class="img-fluid rounded"
+                        style="object-fit: cover"
                         alt="Image"
                       />
                     </a>
@@ -304,8 +304,8 @@ uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
                     <div class="d-flex">
                       <img
                         src="/client/img/avatar.jpg"
-                        class="img-fluid rounded-circle p-3 object-fit-cover"
-                        style="width: 100px; height: 100px"
+                        class="img-fluid rounded-circle p-3"
+                        style="width: 100px; height: 100px; object-fit: cover"
                         alt=""
                       />
                       <div class="">
@@ -333,8 +333,8 @@ uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
                     <div class="d-flex">
                       <img
                         src="/client/img/avatar.jpg"
-                        class="img-fluid rounded-circle p-3 object-fit-cover"
-                        style="width: 100px; height: 100px"
+                        class="img-fluid rounded-circle p-3"
+                        style="width: 100px; height: 100px; object-fit: cover"
                         alt=""
                       />
                       <div class="">
@@ -468,7 +468,8 @@ uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
                       <a href="/product/${product.id}"
                         ><img
                           src="/images/product/${product.image}"
-                          class="img-fluid rounded object-fit-cover"
+                          class="img-fluid rounded"
+                          style="object-fit: cover"
                           alt="Image"
                       /></a>
                     </div>
@@ -503,7 +504,8 @@ uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
                 <div class="position-relative">
                   <img
                     src="/images/others/baby-banner.webp"
-                    class="img-fluid w-100 rounded object-fit-cover"
+                    class="img-fluid w-100 rounded"
+                    style="object-fit: cover"
                     alt=""
                   />
                   <div
@@ -536,7 +538,8 @@ uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
                   <a href="/product/${product.id}"
                     ><img
                       src="/images/product/${product.image}"
-                      class="img-fluid w-100 rounded-top object-fit-cover"
+                      class="img-fluid w-100 rounded-top"
+                      style="object-fit: cover"
                       alt=""
                   /></a>
                 </div>

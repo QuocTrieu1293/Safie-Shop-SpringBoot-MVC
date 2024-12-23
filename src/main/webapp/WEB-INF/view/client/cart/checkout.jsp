@@ -62,9 +62,9 @@ uri="http://www.springframework.org/tags/form" prefix="form"%>
 
     <!-- Checkout Page Start -->
     <div class="container-fluid" style="margin-top: 180px">
-      <div class="container py-4">
+      <div class="container py-md-4">
         <nav aria-label="breadcrumb">
-          <ol class="breadcrumb mb-3">
+          <ol class="breadcrumb mb-5">
             <li class="breadcrumb-item"><a href="/">Trang chủ</a></li>
             <li class="breadcrumb-item">
               <a href="/cart">Giỏ hàng</a>
@@ -172,8 +172,12 @@ uri="http://www.springframework.org/tags/form" prefix="form"%>
                           <div class="d-flex align-items-center mt-3">
                             <img
                               src="/images/product/${item.product.image}"
-                              class="img-fluid rounded-circle object-fit-cover"
-                              style="width: 100px; height: 100px"
+                              class="img-fluid rounded-circle"
+                              style="
+                                width: 100px;
+                                height: 100px;
+                                object-fit: cover;
+                              "
                               alt=""
                             />
                           </div>

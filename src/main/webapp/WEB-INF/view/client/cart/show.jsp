@@ -50,8 +50,6 @@ uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
   </head>
 
   <body>
-    <c:set var="view" value="cart" scope="session" />
-
     <!-- Spinner Start -->
     <div
       id="spinner"
@@ -66,9 +64,9 @@ uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
     <!-- Cart Page Start -->
 
     <div class="container-fluid" style="margin-top: 180px">
-      <div class="container py-4">
+      <div class="container py-md-4">
         <nav aria-label="breadcrumb">
-          <ol class="breadcrumb mb-3">
+          <ol class="breadcrumb mb-5">
             <li class="breadcrumb-item"><a href="/">Trang chủ</a></li>
             <li class="breadcrumb-item active">Giỏ hàng</li>
           </ol>
@@ -95,8 +93,12 @@ uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
                         <div class="d-flex align-items-center">
                           <img
                             src="/images/product/${item.product.image}"
-                            class="img-fluid rounded-circle m-2 object-fit-cover"
-                            style="width: 100px; height: 100px"
+                            class="img-fluid rounded-circle m-2"
+                            style="
+                              width: 100px;
+                              height: 100px;
+                              object-fit: cover;
+                            "
                             alt=""
                           />
                         </div>

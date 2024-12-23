@@ -3,6 +3,8 @@ package vn.hoidanit.laptopshop.controller.admin;
 import java.util.List;
 
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -16,17 +18,16 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import jakarta.validation.Valid;
-import vn.hoidanit.laptopshop.domain.Role;
 import vn.hoidanit.laptopshop.domain.User;
 import vn.hoidanit.laptopshop.service.FileService;
-import vn.hoidanit.laptopshop.service.RoleService;
 import vn.hoidanit.laptopshop.service.FileService.Type;
+import vn.hoidanit.laptopshop.service.RoleService;
 import vn.hoidanit.laptopshop.service.UserService;
+import vn.hoidanit.laptopshop.service.UtilsService;
 
 @Controller
 // @SessionAttributes("roles")
@@ -35,6 +36,7 @@ public class UserController {
   final private UserService userService;
   final private FileService fileService;
   final private RoleService roleService;
+  private final UtilsService utilsService;
 
   @InitBinder
   public void initBinder(WebDataBinder binder) {
@@ -46,10 +48,12 @@ public class UserController {
   // return roleService.getAll();
   // }
 
-  public UserController(UserService userService, FileService fileService, RoleService roleService) {
+  public UserController(UserService userService, FileService fileService, RoleService roleService,
+      UtilsService utilsService) {
     this.userService = userService;
     this.fileService = fileService;
     this.roleService = roleService;
+    this.utilsService = utilsService;
   }
 
   // @RequestMapping("/")
@@ -64,9 +68,15 @@ public class UserController {
   // }
 
   @RequestMapping("/admin/user")
-  public String getUserPage(Model model) {
-    List<User> userList = userService.getAll();
+  public String getUserPage(Model model, @RequestParam(defaultValue = "1") String page) {
+
+    Pageable pageable = utilsService.getPageable(page, 4);
+    Page<User> pagedUser = userService.getPage(pageable);
+    List<User> userList = pagedUser.getContent();
     model.addAttribute("userList", userList);
+    model.addAttribute("totalPages", pagedUser.getTotalPages());
+    model.addAttribute("currentPage", pageable.getPageNumber() + 1);
+
     return "admin/user/show";
   }
 

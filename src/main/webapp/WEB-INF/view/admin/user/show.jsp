@@ -18,6 +18,10 @@ uri="http://java.sun.com/jsp/jstl/core" %>
       rel="stylesheet"
     />
     <link href="/css/styles.css" rel="stylesheet" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    />
     <script
       src="https://use.fontawesome.com/releases/v6.3.0/js/all.js"
       crossorigin="anonymous"
@@ -87,10 +91,10 @@ uri="http://java.sun.com/jsp/jstl/core" %>
                     </c:if>
                     <c:forEach var="user" items="${userList}">
                       <tr>
-                        <td>${user.id}</td>
+                        <td class="text-center fw-bold">${user.id}</td>
                         <td>${user.email}</td>
                         <td>${user.fullName}</td>
-                        <td>${user.role.name}</td>
+                        <td class="text-center">${user.role.name}</td>
                         <td>
                           <a
                             href="/admin/user/${user.id}"
@@ -112,6 +116,45 @@ uri="http://java.sun.com/jsp/jstl/core" %>
                     </c:forEach>
                   </tbody>
                 </table>
+                <c:if test="${not empty userList && totalPages > 1}">
+                  <nav aria-label="User pages navigation">
+                    <ul class="pagination justify-content-center">
+                      <li
+                        class="page-item ${currentPage == 1 ? 'disabled' : ''}"
+                      >
+                        <a
+                          class="page-link"
+                          href="/admin/user?page=${currentPage - 1}"
+                          aria-label="Previous"
+                        >
+                          <i class="bi bi-chevron-left"></i>
+                        </a>
+                      </li>
+                      <c:forEach begin="1" end="${totalPages}" varStatus="loop">
+                        <li
+                          class="page-item ${currentPage == loop.index ? 'active' : ''}"
+                        >
+                          <a
+                            class="page-link"
+                            href="/admin/user?page=${loop.index}"
+                            >${loop.index}</a
+                          >
+                        </li>
+                      </c:forEach>
+                      <li
+                        class="page-item ${currentPage == totalPages ? 'disabled' : ''}"
+                      >
+                        <a
+                          class="page-link"
+                          href="/admin/user?page=${currentPage + 1}"
+                          aria-label="Next"
+                        >
+                          <i class="bi bi-chevron-right"></i>
+                        </a>
+                      </li>
+                    </ul>
+                  </nav>
+                </c:if>
               </div>
             </div>
           </div>

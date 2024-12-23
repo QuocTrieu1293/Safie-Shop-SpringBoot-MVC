@@ -69,7 +69,7 @@ uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
     <!-- Page Start -->
 
     <div class="container-fluid" style="margin-top: 180px">
-      <div class="container py-4">
+      <div class="container py-md-4">
         <h1 class="text-center fw-bold" style="font-size: 50px">CẢM ƠN BẠN!</h1>
 
         <div

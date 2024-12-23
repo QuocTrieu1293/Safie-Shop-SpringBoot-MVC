@@ -91,7 +91,8 @@
           </div>
           <img
             src="/client/img/payment.png"
-            class="img-fluid object-fit-cover"
+            class="img-fluid"
+            style="object-fit: cover"
             alt=""
           />
         </div>
@@ -133,7 +134,8 @@
             ><img
               src="/images/others/shopee.png"
               alt=""
-              class="object-fit-cover"
+              class=""
+              style="object-fit: cover"
           /></a>
         </div>
       </div>

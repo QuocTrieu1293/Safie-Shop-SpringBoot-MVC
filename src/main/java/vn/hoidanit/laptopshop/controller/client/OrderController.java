@@ -4,7 +4,6 @@ import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,6 +20,7 @@ import vn.hoidanit.laptopshop.domain.dto.CheckoutDTO;
 import vn.hoidanit.laptopshop.repository.OrderRepository;
 import vn.hoidanit.laptopshop.service.CartService;
 import vn.hoidanit.laptopshop.service.OrderService;
+import vn.hoidanit.laptopshop.service.UserService;
 import vn.hoidanit.laptopshop.service.VNPayService;
 
 @Controller("clientOrderController")
@@ -30,13 +30,15 @@ public class OrderController {
   private final OrderRepository orderRepository;
   private final OrderService orderService;
   private final VNPayService vNPayService;
+  private final UserService userService;
 
   public OrderController(CartService cartService, OrderRepository orderRepository,
-      OrderService orderService, VNPayService vnPayService) {
+      OrderService orderService, VNPayService vnPayService, UserService userService) {
     this.cartService = cartService;
     this.orderRepository = orderRepository;
     this.orderService = orderService;
     this.vNPayService = vnPayService;
+    this.userService = userService;
   }
 
   @GetMapping("/checkout")
@@ -95,9 +97,12 @@ public class OrderController {
   }
 
   @GetMapping("/order-history")
-  public String getOrderHistoryPage(Model model) {
+  public String getOrderHistoryPage(Model model, HttpServletRequest request) {
 
-    List<Order> orders = orderRepository.findAll();
+    HttpSession session = request.getSession();
+    long userId = (long) session.getAttribute("userId");
+
+    List<Order> orders = userService.getOrders(userId);
     model.addAttribute("orders", orders);
 
     return "client/order/history";

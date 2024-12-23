@@ -36,14 +36,9 @@ public class CartController {
 
   @GetMapping("/cart")
   public String getCartDetailPage(HttpServletRequest request, Model model) {
+
     HttpSession session = request.getSession();
-
-    if (session == null)
-      return "redirect:/login";
-
     Long userId = (Long) session.getAttribute("userId");
-    if (userId == null)
-      return "redirect:/login";
 
     Cart cart = userService.getCart(userId);
     List<CartDetail> cartItems = cart.getCartDetails();

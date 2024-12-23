@@ -69,7 +69,8 @@ uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
                 id="size-modal-img"
                 src="/images/avatar/user_placeholder.png"
                 alt=""
-                class="img-fluid object-fit-cover"
+                class="img-fluid"
+                style="object-fit: cover"
               />
             </div>
             <div class="col-8">

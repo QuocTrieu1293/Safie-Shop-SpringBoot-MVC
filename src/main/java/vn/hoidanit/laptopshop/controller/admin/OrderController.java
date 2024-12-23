@@ -1,10 +1,11 @@
 package vn.hoidanit.laptopshop.controller.admin;
 
-import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,22 +18,30 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import vn.hoidanit.laptopshop.domain.Order;
 import vn.hoidanit.laptopshop.repository.OrderRepository;
 import vn.hoidanit.laptopshop.service.OrderService;
+import vn.hoidanit.laptopshop.service.UtilsService;
 
 @Controller
 public class OrderController {
   private final OrderRepository orderRepository;
   private final OrderService orderService;
+  private final UtilsService utilsService;
 
-  OrderController(OrderRepository orderRepository, OrderService orderService) {
+  OrderController(OrderRepository orderRepository, OrderService orderService, UtilsService utilsService) {
     this.orderRepository = orderRepository;
     this.orderService = orderService;
+    this.utilsService = utilsService;
   }
 
   @GetMapping("/admin/order")
-  public String getOrderPage(Model model) {
-    List<Order> orders = orderRepository.findAll();
+  public String getOrderPage(Model model, @RequestParam(defaultValue = "1") String page) {
+
+    Pageable pageable = utilsService.getPageable(page, 4);
+    Page<Order> pagedOrder = orderRepository.findAll(pageable);
+    List<Order> orders = pagedOrder.getContent();
     model.addAttribute("orders", orders);
-    model.addAttribute("localDateTimeFormat", new SimpleDateFormat("dd/MM/yyyy HH:mm"));
+    model.addAttribute("totalPages", pagedOrder.getTotalPages());
+    model.addAttribute("currentPage", pageable.getPageNumber() + 1);
+
     return "admin/order/show";
   }
 

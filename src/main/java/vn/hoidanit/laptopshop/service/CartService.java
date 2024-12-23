@@ -6,7 +6,6 @@ import org.springframework.stereotype.Service;
 
 import vn.hoidanit.laptopshop.domain.Cart;
 import vn.hoidanit.laptopshop.domain.CartDetail;
-import vn.hoidanit.laptopshop.domain.Product;
 import vn.hoidanit.laptopshop.repository.CartRepository;
 
 @Service

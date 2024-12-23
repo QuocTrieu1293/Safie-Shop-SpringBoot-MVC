@@ -94,7 +94,8 @@ uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
                       <img
                         src="/images/product/${item.product.image}"
                         alt=""
-                        class="img-fluid rounded object-fit-cover"
+                        class="img-fluid rounded"
+                        style="object-fit: cover"
                       />
                     </td>
                     <td class="">

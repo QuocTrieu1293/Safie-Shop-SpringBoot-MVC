@@ -13,6 +13,8 @@ import vn.hoidanit.laptopshop.domain.Order;
 public interface OrderRepository extends JpaRepository<Order, Long> {
   Order save(Order order);
 
+  List<Order> findByUserId(long userId);
+
   Order findByPaymentRef(String paymentRef);
 
   @Query("select o from Order o where cast(o.id as string) = :keyword or exists("

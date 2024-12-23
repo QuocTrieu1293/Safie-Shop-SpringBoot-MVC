@@ -28,8 +28,8 @@ uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
       referrerpolicy="no-referrer"
     />
     <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css"
       rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
     />
 
     <!-- Libraries Stylesheet -->
@@ -59,8 +59,6 @@ uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
   </head>
 
   <body>
-    <c:set var="view" value="homepage" scope="session" />
-
     <!-- Spinner Start -->
     <div
       id="spinner"
@@ -92,7 +90,8 @@ uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
                 <div class="carousel-item active rounded">
                   <img
                     src="/images/others/embe1.jpg"
-                    class="img-fluid w-100 h-100 bg-secondary rounded object-fit-cover"
+                    class="img-fluid w-100 h-100 bg-secondary rounded"
+                    style="object-fit: cover"
                     alt="First slide"
                   />
                   <a href="#" class="btn px-4 py-2 text-white rounded fs-5"
@@ -102,7 +101,8 @@ uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
                 <div class="carousel-item rounded">
                   <img
                     src="/images/others/embe2.jpg"
-                    class="img-fluid w-100 h-100 rounded object-fit-cover"
+                    class="img-fluid w-100 h-100 rounded"
+                    style="object-fit: cover"
                     alt="Second slide"
                   />
                   <a href="#" class="btn px-4 py-2 text-white rounded fs-5"
@@ -112,7 +112,8 @@ uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
                 <div class="carousel-item rounded">
                   <img
                     src="/images/others/embe3.jpg"
-                    class="img-fluid w-100 h-100 rounded object-fit-cover"
+                    class="img-fluid w-100 h-100 rounded"
+                    style="object-fit: cover"
                     alt="Second slide"
                   />
                   <a href="#" class="btn px-4 py-2 text-white rounded fs-5"
@@ -122,7 +123,8 @@ uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
                 <div class="carousel-item rounded">
                   <img
                     src="/images/others/embe4.webp"
-                    class="img-fluid w-100 h-100 rounded object-fit-cover"
+                    class="img-fluid w-100 h-100 rounded"
+                    style="object-fit: cover"
                     alt="Second slide"
                   />
                 </div>
@@ -162,26 +164,17 @@ uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
     <div class="container-fluid fruite py-2">
       <div class="container py-5">
         <div class="tab-class text-center">
-          <div class="row g-4">
-            <div class="col-lg-4 text-start">
+          <div class="row mb-3 g-2 gx-4">
+            <div class="col-auto align-content-center">
               <h1>Sản phẩm Organic</h1>
             </div>
-            <div class="col-lg-8 text-end">
-              <ul
-                class="nav nav-pills d-inline-flex text-center mb-5 justify-content-end"
-              >
-                <li class="nav-item">
-                  <a
-                    class="d-flex m-2 py-2 bg-light rounded-pill active"
-                    data-bs-toggle="pill"
-                    href="#tab-1"
-                  >
-                    <span class="text-dark fw-bold" style="width: 130px"
-                      >Xem thêm</span
-                    >
-                  </a>
-                </li>
-              </ul>
+            <div class="col text-end align-content-center">
+              <a
+                href="/products"
+                class="rounded-pill px-3 py-2 bg-secondary fw-bold text-dark text-nowrap"
+                style="width: 130px"
+                >Xem thêm <i class="bi bi-arrow-right-short fs-5"></i
+              ></a>
             </div>
           </div>
           <div class="tab-content">
@@ -199,7 +192,8 @@ uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
                             <div class="fruite-img">
                               <img
                                 src="/images/product/${product.image}"
-                                class="img-fluid w-100 rounded-top object-fit-cover"
+                                class="img-fluid w-100 rounded-top"
+                                style="object-fit: cover"
                                 alt="product thumbnail"
                               />
                             </div>

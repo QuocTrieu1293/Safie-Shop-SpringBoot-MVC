@@ -2,6 +2,8 @@ package vn.hoidanit.laptopshop.service;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import vn.hoidanit.laptopshop.domain.Cart;
@@ -37,6 +39,10 @@ public class ProductService {
 
   public List<Product> getAll() {
     return productRepository.findAll();
+  }
+
+  public Page<Product> getPage(Pageable pageable) {
+    return productRepository.findAll(pageable);
   }
 
   public Product get(long id) {

@@ -294,7 +294,8 @@ uri="http://www.springframework.org/tags/form" %>
                       <!-- <button class="btn-remove btn-close"></button> -->
                       <img
                         alt="image preview"
-                        class="img-fluid rounded object-fit-cover"
+                        class="img-fluid rounded"
+                        style="object-fit: cover"
                         src="/images/product/${not empty product.image ? product.image : ''}"
                       />
                     </div>

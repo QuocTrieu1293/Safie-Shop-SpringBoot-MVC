@@ -66,8 +66,6 @@ uri="http://sargue.net/jsptags/time" prefix="javatime" %>
   </head>
 
   <body>
-    <c:set var="view" value="orderHistory" scope="session" />
-
     <!-- Spinner Start -->
     <div
       id="spinner"
@@ -82,9 +80,9 @@ uri="http://sargue.net/jsptags/time" prefix="javatime" %>
     <!-- Cart Page Start -->
 
     <div class="container-fluid" style="margin-top: 180px">
-      <div class="container py-4">
+      <div class="container py-md-4">
         <nav aria-label="breadcrumb">
-          <ol class="breadcrumb mb-3">
+          <ol class="breadcrumb mb-5">
             <li class="breadcrumb-item"><a href="/">Trang chủ</a></li>
             <li class="breadcrumb-item active">Lịch sử đơn hàng</li>
           </ol>

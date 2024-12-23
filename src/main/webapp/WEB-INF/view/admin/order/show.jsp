@@ -20,6 +20,10 @@ uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
       rel="stylesheet"
     />
     <link href="/css/styles.css" rel="stylesheet" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    />
     <script
       src="https://use.fontawesome.com/releases/v6.3.0/js/all.js"
       crossorigin="anonymous"
@@ -155,6 +159,43 @@ uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
                 </c:forEach>
               </tbody>
             </table>
+            <c:if test="${not empty orders && totalPages > 1}">
+              <nav aria-label="Order pages navigation">
+                <ul class="pagination justify-content-center">
+                  <li class="page-item ${currentPage == 1 ? 'disabled' : ''}">
+                    <a
+                      class="page-link"
+                      href="/admin/order?page=${currentPage - 1}"
+                      aria-label="Previous"
+                    >
+                      <i class="bi bi-chevron-left"></i>
+                    </a>
+                  </li>
+                  <c:forEach begin="1" end="${totalPages}" varStatus="loop">
+                    <li
+                      class="page-item ${currentPage == loop.index ? 'active' : ''}"
+                    >
+                      <a
+                        class="page-link"
+                        href="/admin/order?page=${loop.index}"
+                        >${loop.index}</a
+                      >
+                    </li>
+                  </c:forEach>
+                  <li
+                    class="page-item ${currentPage == totalPages ? 'disabled' : ''}"
+                  >
+                    <a
+                      class="page-link"
+                      href="/admin/order?page=${currentPage + 1}"
+                      aria-label="Next"
+                    >
+                      <i class="bi bi-chevron-right"></i>
+                    </a>
+                  </li>
+                </ul>
+              </nav>
+            </c:if>
           </div>
         </main>
         <jsp:include page="../layout/footer.jsp" />

@@ -71,22 +71,10 @@ uri="http://java.sun.com/jsp/jstl/core" %>
         id="navbarCollapse"
       >
         <div class="navbar-nav fw-bold">
-          <a
-            href="/"
-            class="nav-item nav-link ${view == 'homepage' ? 'active' : ''}"
-            >Trang chủ</a
-          >
-          <a
-            href="shop.html"
-            class="nav-item nav-link ${view == 'products' ? 'active' : ''}"
-            >Sản phẩm</a
-          >
+          <a href="/" class="nav-item nav-link">Trang chủ</a>
+          <a href="/products" class="nav-item nav-link">Sản phẩm</a>
           <!-- <a href="shop-detail.html" class="nav-item nav-link "></a> -->
-          <a
-            href="contact.html"
-            class="nav-item nav-link ${view == 'contact' ? 'active' : ''}"
-            >Liên hệ</a
-          >
+          <a href="#" class="nav-item nav-link">Liên hệ</a>
           <div class="nav-item dropdown">
             <a
               href="#"
@@ -96,11 +84,9 @@ uri="http://java.sun.com/jsp/jstl/core" %>
               >Khác</a
             >
             <div class="dropdown-menu m-0 bg-secondary rounded-0">
-              <a href="cart.html" class="dropdown-item">Giới thiệu</a>
-              <a href="chackout.html" class="dropdown-item">Bài viết</a>
-              <a href="testimonial.html" class="dropdown-item"
-                >Đánh giá từ khách hàng</a
-              >
+              <a href="#" class="dropdown-item">Giới thiệu</a>
+              <a href="#" class="dropdown-item">Bài viết</a>
+              <a href="#" class="dropdown-item">Đánh giá từ khách hàng</a>
             </div>
           </div>
           <!-- <div style="color: red">${view}</div> -->

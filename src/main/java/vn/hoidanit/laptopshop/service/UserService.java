@@ -2,14 +2,17 @@ package vn.hoidanit.laptopshop.service;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import vn.hoidanit.laptopshop.domain.Cart;
-import vn.hoidanit.laptopshop.domain.Role;
+import vn.hoidanit.laptopshop.domain.Order;
 import vn.hoidanit.laptopshop.domain.User;
 import vn.hoidanit.laptopshop.domain.dto.RegisterDTO;
 import vn.hoidanit.laptopshop.repository.CartRepository;
+import vn.hoidanit.laptopshop.repository.OrderRepository;
 import vn.hoidanit.laptopshop.repository.UserRepository;
 
 @Service
@@ -17,11 +20,14 @@ public class UserService {
   private final UserRepository userRepository;
   private final PasswordEncoder passwordEncoder;
   private final CartRepository cartRepository;
+  private final OrderRepository orderRepository;
 
-  public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, CartRepository cartRepository) {
+  public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, CartRepository cartRepository,
+      OrderRepository orderRepository) {
     this.userRepository = userRepository;
     this.passwordEncoder = passwordEncoder;
     this.cartRepository = cartRepository;
+    this.orderRepository = orderRepository;
   }
 
   public User registerUser(User user) {
@@ -53,6 +59,10 @@ public class UserService {
   public List<User> getAll() {
     List<User> userList = userRepository.findAll();
     return userList;
+  }
+
+  public Page<User> getPage(Pageable pageable) {
+    return userRepository.findAll(pageable);
   }
 
   public User get(long id) {
@@ -96,6 +106,10 @@ public class UserService {
     cart = cartRepository.save(cart);
 
     return cart;
+  }
+
+  public List<Order> getOrders(long id) {
+    return orderRepository.findByUserId(id);
   }
 
 }

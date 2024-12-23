@@ -1,5 +1,6 @@
 <%@page contentType="text/html" pageEncoding="UTF-8" %> <%@ taglib prefix="c"
-uri="http://java.sun.com/jsp/jstl/core" %>
+uri="http://java.sun.com/jsp/jstl/core" %> <%@ taglib
+uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -18,6 +19,10 @@ uri="http://java.sun.com/jsp/jstl/core" %>
       rel="stylesheet"
     />
     <link href="/css/styles.css" rel="stylesheet" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    />
     <script
       src="https://use.fontawesome.com/releases/v6.3.0/js/all.js"
       crossorigin="anonymous"
@@ -98,13 +103,20 @@ uri="http://java.sun.com/jsp/jstl/core" %>
                         <td class="text-nowrap text-center">
                           ${product.category.name}
                         </td>
-                        <td class="text-center">${product.price}</td>
+                        <td class="text-center">
+                          <fmt:formatNumber
+                            type="number"
+                            value="${product.price}"
+                          />
+                          đ
+                        </td>
                         <td class="text-center">${product.quantity}</td>
                         <td>
                           <img
                             src="/images/product/${product.image}"
                             alt="product image"
-                            class="img-fluid rounded object-fit-cover"
+                            class="img-fluid rounded"
+                            style="object-fit: cover"
                           />
                         </td>
                         <td>
@@ -130,6 +142,45 @@ uri="http://java.sun.com/jsp/jstl/core" %>
                     </c:forEach>
                   </tbody>
                 </table>
+                <c:if test="${not empty productList && totalPages > 1}">
+                  <nav aria-label="Product pages navigation">
+                    <ul class="pagination justify-content-center">
+                      <li
+                        class="page-item ${currentPage == 1 ? 'disabled' : ''}"
+                      >
+                        <a
+                          class="page-link"
+                          href="/admin/product?page=${currentPage - 1}"
+                          aria-label="Previous"
+                        >
+                          <i class="bi bi-chevron-left"></i>
+                        </a>
+                      </li>
+                      <c:forEach begin="1" end="${totalPages}" varStatus="loop">
+                        <li
+                          class="page-item ${currentPage == loop.index ? 'active' : ''}"
+                        >
+                          <a
+                            class="page-link"
+                            href="/admin/product?page=${loop.index}"
+                            >${loop.index}</a
+                          >
+                        </li>
+                      </c:forEach>
+                      <li
+                        class="page-item ${currentPage == totalPages ? 'disabled' : ''}"
+                      >
+                        <a
+                          class="page-link"
+                          href="/admin/product?page=${currentPage + 1}"
+                          aria-label="Next"
+                        >
+                          <i class="bi bi-chevron-right"></i>
+                        </a>
+                      </li>
+                    </ul>
+                  </nav>
+                </c:if>
               </div>
             </div>
           </div>

@@ -3,6 +3,8 @@ package vn.hoidanit.laptopshop.controller.admin;
 import java.util.List;
 
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -19,47 +21,57 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import jakarta.validation.Valid;
 import vn.hoidanit.laptopshop.domain.Product;
-import vn.hoidanit.laptopshop.service.BrandService;
-import vn.hoidanit.laptopshop.service.CategoryService;
+import vn.hoidanit.laptopshop.repository.BrandRepository;
+import vn.hoidanit.laptopshop.repository.CategoryRepository;
+import vn.hoidanit.laptopshop.repository.SizeRepository;
 import vn.hoidanit.laptopshop.service.FileService;
 import vn.hoidanit.laptopshop.service.FileService.Type;
 import vn.hoidanit.laptopshop.service.ProductService;
-import vn.hoidanit.laptopshop.service.SizeService;
+import vn.hoidanit.laptopshop.service.UtilsService;
 
 @Controller("adminProductController")
 public class ProductController {
 
   private final ProductService productService;
-  private final CategoryService categoryService;
-  private final BrandService brandService;
-  private final SizeService sizeService;
+  private final CategoryRepository categoryRepository;
+  private final BrandRepository brandRepository;
+  private final SizeRepository sizeRepository;
   private final FileService fileService;
+  private final UtilsService utilsService;
 
   @InitBinder
   public void initBinder(WebDataBinder binder) {
     binder.registerCustomEditor(String.class, new StringTrimmerEditor(true)); // Converts "" to null
   }
 
-  public ProductController(ProductService productService, CategoryService categoryService, BrandService brandService,
-      SizeService sizeService,
-      FileService fileService) {
+  public ProductController(ProductService productService, CategoryRepository categoryRepository,
+      BrandRepository brandRepository,
+      SizeRepository sizeRepository,
+      FileService fileService, UtilsService utilsService) {
 
     this.productService = productService;
-    this.categoryService = categoryService;
-    this.brandService = brandService;
-    this.sizeService = sizeService;
+    this.categoryRepository = categoryRepository;
+    this.brandRepository = brandRepository;
+    this.sizeRepository = sizeRepository;
     this.fileService = fileService;
+    this.utilsService = utilsService;
   }
 
   void populateSelects(Model model) {
-    model.addAttribute("categories", categoryService.getAll());
-    model.addAttribute("brands", brandService.getAll());
-    model.addAttribute("sizes", sizeService.getAll());
+    model.addAttribute("categories", categoryRepository.findAll());
+    model.addAttribute("brands", brandRepository.findAll());
+    model.addAttribute("sizes", sizeRepository.findAll());
   }
 
   @GetMapping("/admin/product")
-  public String getProductPage(Model model) {
-    model.addAttribute("productList", productService.getAll());
+  public String getProductPage(Model model, @RequestParam(defaultValue = "1") String page) {
+
+    Pageable pageable = utilsService.getPageable(page, 4);
+    Page<Product> pagedProduct = productService.getPage(pageable);
+    List<Product> productList = pagedProduct.getContent();
+    model.addAttribute("productList", productList);
+    model.addAttribute("totalPages", pagedProduct.getTotalPages());
+    model.addAttribute("currentPage", pageable.getPageNumber() + 1);
 
     return "admin/product/show";
   }
