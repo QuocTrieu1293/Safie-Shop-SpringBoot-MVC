@@ -17,7 +17,7 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
 
   Order findByPaymentRef(String paymentRef);
 
-  @Query("select o from Order o where cast(o.id as string) = :keyword or exists("
+  @Query("select o from Order o where concat('#', cast(o.id as string)) = :keyword or exists("
       + "select od from o.orderDetails od where lower(od.product.name) like lower(concat('%', :keyword ,'%'))" + ")")
   List<Order> searchByKeyword(@Param("keyword") String keyword);
 }

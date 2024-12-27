@@ -45,24 +45,6 @@ uri="http://sargue.net/jsptags/time" prefix="javatime" %>
 
     <!-- Template Stylesheet -->
     <link href="/client/css/style.css" rel="stylesheet" />
-
-    <style>
-      #search-input {
-        border: none;
-        flex-grow: 1;
-        outline: none;
-        background-color: transparent;
-      }
-
-      .card-title {
-        display: -webkit-box;
-        -webkit-line-clamp: 2;
-        -webkit-box-orient: vertical;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        margin-bottom: 0.5rem;
-      }
-    </style>
   </head>
 
   <body>
@@ -97,7 +79,8 @@ uri="http://sargue.net/jsptags/time" prefix="javatime" %>
               <input
                 type="text"
                 id="search-input"
-                placeholder="Bạn có thể tìm kiếm theo ID Đơn Hàng hoặc Tên Sản Phẩm"
+                class="my-search-input"
+                placeholder="Bạn có thể tìm kiếm theo ID Đơn Hàng (vd: #1234) hoặc Tên Sản Phẩm"
                 spellcheck="false"
               />
             </div>
@@ -131,7 +114,7 @@ uri="http://sargue.net/jsptags/time" prefix="javatime" %>
                           </div>
                           <div class="col d-flex justify-content-between">
                             <div class="flex-grow-1" style="max-width: 60%">
-                              <p class="card-title">
+                              <p class="card-title my-card-title">
                                 <a
                                   href="/product/${item.product.id}"
                                   style="color: black"
@@ -179,7 +162,7 @@ uri="http://sargue.net/jsptags/time" prefix="javatime" %>
                         <span style="color: black" class="me-2"
                           >Thành tiền:</span
                         >
-                        <span class="text-primary fs-5">
+                        <span class="text-primary fs-5 fw-bold">
                           <fmt:formatNumber
                             type="number"
                             value="${order.totalPrice}"
@@ -192,6 +175,13 @@ uri="http://sargue.net/jsptags/time" prefix="javatime" %>
                 </div>
               </div>
             </c:forEach>
+            <div
+              class="d-flex flex-column align-items-center d-none"
+              id="search-not-found"
+            >
+              <img src="/images/others/E-Commerce 03.png" alt="" />
+              <p class="fw-bold fs-5">Không tìm thấy đơn hàng phù hợp.</p>
+            </div>
           </c:when>
           <c:otherwise>
             <div class="text-center py-5">
@@ -232,27 +222,25 @@ uri="http://sargue.net/jsptags/time" prefix="javatime" %>
 
     <script>
       $(document).ready(function () {
-        $("#search-input").focus(function () {
-          $(this).siblings("i").css("color", "#212121");
-        });
-
-        $("#search-input").blur(function () {
-          $(this).siblings("i").css("color", "");
-        });
-
         $("#search-input").keypress(function (e) {
+          // console.log(e.key);
           if (e.key === "Enter") {
             $(this).blur(); // trigger blur event on search input
             const keyword = $(this).val();
             $.get("/api/order/search", { keyword }, (response) => {
               // console.log(response); // an array of order ids
+              let exist = false;
               $(".card[data-order-id]").each(function (index, element) {
                 const id = $(element).data("order-id"); // hoặc dùng $(this)
-                $(element).css(
-                  "display",
-                  response.includes(id) ? "block" : "none"
-                );
+                if (response.includes(id)) {
+                  $(element).css("display", "block");
+                  exist = true;
+                } else {
+                  $(element).css("display", "none");
+                }
               });
+              if (!exist) $("#search-not-found").removeClass("d-none");
+              else $("#search-not-found").addClass("d-none");
             });
           }
         });

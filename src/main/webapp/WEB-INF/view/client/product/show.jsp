@@ -45,18 +45,12 @@ uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 
     <!-- Template Stylesheet -->
     <link href="/client/css/style.css" rel="stylesheet" />
-    <style>
-      .card-title {
-        display: -webkit-box;
-        -webkit-line-clamp: 2;
-        -webkit-box-orient: vertical;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        font-size: 14px;
-        letter-spacing: 1px;
-        color: #45595b;
-      }
-    </style>
+
+    <!-- JSP variables for accessing in js file -->
+    <script>
+      const addedProduct = "${addedProduct}";
+      const addedSize = "${addedSize}";
+    </script>
   </head>
 
   <body>
@@ -84,30 +78,114 @@ uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
         <div class="row g-4">
           <!-- Filter criteria -->
           <div class="col-md-4">
-            <form action="#">
-              <!-- Category -->
-              <div class="row g-2 mb-3" data-filter="0">
-                <div class="d-flex justify-content-between">
-                  <span class="fw-bold">Danh mục</span>
-                  <span
-                    role="button"
-                    style="color: #dc3545; font-size: 13px"
-                    class="fw-bold mt-auto d-none"
-                    ><i
-                      class="fa-solid fa-xmark me-1"
-                      style="font-size: 11px"
-                    ></i>
-                    Xoá lọc</span
-                  >
+            <form id="filter-form" action="/products" class="card bg-light">
+              <div class="card-header bg-white fw-bold fs-5">
+                <span><i class="bi bi-filter"></i></span>
+                <span>Bộ lọc tìm kiếm</span>
+              </div>
+              <div class="card-body bg-light">
+                <!-- Category -->
+                <div class="row g-2 mb-3" data-filter="0">
+                  <div class="d-flex justify-content-between">
+                    <span class="fw-bold">Danh mục</span>
+                    <span
+                      role="button"
+                      style="color: #dc3545; font-size: 13px"
+                      class="fw-bold mt-auto d-none"
+                      ><i
+                        class="fa-solid fa-xmark me-1"
+                        style="font-size: 11px"
+                      ></i>
+                      Xoá lọc</span
+                    >
+                  </div>
+                  <c:forEach var="category" items="${categories}">
+                    <div class="col-auto">
+                      <input
+                        type="radio"
+                        class="btn-check"
+                        id="category_${category.id}"
+                        autocomplete="off"
+                        name="category"
+                        value="${category.name}"
+                      />
+                      <label
+                        class="btn btn-outline-light-primary fw-normal"
+                        style="
+                          padding-block: 2px;
+                          border-radius: 5px;
+                          font-size: 14px;
+                        "
+                        for="category_${category.id}"
+                        >${category.name}</label
+                      >
+                    </div>
+                  </c:forEach>
                 </div>
-                <c:forEach var="category" items="${categories}">
+
+                <!-- Brand -->
+                <div class="row g-2 mb-3" data-filter="0">
+                  <div class="d-flex justify-content-between">
+                    <span class="fw-bold">Thương hiệu</span>
+                    <span
+                      role="button"
+                      style="color: #dc3545; font-size: 13px"
+                      class="fw-bold mt-auto d-none"
+                      ><i
+                        class="fa-solid fa-xmark me-1"
+                        style="font-size: 11px"
+                      ></i>
+                      Xoá lọc</span
+                    >
+                  </div>
+                  <c:forEach var="brand" items="${brands}">
+                    <div class="col-auto">
+                      <input
+                        type="checkbox"
+                        class="btn-check"
+                        id="brand_${brand.id}"
+                        autocomplete="off"
+                        name="brands"
+                        value="${brand.name}"
+                      />
+                      <label
+                        class="btn btn-outline-light-primary fw-normal"
+                        style="
+                          padding-block: 2px;
+                          border-radius: 5px;
+                          font-size: 14px;
+                        "
+                        for="brand_${brand.id}"
+                        >${brand.name}</label
+                      >
+                    </div>
+                  </c:forEach>
+                </div>
+
+                <!-- Price -->
+                <div class="row g-2 mb-3" data-filter="0">
+                  <div class="d-flex justify-content-between">
+                    <span class="fw-bold">Mức giá</span>
+                    <span
+                      role="button"
+                      style="color: #dc3545; font-size: 13px"
+                      class="fw-bold mt-auto d-none"
+                      ><i
+                        class="fa-solid fa-xmark me-1"
+                        style="font-size: 11px"
+                      ></i>
+                      Xoá lọc</span
+                    >
+                  </div>
+
                   <div class="col-auto">
                     <input
                       type="radio"
                       class="btn-check"
-                      id="category_${category.id}"
+                      id="0-100"
+                      value="0-100"
                       autocomplete="off"
-                      name="category"
+                      name="price"
                     />
                     <label
                       class="btn btn-outline-light-primary fw-normal"
@@ -116,36 +194,18 @@ uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
                         border-radius: 5px;
                         font-size: 14px;
                       "
-                      for="category_${category.id}"
-                      >${category.name}</label
+                      for="0-100"
+                      >Dưới 100 ngàn</label
                     >
                   </div>
-                </c:forEach>
-              </div>
-
-              <!-- Brand -->
-              <div class="row g-2 mb-3" data-filter="0">
-                <div class="d-flex justify-content-between">
-                  <span class="fw-bold">Thương hiệu</span>
-                  <span
-                    role="button"
-                    style="color: #dc3545; font-size: 13px"
-                    class="fw-bold mt-auto d-none"
-                    ><i
-                      class="fa-solid fa-xmark me-1"
-                      style="font-size: 11px"
-                    ></i>
-                    Xoá lọc</span
-                  >
-                </div>
-                <c:forEach var="brand" items="${brands}">
                   <div class="col-auto">
                     <input
-                      type="checkbox"
+                      type="radio"
                       class="btn-check"
-                      id="brand_${brand.id}"
+                      id="100-200"
+                      value="100-200"
                       autocomplete="off"
-                      name="brands"
+                      name="price"
                     />
                     <label
                       class="btn btn-outline-light-primary fw-normal"
@@ -154,134 +214,18 @@ uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
                         border-radius: 5px;
                         font-size: 14px;
                       "
-                      for="brand_${brand.id}"
-                      >${brand.name}</label
+                      for="100-200"
+                      >Từ 100 - 200 ngàn</label
                     >
                   </div>
-                </c:forEach>
-              </div>
-
-              <!-- Price -->
-              <div class="row g-2 mb-3" data-filter="0">
-                <div class="d-flex justify-content-between">
-                  <span class="fw-bold">Mức giá</span>
-                  <span
-                    role="button"
-                    style="color: #dc3545; font-size: 13px"
-                    class="fw-bold mt-auto d-none"
-                    ><i
-                      class="fa-solid fa-xmark me-1"
-                      style="font-size: 11px"
-                    ></i>
-                    Xoá lọc</span
-                  >
-                </div>
-
-                <div class="col-auto">
-                  <input
-                    type="radio"
-                    class="btn-check"
-                    id="lt100"
-                    value="lt100"
-                    autocomplete="off"
-                    name="price"
-                  />
-                  <label
-                    class="btn btn-outline-light-primary fw-normal"
-                    style="
-                      padding-block: 2px;
-                      border-radius: 5px;
-                      font-size: 14px;
-                    "
-                    for="lt100"
-                    >Dưới 100 ngàn</label
-                  >
-                </div>
-                <div class="col-auto">
-                  <input
-                    type="radio"
-                    class="btn-check"
-                    id="100-300"
-                    value="100-300"
-                    autocomplete="off"
-                    name="price"
-                  />
-                  <label
-                    class="btn btn-outline-light-primary fw-normal"
-                    style="
-                      padding-block: 2px;
-                      border-radius: 5px;
-                      font-size: 14px;
-                    "
-                    for="100-300"
-                    >Từ 100 - 300 ngàn</label
-                  >
-                </div>
-                <div class="col-auto">
-                  <input
-                    type="radio"
-                    class="btn-check"
-                    id="300-500"
-                    value="300-500"
-                    autocomplete="off"
-                    name="price"
-                  />
-                  <label
-                    class="btn btn-outline-light-primary fw-normal"
-                    style="
-                      padding-block: 2px;
-                      border-radius: 5px;
-                      font-size: 14px;
-                    "
-                    for="300-500"
-                    >Từ 300 - 500 ngàn</label
-                  >
-                </div>
-                <div class="col-auto">
-                  <input
-                    type="radio"
-                    class="btn-check"
-                    id="gt500"
-                    value="gt500"
-                    autocomplete="off"
-                    name="price"
-                  />
-                  <label
-                    class="btn btn-outline-light-primary fw-normal"
-                    style="
-                      padding-block: 2px;
-                      border-radius: 5px;
-                      font-size: 14px;
-                    "
-                    for="gt500"
-                    >Trên 500 ngàn</label
-                  >
-                </div>
-              </div>
-
-              <!-- Size -->
-              <div class="row g-2 mb-3" data-filter="0">
-                <div class="d-flex justify-content-between">
-                  <span class="fw-bold">Size</span>
-                  <span
-                    role="button"
-                    style="color: #dc3545; font-size: 13px"
-                    class="fw-bold mt-auto d-none"
-                    ><i
-                      class="fa-solid fa-xmark me-1"
-                      style="font-size: 11px"
-                    ></i>
-                    Xoá lọc</span
-                  >
-                </div>
-                <c:forEach var="size" items="${sizes}">
                   <div class="col-auto">
                     <input
-                      type="checkbox"
+                      type="radio"
                       class="btn-check"
-                      id="size_${size.id}"
+                      id="200-300"
+                      value="200-300"
                       autocomplete="off"
-                      name="sizes"
+                      name="price"
                     />
                     <label
                       class="btn btn-outline-light-primary fw-normal"
@@ -290,24 +234,117 @@ uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
                         border-radius: 5px;
                         font-size: 14px;
                       "
-                      for="size_${size.id}"
-                      >${size.name}</label
+                      for="200-300"
+                      >Từ 200 - 300 ngàn</label
                     >
                   </div>
-                </c:forEach>
+                  <div class="col-auto">
+                    <input
+                      type="radio"
+                      class="btn-check"
+                      id="300-inf"
+                      value="300-inf"
+                      autocomplete="off"
+                      name="price"
+                    />
+                    <label
+                      class="btn btn-outline-light-primary fw-normal"
+                      style="
+                        padding-block: 2px;
+                        border-radius: 5px;
+                        font-size: 14px;
+                      "
+                      for="300-inf"
+                      >Trên 300 ngàn</label
+                    >
+                  </div>
+                </div>
+
+                <!-- Size -->
+                <div class="row g-2 mb-3" data-filter="0">
+                  <div class="d-flex justify-content-between">
+                    <span class="fw-bold">Size</span>
+                    <span
+                      role="button"
+                      style="color: #dc3545; font-size: 13px"
+                      class="fw-bold mt-auto d-none"
+                      ><i
+                        class="fa-solid fa-xmark me-1"
+                        style="font-size: 11px"
+                      ></i>
+                      Xoá lọc</span
+                    >
+                  </div>
+                  <c:forEach var="size" items="${sizes}">
+                    <div class="col-auto">
+                      <input
+                        type="checkbox"
+                        class="btn-check"
+                        id="size_${size.id}"
+                        autocomplete="off"
+                        name="sizes"
+                        value="${size.name}"
+                      />
+                      <label
+                        class="btn btn-outline-light-primary fw-normal"
+                        style="
+                          padding-block: 2px;
+                          border-radius: 5px;
+                          font-size: 14px;
+                        "
+                        for="size_${size.id}"
+                        >${size.name}</label
+                      >
+                    </div>
+                  </c:forEach>
+                </div>
               </div>
 
-              <button
-                class="text-uppercase rounded-pill btn btn-outline-light-primary border-secondary p-3 fs-5 my-3"
-              >
-                Lọc sản phẩm
-              </button>
+              <div class="card-footer bg-white p-3">
+                <button
+                  class="text-uppercase rounded-pill btn btn-outline-light-primary border-secondary px-3 py-2 fs-5"
+                >
+                  Lọc sản phẩm
+                </button>
+              </div>
+
+              <input type="hidden" name="sort" value="noi-bat" />
             </form>
           </div>
 
           <!-- Products -->
           <div class="col-md-8">
+            <div
+              class="d-flex mb-3 justify-content-between align-items-md-end align-items-baseline"
+            >
+              <span class="" style="color: black"
+                >Tìm thấy <b>${totalProducts}</b> kết quả</span
+              >
+              <div class="d-flex align-items-center">
+                <span class="col-auto me-2">Sắp xếp theo:</span>
+                <select
+                  class="form-select"
+                  style="color: black"
+                  aria-label="Sort type select"
+                  name="sort"
+                >
+                  <option value="noi-bat">Nổi bật</option>
+                  <option value="gia-thap">Giá thấp nhất</option>
+                  <option value="gia-cao">Giá cao nhất</option>
+                </select>
+              </div>
+            </div>
             <div class="row gx-3 gy-4 mb-5">
+              <c:if test="${empty products}">
+                <div
+                  class="col-md-auto col-12 mx-auto d-flex flex-column align-items-center"
+                >
+                  <img src="/images/others/empty_state.png" />
+                  <span class="fw-bold fs-5">
+                    Rất tiếc, chúng tôi không tìm thấy sản phẩm nào phù hợp.
+                  </span>
+                </div>
+              </c:if>
               <c:forEach var="product" items="${products}">
                 <div class="col-sm-6 col-xl-4">
                   <a href="/product/${product.id}" class="d-block">
@@ -333,7 +370,7 @@ uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
                       >
                         <div class="mb-3">
                           <a
-                            class="text-start fw-bold card-title"
+                            class="text-start fw-bold my-card-title"
                             href="/product/${product.id}"
                           >
                             ${product.name}
@@ -350,8 +387,9 @@ uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
                             đ
                           </p>
                           <button
-                            class="btn border border-secondary rounded-pill px-3 text-primary add-to-cart-btn"
+                            class="btn border border-secondary rounded-pill px-3 text-primary"
                             style="font-size: 14px"
+                            size-modal-trigger
                             data-product-id="${product.id}"
                           >
                             <i class="fa fa-shopping-bag me-2 text-primary"></i
@@ -366,7 +404,7 @@ uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
             </div>
 
             <!-- Pagination -->
-            <c:if test="${not empty products && totalPages > 1}">
+            <c:if test="${totalPages > 0}">
               <nav aria-label="Product pages navigation">
                 <ul
                   class="pagination justify-content-center"
@@ -375,7 +413,7 @@ uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
                   <li class="page-item ${currentPage == 1 ? 'disabled' : ''}">
                     <a
                       class="page-link"
-                      href="/products?page=${currentPage - 1}"
+                      href="/products?page=${currentPage - 1}${queryString}"
                       aria-label="Previous"
                     >
                       <i class="bi bi-chevron-left"></i>
@@ -385,7 +423,9 @@ uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
                     <li
                       class="page-item ${currentPage == loop.index ? 'active' : ''}"
                     >
-                      <a class="page-link" href="/products?page=${loop.index}"
+                      <a
+                        class="page-link"
+                        href="/products?page=${loop.index}${queryString}"
                         >${loop.index}</a
                       >
                     </li>
@@ -395,7 +435,7 @@ uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
                   >
                     <a
                       class="page-link"
-                      href="/products?page=${currentPage + 1}"
+                      href="/products?page=${currentPage + 1}${queryString}"
                       aria-label="Next"
                     >
                       <i class="bi bi-chevron-right"></i>
@@ -440,9 +480,50 @@ uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 
     <!-- Template Javascript -->
     <script src="/client/js/main.js"></script>
+    <!-- size modal js -->
+    <script src="/client/js/sizeModal.js"></script>
 
     <script>
       $(document).ready(function () {
+        const url = new URL(window.location.href);
+        // console.log(window.location.search); // là một query string với `?` ở đầu
+        const searchParams = url.searchParams;
+
+        searchParams.forEach((value, name) => {
+          const checkBtn = $(
+            '[data-filter] input.btn-check[name="' +
+              name +
+              '"][value="' +
+              value +
+              '"]'
+          );
+          checkBtn.prop("checked", true);
+
+          const criterion = checkBtn.closest("[data-filter]");
+          criterion.data("filter", criterion.data("filter") + 1);
+        });
+        if (searchParams.has("sort")) {
+          $("#filter-form input[name='sort']").val(searchParams.get("sort"));
+          $("select[name='sort']").val(searchParams.get("sort"));
+        }
+
+        $("[data-filter]").each(function () {
+          const criterion = $(this);
+          const clearFilter = criterion.children(":first").children().eq(1);
+          if (criterion.data("filter") > 0) clearFilter.removeClass("d-none");
+
+          clearFilter.click(function () {
+            const checkedInput = criterion.find("input.btn-check:checked");
+
+            // checkedInput.trigger("click"); // trigger sự kiện change của input.btn-check
+
+            checkedInput.prop("checked", false); // không trigger sự kiện change
+            criterion.data("filter", 0); // do không trigger sự kiện change nên phải tự reset giá trị data-filter
+
+            $(this).addClass("d-none"); // Ẩn button clear fiter đi
+          });
+        });
+
         // change thực hiện element có trigger hành động click
         $("[data-filter] input.btn-check").change(function () {
           const criterion = $(this).closest("[data-filter]");
@@ -463,82 +544,11 @@ uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
           else clearFilter.addClass("d-none");
         });
 
-        $("[data-filter]").each(function () {
-          const criterion = $(this);
-          const clearFilter = criterion.children(":first").children().eq(1);
-          clearFilter.click(function () {
-            const checkedInput = criterion.find("input.btn-check:checked");
-
-            // checkedInput.trigger("click"); // trigger sự kiện change của input.btn-check cài đặt ở trên
-
-            checkedInput.prop("checked", false); // không trigger sự kiện change
-            criterion.data("filter", 0); // do không trigger sự kiện change nên phải tự reset giá trị data-filter
-
-            $(this).addClass("d-none"); // Ẩn button clear fiter đi
-          });
-        });
-
-        // JS cho sizeModal
-        if ("${addedProduct}" && "${addedSize}") {
-          $("#alert-modal").modal("show");
-        }
-
-        $(".add-to-cart-btn").click(function () {
-          if ("${userId}") {
-            $("#rightSideModal").modal("show");
-          } else {
-            window.location.href = "/login";
-          }
-        });
-
-        $(".add-to-cart-btn").click(function () {
-          const productId = $(this).data("product-id");
-
-          // Make an AJAX request to fetch the sizes for the selected product
-          $.ajax({
-            url: "/api/product", // URL to fetch sizes
-            method: "GET",
-            data: { id: productId },
-            timeout: 600000,
-            success: function (product) {
-              console.log({ product });
-              console.log(product.image);
-              $("#size-modal-form").attr(
-                "action",
-                "/add-product-to-cart/" + product.id
-              );
-              $("#size-modal-img").attr(
-                "src",
-                "/images/product/" + product.image
-              );
-              $("#size-modal-name").text(product.name);
-              $("#size-modal-brand").text(product.brand);
-              const sizeSelect = $("#size-modal-size-radios");
-              sizeSelect.empty();
-              $.each(product.sizes, function (index, size) {
-                const sizeTag =
-                  "<label for=size-" +
-                  size.id +
-                  ' class="size-tag col-auto me-2 mb-2">' +
-                  size.name +
-                  '<input required id="size-' +
-                  size.id +
-                  '" type="radio" name="sizeId" value="' +
-                  size.id +
-                  '" class="d-none"/></label>';
-                sizeSelect.append(sizeTag);
-              });
-              $("#size-modal-price").text(
-                new Intl.NumberFormat("vi-VN", {
-                  style: "currency",
-                  currency: "VND",
-                }).format(parseFloat(product.price))
-              );
-            },
-            error: function () {
-              alert("Something errors, please try again later!");
-            },
-          });
+        // reload lại page mỗi khi user chọn tiêu chí sort
+        $("select[name='sort']").change(function () {
+          searchParams.delete("page");
+          searchParams.set("sort", $(this).val());
+          window.location.href = url.toString();
         });
       });
     </script>

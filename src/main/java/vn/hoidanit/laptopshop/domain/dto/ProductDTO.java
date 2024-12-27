@@ -11,6 +11,7 @@ public class ProductDTO {
   double price;
   String image;
   String brand;
+  String category;
   List<SizeDTO> sizes;
 
   public ProductDTO(Product product) {
@@ -19,6 +20,7 @@ public class ProductDTO {
     price = product.getPrice();
     image = product.getImage();
     brand = product.getBrand().getName();
+    category = product.getCategory().getName();
     sizes = product.getSizes().stream().map(SizeDTO::new).toList();
   }
 
@@ -60,6 +62,14 @@ public class ProductDTO {
 
   public void setBrand(String brand) {
     this.brand = brand;
+  }
+
+  public String getCategory() {
+    return category;
+  }
+
+  public void setCategory(String category) {
+    this.category = category;
   }
 
   public List<SizeDTO> getSizes() {

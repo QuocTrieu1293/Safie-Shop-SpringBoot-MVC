@@ -1,13 +1,12 @@
 package vn.hoidanit.laptopshop.service;
 
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
 public class UtilsService {
 
-  public Pageable getPageable(String page, int size) {
+  public PageRequest getPageRequest(String page, int size) {
     int pageNumber = 0;
     try {
       pageNumber = Integer.parseInt(page) - 1;
@@ -15,7 +14,9 @@ public class UtilsService {
     } catch (NumberFormatException e) {
       e.printStackTrace();
     }
+
     PageRequest pageable = PageRequest.of(pageNumber, size);
+
     return pageable;
   }
 

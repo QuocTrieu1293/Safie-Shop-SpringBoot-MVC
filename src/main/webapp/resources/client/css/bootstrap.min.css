@@ -2020,9 +2020,9 @@ textarea.form-control-lg {
   appearance: none;
 }
 .form-select:focus {
-  border-color: #c0e284;
+  border-color: black;
   outline: 0;
-  box-shadow: 0 0 0 0.1rem rgba(169, 115, 73, 0.25);
+  /* box-shadow: 0 0 0 0.1rem rgba(169, 115, 73, 0.25); */
 }
 .form-select[multiple],
 .form-select[size]:not([size="1"]) {
@@ -2613,10 +2613,10 @@ fieldset:disabled .btn {
 }
 .btn-check:focus + .btn-primary,
 .btn-primary:focus {
-  color: #000;
+  color: #c5d6c3;
   background-color: #a97349;
   border-color: #4d403b;
-  box-shadow: 0 0 0 0.25rem rgba(110, 167, 7, 0.5);
+  box-shadow: 0 0 0 0.15rem rgba(169, 115, 73, 0.55);
 }
 .btn-check:checked + .btn-primary,
 .btn-check:active + .btn-primary,

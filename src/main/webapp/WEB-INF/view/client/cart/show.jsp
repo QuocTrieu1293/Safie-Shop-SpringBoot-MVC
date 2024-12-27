@@ -77,20 +77,27 @@ uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
               <table class="table">
                 <thead>
                   <tr class="">
-                    <th style="width: 150px" scope="col">Sản phẩm</th>
-                    <th scope="col" style="min-width: 150px">Tên</th>
-                    <th scope="col" style="min-width: 120px">Size</th>
-                    <th scope="col" style="min-width: 120px">Đơn giá</th>
-                    <th scope="col" style="min-width: 150px">Số lượng</th>
-                    <th scope="col" style="min-width: 120px">Thành tiền</th>
-                    <th scope="col" style="min-width: 120px"></th>
+                    <th scope="col" class="text-nowrap" style="width: 150px">
+                      Sản phẩm
+                    </th>
+                    <th scope="col" class="text-nowrap" style="width: 30%">
+                      Tên
+                    </th>
+                    <th scope="col" class="text-nowrap">Size</th>
+                    <th scope="col" class="text-nowrap">Đơn giá</th>
+                    <th scope="col" class="text-nowrap">Số lượng</th>
+                    <th scope="col" class="text-nowrap">Thành tiền</th>
+                    <th scope="col"></th>
                   </tr>
                 </thead>
                 <tbody>
                   <c:forEach var="item" items="${cartItems}">
                     <tr data-cart-detail-id="${item.id}">
                       <th scope="row">
-                        <div class="d-flex align-items-center">
+                        <div
+                          class="d-flex align-items-center"
+                          style="width: 150px"
+                        >
                           <img
                             src="/images/product/${item.product.image}"
                             class="img-fluid rounded-circle m-2"
@@ -103,7 +110,7 @@ uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
                           />
                         </div>
                       </th>
-                      <td>
+                      <td style="min-width: 200px">
                         <p class="mb-0 mt-4">
                           <a href="/product/${item.product.id}" target="_blank">
                             ${item.product.name}
@@ -113,7 +120,7 @@ uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
                       <td class="text-nowrap">
                         <p class="mb-0 mt-4">${item.size.name}</p>
                       </td>
-                      <td>
+                      <td class="text-nowrap">
                         <p class="mb-0 mt-4">
                           <fmt:formatNumber
                             type="number"
@@ -150,7 +157,7 @@ uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
                           </div>
                         </div>
                       </td>
-                      <td>
+                      <td class="text-nowrap">
                         <p class="mb-0 mt-4" data-cart-detail-id="${item.id}">
                           <fmt:formatNumber
                             type="number"
@@ -175,23 +182,27 @@ uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
             <div class="row g-4 justify-content-end">
               <div class="col-8"></div>
               <div class="col-sm-8 col-md-7 col-lg-6">
-                <div class="bg-light rounded">
+                <div class="bg-light rounded fw-bold">
                   <div class="p-4">
                     <h1 class="display-6 mb-4">
                       Thông tin <span class="fw-normal">đơn hàng</span>
                     </h1>
-                    <div class="d-flex justify-content-between mb-4">
+                    <div
+                      class="d-flex justify-content-between mb-4 align-items-center"
+                    >
                       <h5 class="mb-0 me-4">Tạm tính:</h5>
-                      <p class="mb-0" data-cart-total-price>
+                      <p class="mb-0 fs-5" data-cart-total-price>
                         <fmt:formatNumber type="number" value="${totalPrice}" />
                         đ
                       </p>
                     </div>
 
-                    <div class="d-flex justify-content-between">
+                    <div
+                      class="d-flex justify-content-between align-items-center"
+                    >
                       <h5 class="mb-0 me-4">Phí vận chuyển:</h5>
                       <div class="">
-                        <p class="mb-0">
+                        <p class="mb-0 fs-5">
                           <fmt:formatNumber type="number" value="0" />
                           đ
                         </p>
@@ -199,10 +210,10 @@ uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
                     </div>
                   </div>
                   <div
-                    class="py-4 mb-4 border-top border-bottom d-flex justify-content-between"
+                    class="py-4 mb-4 border-top border-bottom d-flex justify-content-between align-items-center"
                   >
                     <h5 class="mb-0 ps-4 me-4">Tổng số tiền</h5>
-                    <p class="mb-0 pe-4" data-cart-total-price>
+                    <p class="mb-0 pe-4 fs-3" data-cart-total-price>
                       <fmt:formatNumber type="number" value="${totalPrice}" /> đ
                     </p>
                   </div>

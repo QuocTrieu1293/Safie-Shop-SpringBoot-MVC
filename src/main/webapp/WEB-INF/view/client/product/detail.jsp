@@ -46,40 +46,11 @@ uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
     <!-- Template Stylesheet -->
     <link href="/client/css/style.css" rel="stylesheet" />
 
-    <style>
-      .card-title {
-        display: -webkit-box;
-        -webkit-line-clamp: 2;
-        -webkit-box-orient: vertical;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        font-size: 14px;
-        letter-spacing: 1px;
-        color: #45595b;
-      }
-
-      .size-tag {
-        padding: 5px;
-        border: solid 1px var(--bs-secondary);
-        border-radius: 5px;
-        font-size: 14px;
-        font-weight: bold;
-        cursor: pointer;
-        transition: background-color 150ms linear;
-        background-color: whitesmoke;
-      }
-
-      .size-tag:has(input[type="radio"]:not(:checked)):hover {
-        background-color: rgba(0, 0, 0, 0.3);
-        color: var(--bs-white);
-      }
-
-      .size-tag:has(input[type="radio"]:checked) {
-        border-color: var(--bs-primary);
-        background-color: #e0b8b835;
-        /* color: var(--bs-secondary); */
-      }
-    </style>
+    <!-- JSP variables for accessing in js file -->
+    <script>
+      const addedProduct = "${addedProduct}";
+      const addedSize = "${addedSize}";
+    </script>
   </head>
 
   <body>
@@ -110,6 +81,7 @@ uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
                 id="add-to-cart-form"
                 action="/add-product-to-cart/${product.id}"
                 method="post"
+                novalidate
                 class="row g-4"
               >
                 <div class="col-lg-6">
@@ -135,7 +107,7 @@ uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
                         <c:forEach var="size" items="${product.sizes}">
                           <label
                             for="sizeId-${size.id}"
-                            class="size-tag col-auto me-2 mb-2"
+                            class="my-size-tag col-auto me-2 mb-2"
                           >
                             ${size.name}
                             <input
@@ -143,12 +115,11 @@ uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
                               type="radio"
                               name="sizeId"
                               value="${size.id}"
-                              class="d-none"
                               required
                             />
                           </label>
                         </c:forEach>
-                        <!-- <span class="size-tag col-auto me-2 mb-2" selected="true"
+                        <!-- <span class="my-size-tag col-auto me-2 mb-2" selected="true"
                         >12-18 tháng</span
                       > -->
                       </div>
@@ -194,6 +165,12 @@ uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
                       </button>
                     </div>
                   </div>
+                  <p
+                    style="font-size: 13px; color: #d9534f"
+                    class="mb-1 ms-3 error-message"
+                  >
+                    *Vui lòng chọn size sản phẩm
+                  </p>
                   <button
                     class="btn border border-secondary rounded-pill px-4 py-2 mb-4 text-primary"
                   >
@@ -474,7 +451,9 @@ uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
                       /></a>
                     </div>
                     <div class="flex-shrink-1">
-                      <a href="/product/${product.id}" class="mb-2 card-title"
+                      <a
+                        href="/product/${product.id}"
+                        class="mb-2 my-card-title"
                         >${product.name}</a
                       >
                       <div class="d-flex mb-2">
@@ -532,7 +511,7 @@ uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
           <div class="owl-carousel vegetable-carousel justify-content-center">
             <c:forEach var="product" items="${relatedProducts}">
               <div
-                class="border border-primary rounded position-relative vesitable-item"
+                class="border border-primary rounded position-relative vesitable-item d-flex flex-column"
               >
                 <div class="vesitable-img">
                   <a href="/product/${product.id}"
@@ -549,9 +528,11 @@ uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
                 >
                   ${product.brand.name}
                 </div>
-                <div class="p-4 pb-0 rounded-bottom">
+                <div
+                  class="p-4 pb-0 rounded-bottom flex-grow-1 d-flex flex-column"
+                >
                   <a
-                    class="text-start fw-bold card-title"
+                    class="text-start fw-bold my-card-title"
                     href="/product/${product.id}"
                   >
                     ${product.name}
@@ -568,7 +549,8 @@ uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
                     </p>
                     <button
                       href="#"
-                      class="btn border border-secondary rounded-pill px-3 py-1 mb-4 text-primary add-to-cart-btn"
+                      class="btn border border-secondary rounded-pill px-3 py-1 mb-4 text-primary"
+                      size-modal-trigger
                       data-product-id="${product.id}"
                     >
                       <i class="fa fa-shopping-bag me-2 text-primary"></i>Thêm
@@ -610,6 +592,8 @@ uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 
     <!-- Template Javascript -->
     <script src="/client/js/main.js"></script>
+    <!-- size modal js -->
+    <script src="/client/js/sizeModal.js"></script>
 
     <script>
       $(document).ready(function () {
@@ -632,62 +616,17 @@ uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
             }
           });
 
-        $(".add-to-cart-btn").click(function () {
-          if ("${userId}") {
-            $("#rightSideModal").modal("show");
-          } else {
-            window.location.href = "/login";
+        $(".error-message").css("visibility", "hidden");
+        $("form").submit(function (e) {
+          if (!this.checkValidity()) {
+            e.preventDefault();
+            $(this).find(".error-message").css("visibility", "visible");
           }
         });
-
-        $(".add-to-cart-btn").click(function () {
-          const productId = $(this).data("product-id");
-
-          // Make an AJAX request to fetch the sizes for the selected product
-          $.ajax({
-            url: "/api/product", // URL to fetch sizes
-            method: "GET",
-            data: { id: productId },
-            timeout: 600000,
-            success: function (product) {
-              console.log({ product });
-              console.log(product.image);
-              $("#size-modal-form").attr(
-                "action",
-                "/add-product-to-cart/" + product.id
-              );
-              $("#size-modal-img").attr(
-                "src",
-                "/images/product/" + product.image
-              );
-              $("#size-modal-name").text(product.name);
-              $("#size-modal-brand").text(product.brand);
-              const sizeSelect = $("#size-modal-size-radios");
-              sizeSelect.empty();
-              $.each(product.sizes, function (index, size) {
-                const sizeTag =
-                  "<label for=size-" +
-                  size.id +
-                  ' class="size-tag col-auto me-2 mb-2">' +
-                  size.name +
-                  '<input required id="size-' +
-                  size.id +
-                  '" type="radio" name="sizeId" value="' +
-                  size.id +
-                  '" class="d-none"/></label>';
-                sizeSelect.append(sizeTag);
-              });
-              $("#size-modal-price").text(
-                new Intl.NumberFormat("vi-VN", {
-                  style: "currency",
-                  currency: "VND",
-                }).format(parseFloat(product.price))
-              );
-            },
-            error: function () {
-              alert("Something errors, please try again later!");
-            },
-          });
+        $("form label:has(> input[type='radio'])").click(function () {
+          const errorMessage = $(this).closest("form").find(".error-message");
+          if (errorMessage.css("visibility") === "visible")
+            errorMessage.css("visibility", "hidden");
         });
       });
     </script>

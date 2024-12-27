@@ -293,7 +293,7 @@
 }
 
 .fruite .fruite-categorie .fruite-name a:hover {
-  color: var(--bs-secondary);
+  color: var(--bs-danger);
 }
 
 .fruite .fruite-item {
@@ -346,6 +346,7 @@
 .vesitable .owl-stage {
   margin: 50px 0;
   position: relative;
+  display: flex;
 }
 
 .vesitable .owl-nav .owl-prev {
@@ -488,3 +489,55 @@
   line-height: 35px;
 }
 /*** Footer End ***/
+
+/* my css */
+.my-card-title {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 14px;
+  letter-spacing: 1px;
+  color: #45595b;
+}
+
+.my-search-input {
+  border: none;
+  flex-grow: 1;
+  outline: none;
+  background-color: transparent;
+}
+
+i:has(+ .my-search-input:focus) {
+  color: #212121;
+}
+
+.my-size-tag {
+  padding: 5px 8px;
+  border: solid 1px var(--bs-secondary);
+  border-radius: 5px;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 150ms linear;
+  background-color: whitesmoke;
+  position: relative;
+  user-select: none;
+}
+
+.my-size-tag:has(input[type="radio"]:not(:checked)):hover {
+  background-color: rgba(0, 0, 0, 0.3);
+  color: var(--bs-white);
+}
+
+.my-size-tag:has(input[type="radio"]:checked) {
+  border-color: var(--bs-primary);
+  background-color: #e0b8b835;
+  /* color: var(--bs-secondary); */
+}
+
+.my-size-tag > input[type="radio"] {
+  position: absolute;
+  visibility: hidden;
+}

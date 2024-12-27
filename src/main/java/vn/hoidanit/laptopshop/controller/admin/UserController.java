@@ -70,7 +70,7 @@ public class UserController {
   @RequestMapping("/admin/user")
   public String getUserPage(Model model, @RequestParam(defaultValue = "1") String page) {
 
-    Pageable pageable = utilsService.getPageable(page, 4);
+    Pageable pageable = utilsService.getPageRequest(page, 4);
     Page<User> pagedUser = userService.getPage(pageable);
     List<User> userList = pagedUser.getContent();
     model.addAttribute("userList", userList);

@@ -35,7 +35,7 @@ public class OrderController {
   @GetMapping("/admin/order")
   public String getOrderPage(Model model, @RequestParam(defaultValue = "1") String page) {
 
-    Pageable pageable = utilsService.getPageable(page, 4);
+    Pageable pageable = utilsService.getPageRequest(page, 4);
     Page<Order> pagedOrder = orderRepository.findAll(pageable);
     List<Order> orders = pagedOrder.getContent();
     model.addAttribute("orders", orders);

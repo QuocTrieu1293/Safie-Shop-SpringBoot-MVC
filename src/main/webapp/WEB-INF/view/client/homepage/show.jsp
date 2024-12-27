@@ -44,18 +44,12 @@ uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
     <!-- Template Stylesheet -->
     <link href="/client/css/style.css" rel="stylesheet" />
-    <style>
-      .card-title {
-        display: -webkit-box;
-        -webkit-line-clamp: 2;
-        -webkit-box-orient: vertical;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        font-size: 14px;
-        letter-spacing: 1px;
-        color: #45595b;
-      }
-    </style>
+
+    <!-- JSP variables for accessing in js file -->
+    <script>
+      const addedProduct = "${addedProduct}";
+      const addedSize = "${addedSize}";
+    </script>
   </head>
 
   <body>
@@ -208,7 +202,7 @@ uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
                             >
                               <div class="mb-3">
                                 <a
-                                  class="text-start fw-bold card-title"
+                                  class="text-start fw-bold my-card-title"
                                   href="/product/${product.id}"
                                 >
                                   ${product.name}
@@ -225,8 +219,9 @@ uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
                                   đ
                                 </p>
                                 <button
-                                  class="btn border border-secondary rounded-pill px-3 text-primary add-to-cart-btn"
+                                  class="btn border border-secondary rounded-pill px-3 text-primary"
                                   style="font-size: 14px"
+                                  size-modal-trigger
                                   data-product-id="${product.id}"
                                 >
                                   <i
@@ -408,79 +403,7 @@ uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
     <!-- Template Javascript -->
     <script src="/client/js/main.js"></script>
-    <script>
-      $(document).ready(function () {
-        if ("${addedProduct}" && "${addedSize}") {
-          $("#alert-modal").modal("show");
-        }
-
-        $(".add-to-cart-btn").click(function () {
-          if ("${userId}") {
-            $("#rightSideModal").modal("show");
-          } else {
-            window.location.href = "/login";
-          }
-        });
-
-        $(".add-to-cart-btn").click(function () {
-          const productId = $(this).data("product-id");
-
-          // Make an AJAX request to fetch the sizes for the selected product
-          $.ajax({
-            url: "/api/product", // URL to fetch sizes
-            method: "GET",
-            data: { id: productId },
-            timeout: 600000,
-            success: function (product) {
-              console.log({ product });
-              console.log(product.image);
-              $("#size-modal-form").attr(
-                "action",
-                "/add-product-to-cart/" + product.id
-              );
-              $("#size-modal-img").attr(
-                "src",
-                "/images/product/" + product.image
-              );
-              $("#size-modal-name").text(product.name);
-              $("#size-modal-brand").text(product.brand);
-              const sizeSelect = $("#size-modal-size-radios");
-              sizeSelect.empty();
-              $.each(product.sizes, function (index, size) {
-                const sizeTag =
-                  "<label for=size-" +
-                  size.id +
-                  ' class="size-tag col-auto me-2 mb-2">' +
-                  size.name +
-                  '<input required id="size-' +
-                  size.id +
-                  '" type="radio" name="sizeId" value="' +
-                  size.id +
-                  '" class="d-none"/></label>';
-                sizeSelect.append(sizeTag);
-              });
-              $("#size-modal-price").text(
-                new Intl.NumberFormat("vi-VN", {
-                  style: "currency",
-                  currency: "VND",
-                }).format(parseFloat(product.price))
-              );
-            },
-            error: function () {
-              alert("Something errors, please try again later!");
-            },
-          });
-        });
-
-        // $("#size-modal-form").submit(function (event) {
-        //   event.preventDefault();
-        //   var selectedSize = $("#sizeSelect").val();
-        //   // Handle adding the product to the cart with the selected size
-        //   // You can send an AJAX request to your server here
-        //   alert("Product added to cart with size: " + selectedSize);
-        //   $("#sizeModal").modal("hide");
-        // });
-      });
-    </script>
+    <!-- size modal js -->
+    <script src="/client/js/sizeModal.js"></script>
   </body>
 </html>

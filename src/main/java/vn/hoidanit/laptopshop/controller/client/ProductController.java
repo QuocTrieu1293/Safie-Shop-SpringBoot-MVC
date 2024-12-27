@@ -3,7 +3,6 @@ package vn.hoidanit.laptopshop.controller.client;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,13 +18,13 @@ import jakarta.servlet.http.HttpSession;
 import vn.hoidanit.laptopshop.domain.Cart;
 import vn.hoidanit.laptopshop.domain.Category;
 import vn.hoidanit.laptopshop.domain.Product;
+import vn.hoidanit.laptopshop.domain.dto.ProductCriteriaDTO;
 import vn.hoidanit.laptopshop.domain.dto.ProductDTO;
 import vn.hoidanit.laptopshop.repository.BrandRepository;
 import vn.hoidanit.laptopshop.repository.CategoryRepository;
 import vn.hoidanit.laptopshop.repository.ProductRepository;
 import vn.hoidanit.laptopshop.repository.SizeRepository;
 import vn.hoidanit.laptopshop.service.ProductService;
-import vn.hoidanit.laptopshop.service.UtilsService;
 
 @Controller("clientProductController")
 public class ProductController {
@@ -35,32 +34,37 @@ public class ProductController {
   private final ProductRepository productRepository;
   private final CategoryRepository categoryRepository;
   private final BrandRepository brandRepository;
-  private final UtilsService utilsService;
 
   ProductController(ProductService productService, SizeRepository sizeRepository,
-      ProductRepository productRepository, CategoryRepository categoryRepository, BrandRepository brandRepository,
-      UtilsService utilsService) {
+      ProductRepository productRepository, CategoryRepository categoryRepository, BrandRepository brandRepository) {
     this.productService = productService;
     this.sizeRepository = sizeRepository;
     this.productRepository = productRepository;
     this.categoryRepository = categoryRepository;
     this.brandRepository = brandRepository;
-    this.utilsService = utilsService;
+
   }
 
   @GetMapping("/products")
-  public String getProductPage(Model model, @RequestParam(defaultValue = "1") String page) {
+  public String getProductPage(Model model, ProductCriteriaDTO productCriteria, HttpServletRequest request) {
 
-    Pageable pageable = utilsService.getPageable(page, 9);
-    Page<Product> pagedProduct = productService.getPage(pageable);
-    List<Product> products = pagedProduct.getContent();
-    model.addAttribute("products", products);
+    Page<Product> pagedProduct = productService.getPageWithSpec(productCriteria);
+    model.addAttribute("products", pagedProduct.getContent());
     model.addAttribute("totalPages", pagedProduct.getTotalPages());
-    model.addAttribute("currentPage", pageable.getPageNumber() + 1);
+    model.addAttribute("currentPage", pagedProduct.getNumber() + 1);
+    model.addAttribute("totalProducts", pagedProduct.getTotalElements());
 
     model.addAttribute("categories", categoryRepository.findAll());
     model.addAttribute("brands", brandRepository.findAll());
     model.addAttribute("sizes", sizeRepository.findAll());
+
+    String queryString = request.getQueryString();
+    if (queryString != null) {
+      queryString = queryString.replace("page=" + (pagedProduct.getNumber() + 1), "");
+      if (!queryString.isBlank() && !queryString.startsWith("&"))
+        queryString = "&" + queryString;
+    }
+    model.addAttribute("queryString", queryString);
 
     return "client/product/show";
   }
