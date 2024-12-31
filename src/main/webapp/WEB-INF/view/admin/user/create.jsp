@@ -11,7 +11,7 @@ uri="http://www.springframework.org/tags/form" %>
       name="viewport"
       content="width=device-width, initial-scale=1, shrink-to-fit=no"
     />
-    <meta name="description" content="Laptop shop" />
+    <meta name="description" content="Safie shop" />
     <meta name="author" content="Quoc Trieu" />
     <title>Admin Dashboard</title>
     <link

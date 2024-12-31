@@ -16,7 +16,7 @@ uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Raleway:wght@600;800&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
       rel="stylesheet"
     />
 
@@ -45,6 +45,12 @@ uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 
     <!-- Template Stylesheet -->
     <link href="/client/css/style.css" rel="stylesheet" />
+
+    <!-- Toast plugin -->
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/jquery-toast-plugin/1.3.2/jquery.toast.min.css"
+      rel="stylesheet"
+    />
 
     <!-- JSP variables for accessing in js file -->
     <script>
@@ -76,11 +82,10 @@ uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
         </nav>
         <div class="row g-5 mb-5">
           <div class="col-lg-8 col-xl-9">
-            <div class="row g-4">
+            <div class="row g-3">
               <form
                 id="add-to-cart-form"
-                action="/add-product-to-cart/${product.id}"
-                method="post"
+                data-product="${product.id}"
                 novalidate
                 class="row g-4"
               >
@@ -97,10 +102,25 @@ uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
                   </div>
                 </div>
                 <div class="col-lg-6">
-                  <h4 class="fw-bold mb-3">${product.name}</h4>
+                  <h4 class="fw-medium mb-3">${product.name}</h4>
                   <div class="mb-3">
-                    <p>Danh mục: <a href="#">${product.category.name}</a></p>
-                    <p>Thương hiệu: <a href="#">${product.brand.name}</a></p>
+                    <p>
+                      Danh mục:
+                      <c:url var="url" value="/products">
+                        <c:param
+                          name="category"
+                          value="${product.category.name}"
+                        />
+                      </c:url>
+                      <a href="${url}">${product.category.name}</a>
+                    </p>
+                    <p>
+                      Thương hiệu:
+                      <c:url var="url" value="/products">
+                        <c:param name="brands" value="${product.brand.name}" />
+                      </c:url>
+                      <a href="${url}">${product.brand.name}</a>
+                    </p>
                     <div>
                       <p class="col-12">Kích thước:</p>
                       <div class="row m-0">
@@ -125,7 +145,7 @@ uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
                       </div>
                     </div>
                   </div>
-                  <h3 class="fw-bold mb-3">
+                  <h3 class="fw-medium mb-3">
                     <fmt:formatNumber type="number" value="${product.price}" />
                     đ
                   </h3>
@@ -139,7 +159,7 @@ uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
                   <p class="mb-4">${product.shortDesc}</p>
 
                   <div
-                    class="input-group quantity mb-5 align-items-center"
+                    class="input-group quantity mb-3 align-items-center"
                     style="width: 100px"
                   >
                     <div class="input-group-btn">
@@ -180,6 +200,7 @@ uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
                 </div>
                 <input
                   type="hidden"
+                  class="csrf"
                   name="${_csrf.parameterName}"
                   value="${_csrf.token}"
                 />
@@ -421,7 +442,10 @@ uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
                     <c:forEach var="category" items="${categories}">
                       <li>
                         <div class="d-flex justify-content-between fruite-name">
-                          <a href="#"
+                          <c:url var="url" value="/products">
+                            <c:param name="category" value="${category.name}" />
+                          </c:url>
+                          <a href="${url}"
                             ><i
                               class="${category.name == 'Bé trai' ? 'fas fa-mars' : category.name == 'Bé gái' ? 'fas fa-venus' : 'fas fa-baby'}"
                             ></i>
@@ -506,7 +530,7 @@ uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
         </div>
 
         <!-- Related Products start -->
-        <h1 class="fw-bold mb-0">Sản phẩm tương tự</h1>
+        <h2 class="fw-bold mb-0">Sản phẩm tương tự</h2>
         <div class="vesitable">
           <div class="owl-carousel vegetable-carousel justify-content-center">
             <c:forEach var="product" items="${relatedProducts}">
@@ -589,6 +613,7 @@ uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
     <script src="/client/lib/waypoints/waypoints.min.js"></script>
     <script src="/client/lib/lightbox/js/lightbox.min.js"></script>
     <script src="/client/lib/owlcarousel/owl.carousel.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-toast-plugin/1.3.2/jquery.toast.min.js"></script>
 
     <!-- Template Javascript -->
     <script src="/client/js/main.js"></script>
@@ -604,7 +629,7 @@ uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
         $(".quantity button")
           .off("click")
           .on("click", function (e) {
-            e.preventDefault();
+            e.preventDefault(); //Để không tự submit form
             const input = $("#quantity-input");
             const quantity = parseInt(input.val());
             const button = $(this);
@@ -617,17 +642,82 @@ uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
           });
 
         $(".error-message").css("visibility", "hidden");
-        $("form").submit(function (e) {
-          if (!this.checkValidity()) {
-            e.preventDefault();
-            $(this).find(".error-message").css("visibility", "visible");
+        $("#add-to-cart-form").submit(function (e) {
+          e.preventDefault();
+
+          // check user login hay chưa. userId là biến lấy từ session trong file header.jsp
+          if (!userId) {
+            $.toast({
+              text: "<span style='font-size: 14px'>Bạn cần đăng nhập tài khoản. <a href='/login'>Đăng nhập</a></span>", // Text that is to be shown in the toast
+              heading: "Chưa đăng nhập", // Optional heading to be shown on the toast
+              icon: "warning", // Type of toast icon
+              showHideTransition: "fade", // fade, slide or plain
+              allowToastClose: true, // Boolean value true or false
+              hideAfter: 2500, // false to make it sticky or number representing the miliseconds as time after which toast needs to be hidden
+              stack: false, // false if there should be only one toast at a time or a number representing the maximum number of toasts to be shown at a time
+              position: "bottom-left", // bottom-left or bottom-right or bottom-center or top-left or top-right or top-center or mid-center or an object representing the left, right, top, bottom values
+              textAlign: "left", // Text alignment i.e. left, right or center
+              loader: true, // Whether to show loader or not. True by default
+              loaderBg: "#c5d6c3", // Background color of the toast loader
+            });
+            return;
           }
+
+          if (!this.checkValidity()) {
+            $(this).find(".error-message").css("visibility", "visible");
+            return;
+          }
+
+          const csrf = $(this).find(".csrf");
+          const csrf_name = csrf.attr("name");
+          const csrf_value = csrf.attr("value");
+          const sizeId = $(this)
+            .find("input[name='sizeId'][type='radio']:checked")
+            .val();
+          const quantity = $("#quantity-input").val();
+          $.post(
+            "/api/product/add-to-cart/" + $(this).data("product"),
+            { [csrf_name]: csrf_value, sizeId, quantity },
+            function ({ productName, size, quantity, cartSum }) {
+              console.log({ productName, size, quantity, cartSum });
+              $.toast({
+                text:
+                  "<span style='font-size: 14px'><b>" +
+                  quantity +
+                  "</b> sản phẩm đã được thêm vào giỏ hàng</span>", // Text that is to be shown in the toast
+                heading: "Giỏ hàng", // Optional heading to be shown on the toast
+                icon: "success", // Type of toast icon
+                showHideTransition: "fade", // fade, slide or plain
+                allowToastClose: true, // Boolean value true or false
+                hideAfter: 2500, // false to make it sticky or number representing the miliseconds as time after which toast needs to be hidden
+                stack: false, // false if there should be only one toast at a time or a number representing the maximum number of toasts to be shown at a time
+                position: "bottom-left", // bottom-left or bottom-right or bottom-center or top-left or top-right or top-center or mid-center or an object representing the left, right, top, bottom values
+                textAlign: "left", // Text alignment i.e. left, right or center
+                loader: true, // Whether to show loader or not. True by default
+                loaderBg: "#c5d6c3", // Background color of the toast loader
+              });
+
+              const cart = $("#cart-sum");
+              if (cartSum > 0 && cart.hasClass("d-none")) {
+                cart.addClass("d-flex");
+                cart.removeClass("d-none");
+              } else if (cartSum == 0) {
+                cart.addClass("d-none");
+                cart.removeClass("d-flex");
+              }
+
+              $("#cart-sum").text(cartSum);
+            }
+          );
         });
-        $("form label:has(> input[type='radio'])").click(function () {
-          const errorMessage = $(this).closest("form").find(".error-message");
-          if (errorMessage.css("visibility") === "visible")
-            errorMessage.css("visibility", "hidden");
-        });
+
+        $("#add-to-cart-form label:has(> input[type='radio'])").click(
+          function () {
+            const errorMessage = $(this).closest("form").find(".error-message");
+            if (errorMessage.css("visibility") === "visible")
+              errorMessage.css("visibility", "hidden");
+          }
+        );
       });
     </script>
   </body>

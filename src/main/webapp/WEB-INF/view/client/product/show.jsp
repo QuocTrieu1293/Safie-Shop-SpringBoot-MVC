@@ -16,7 +16,7 @@ uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Raleway:wght@600;800&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
       rel="stylesheet"
     />
 
@@ -45,6 +45,12 @@ uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 
     <!-- Template Stylesheet -->
     <link href="/client/css/style.css" rel="stylesheet" />
+
+    <!-- Toast plugin -->
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/jquery-toast-plugin/1.3.2/jquery.toast.min.css"
+      rel="stylesheet"
+    />
 
     <!-- JSP variables for accessing in js file -->
     <script>
@@ -315,12 +321,12 @@ uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
           <!-- Products -->
           <div class="col-md-8">
             <div
-              class="d-flex mb-3 justify-content-between align-items-md-end align-items-baseline"
+              class="row g-3 mb-3 justify-content-between align-items-md-end align-items-baseline"
             >
-              <span class="" style="color: black"
+              <span class="col-auto" style="color: black"
                 >Tìm thấy <b>${totalProducts}</b> kết quả</span
               >
-              <div class="d-flex align-items-center">
+              <div class="col-auto d-flex align-items-center">
                 <span class="col-auto me-2">Sắp xếp theo:</span>
                 <select
                   class="form-select"
@@ -477,6 +483,7 @@ uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
     <script src="/client/lib/waypoints/waypoints.min.js"></script>
     <script src="/client/lib/lightbox/js/lightbox.min.js"></script>
     <script src="/client/lib/owlcarousel/owl.carousel.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-toast-plugin/1.3.2/jquery.toast.min.js"></script>
 
     <!-- Template Javascript -->
     <script src="/client/js/main.js"></script>

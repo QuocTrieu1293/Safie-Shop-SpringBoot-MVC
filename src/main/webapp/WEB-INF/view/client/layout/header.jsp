@@ -6,6 +6,10 @@ uri="http://java.sun.com/jsp/jstl/core" %>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script> -->
 <!-- Navbar start-->
 
+<script>
+  const userId = "${userId}"; // Dùng để check user có login hay chưa trong file js
+</script>
+
 <div class="container-fluid fixed-top px-0">
   <div
     class="mb-1"
@@ -70,7 +74,7 @@ uri="http://java.sun.com/jsp/jstl/core" %>
         class="collapse navbar-collapse bg-white justify-content-between px-3"
         id="navbarCollapse"
       >
-        <div class="navbar-nav fw-bold">
+        <div class="navbar-nav fw-medium">
           <a href="/" class="nav-item nav-link">Trang chủ</a>
           <a href="/products" class="nav-item nav-link">Sản phẩm</a>
           <!-- <a href="shop-detail.html" class="nav-item nav-link "></a> -->
@@ -106,7 +110,7 @@ uri="http://java.sun.com/jsp/jstl/core" %>
                 <i class="fa fa-shopping-bag fa-2x"></i>
                 <span
                   id="cart-sum"
-                  class="position-absolute bg-warning rounded-circle align-items-center justify-content-center text-dark px-1 ${cartSum > 0 ? 'd-flex' : 'd-none'} fw-bold"
+                  class="position-absolute bg-warning rounded-circle align-items-center justify-content-center text-dark px-1 ${cartSum > 0 ? 'd-flex' : 'd-none'}"
                   style="top: -5px; left: 15px; height: 20px; min-width: 20px"
                   >${cartSum}</span
                 >

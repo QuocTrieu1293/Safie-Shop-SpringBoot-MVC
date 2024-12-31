@@ -44,21 +44,25 @@
             <a
               class="btn btn-outline-primary me-2 btn-md-square rounded-circle"
               href="https://www.instagram.com/safie_baby_official/"
+              target="_blank"
               ><i class="fab fa-instagram"></i
             ></a>
             <a
               class="btn btn-outline-primary me-2 btn-md-square rounded-circle"
               href="https://www.facebook.com/profile.php?id=61569808828505"
+              target="_blank"
               ><i class="fab fa-facebook-f"></i
             ></a>
             <a
               class="btn btn-outline-primary me-2 btn-md-square rounded-circle"
-              href=""
+              href="#"
+              target="_blank"
               ><i class="fab fa-youtube"></i
             ></a>
             <a
               class="btn btn-outline-primary btn-md-square rounded-circle"
-              href=""
+              href="https://www.linkedin.com/in/quoc-trieu-129t2003/"
+              target="_blank"
               ><i class="fab fa-linkedin-in"></i
             ></a>
           </div>
@@ -100,21 +104,21 @@
       <div class="col-lg-auto col-md-6">
         <div class="d-flex flex-column text-start footer-item">
           <h4 class="text-light mb-3">DỊCH VỤ KHÁCH HÀNG</h4>
-          <a class="btn-link" href="">Giới thiệu</a>
-          <a class="btn-link" href="">Chính sách bảo mật</a>
-          <a class="btn-link" href="">Chính sách vận chuyển</a>
-          <a class="btn-link" href="">Chính sách đổi trả</a>
-          <a class="btn-link" href="">Hướng dẫn mua hàng</a>
-          <a class="btn-link" href="">Hướng dẫn thanh toán</a>
-          <a class="btn-link" href="">Liên hệ</a>
+          <a class="btn-link" href="#">Giới thiệu</a>
+          <a class="btn-link" href="#">Chính sách bảo mật</a>
+          <a class="btn-link" href="#">Chính sách vận chuyển</a>
+          <a class="btn-link" href="#">Chính sách đổi trả</a>
+          <a class="btn-link" href="#">Hướng dẫn mua hàng</a>
+          <a class="btn-link" href="#">Hướng dẫn thanh toán</a>
+          <a class="btn-link" href="#">Liên hệ</a>
         </div>
       </div>
       <div class="col-lg-auto col-md-6">
         <div class="d-flex flex-column text-start footer-item">
           <h4 class="text-light mb-3">THÔNG TIN</h4>
-          <a class="btn-link" href="">Sản phẩm khuyến mãi</a>
-          <a class="btn-link" href="">Sản phẩm nổi bật</a>
-          <a class="btn-link" href="">Tất cả sản phẩm</a>
+          <a class="btn-link" href="#">Sản phẩm khuyến mãi</a>
+          <a class="btn-link" href="#">Sản phẩm nổi bật</a>
+          <a class="btn-link" href="#">Tất cả sản phẩm</a>
         </div>
       </div>
       <div class="col-lg-auto col-md-6">

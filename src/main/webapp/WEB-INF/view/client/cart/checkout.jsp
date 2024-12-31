@@ -17,7 +17,7 @@ uri="http://www.springframework.org/tags/form" prefix="form"%>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Raleway:wght@600;800&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
       rel="stylesheet"
     />
 
@@ -93,6 +93,7 @@ uri="http://www.springframework.org/tags/form" prefix="form"%>
                     path="fullName"
                     id="fullName"
                     value="${cart.user.fullName}"
+                    spellcheck="false"
                   />
                 </div>
 
@@ -108,6 +109,7 @@ uri="http://www.springframework.org/tags/form" prefix="form"%>
                     path="address"
                     required="true"
                     value="${cart.user.address}"
+                    spellcheck="false"
                   />
                 </div>
 

@@ -37,6 +37,7 @@
     rgba(255, 255, 255, 0.15),
     rgba(255, 255, 255, 0)
   );
+  --bs-emphasis-color: #a97349 !important;
 }
 *,
 *::before,
@@ -50,7 +51,7 @@
 }
 body {
   margin: 0;
-  font-family: "Open Sans", sans-serif;
+  font-family: "Inter", sans-serif;
   font-size: 1rem;
   font-weight: 400;
   line-height: 1.5;
@@ -83,7 +84,7 @@ h1,
 .h1 {
   margin-top: 0;
   margin-bottom: 0.5rem;
-  font-family: "Open Sans", sans-serif;
+  font-family: "Inter", sans-serif;
   font-weight: 600;
   line-height: 1.2;
   color: #45595b;
@@ -3662,7 +3663,7 @@ fieldset:disabled .btn {
 .nav-link {
   display: block;
   padding: 0.5rem 1rem;
-  color: #a97349;
+  color: #45595b;
   transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
     border-color 0.15s ease-in-out;
 }
@@ -3673,7 +3674,7 @@ fieldset:disabled .btn {
 }
 .nav-link:hover,
 .nav-link:focus {
-  color: #fdf8e3;
+  color: #a97349;
 }
 .nav-link.disabled {
   color: #6c757d;
@@ -3702,7 +3703,7 @@ fieldset:disabled .btn {
 }
 .nav-tabs .nav-link.active,
 .nav-tabs .nav-item.show .nav-link {
-  color: #495057;
+  color: #a97349;
   background-color: #fff;
   border-color: #dee2e6 #dee2e6 #fff;
 }
@@ -5252,7 +5253,7 @@ fieldset:disabled .btn {
   z-index: 1080;
   display: block;
   margin: 0;
-  font-family: "Open Sans", sans-serif;
+  font-family: "Inter", sans-serif;
   font-style: normal;
   font-weight: 400;
   line-height: 1.5;
@@ -5360,7 +5361,7 @@ fieldset:disabled .btn {
   z-index: 1070;
   display: block;
   max-width: 276px;
-  font-family: "Open Sans", sans-serif;
+  font-family: "Inter", sans-serif;
   font-style: normal;
   font-weight: 400;
   line-height: 1.5;
@@ -5805,6 +5806,9 @@ fieldset:disabled .btn {
 }
 .link-secondary {
   color: #c5d6c3;
+}
+.link-blue {
+  color: #0d6efd;
 }
 .link-secondary:hover,
 .link-secondary:focus {
@@ -6818,8 +6822,11 @@ fieldset:disabled .btn {
 .fw-normal {
   font-weight: 400 !important;
 }
+.fw-medium {
+  font-weight: 500 !important;
+}
 .fw-bold {
-  font-weight: 700 !important;
+  font-weight: 600 !important;
 }
 .fw-bolder {
   font-weight: bolder !important;

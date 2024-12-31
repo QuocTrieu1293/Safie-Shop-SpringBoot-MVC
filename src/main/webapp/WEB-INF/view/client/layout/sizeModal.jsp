@@ -36,7 +36,6 @@ uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
       </div>
       <form
         action="#"
-        method="post"
         id="size-modal-form"
         class="flex-grow-1 d-flex flex-column"
         novalidate
@@ -55,16 +54,16 @@ uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
             <div class="col-8">
               <p
                 id="size-modal-name"
-                class="fw-bolder mb-1"
+                class="fw-bold mb-1"
                 style="font-size: 16px; color: #45595b"
               >
                 Quần áo trẻ em Bobicraft - Áo thun bé trai cổ viền tròn xám -
                 Cotton hữu cơ organic an toàn
               </p>
-              <p style="font-size: 13px" class="fw-bold mb-0">
+              <p style="font-size: 13px" class="fw-medium mb-0">
                 Thương hiệu: <span id="size-modal-brand">Bobi craft</span>
               </p>
-              <p style="font-size: 13px" class="fw-bold">
+              <p style="font-size: 13px" class="fw-medium">
                 Danh mục: <span id="size-modal-category">Bé trai</span>
               </p>
             </div>
@@ -72,7 +71,7 @@ uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
           <div>
             <div class="mb-1 col-12 mx-0 px-0">
-              <span class="fw-bolder" style="font-size: 16px; color: #45595b"
+              <span class="fw-medium" style="font-size: 16px; color: #45595b"
                 >Sizes:</span
               >
               <span
@@ -97,15 +96,14 @@ uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
           </div>
         </div>
         <div class="modal-footer justify-content-between mt-auto">
-          <p id="size-modal-price" class="text-dark fs-3 fw-bolder">
-            255.000 ₫
-          </p>
+          <p id="size-modal-price" class="text-dark fs-3 fw-bold">255.000 ₫</p>
           <button type="submit" class="btn btn-primary fs-5 py-2 px-3">
             Thêm vào giỏ hàng
           </button>
         </div>
         <input
           type="hidden"
+          class="csrf"
           name="${_csrf.parameterName}"
           value="${_csrf.token}"
         />

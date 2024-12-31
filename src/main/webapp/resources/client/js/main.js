@@ -9,8 +9,7 @@
             }
         }, 1);
     };
-    spinner(0);
-
+    spinner();
 
     // Fixed Navbar
     $(window).scroll(function () {
@@ -130,8 +129,12 @@
     });
 
     $("#navbarCollapse").find("a.nav-item").each(function () {
-        if ($(this).attr("href") === window.location.pathname)
-            $(this).addClass("active")
+        if ($(this).attr("href") === window.location.pathname) {
+            $(this).addClass("active");
+            $(this).attr("aria-current", "page");
+        } else {
+            $(this).removeAttr("aria-current");
+        }
     })
 
 })(jQuery);

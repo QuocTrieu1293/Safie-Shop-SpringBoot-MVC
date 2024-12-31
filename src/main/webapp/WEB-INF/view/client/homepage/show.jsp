@@ -15,7 +15,7 @@ uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Raleway:wght@600;800&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
       rel="stylesheet"
     />
 
@@ -44,6 +44,12 @@ uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
     <!-- Template Stylesheet -->
     <link href="/client/css/style.css" rel="stylesheet" />
+
+    <!-- Toast plugin -->
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/jquery-toast-plugin/1.3.2/jquery.toast.min.css"
+      rel="stylesheet"
+    />
 
     <!-- JSP variables for accessing in js file -->
     <script>
@@ -88,7 +94,10 @@ uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
                     style="object-fit: cover"
                     alt="First slide"
                   />
-                  <a href="#" class="btn px-4 py-2 text-white rounded fs-5"
+                  <c:url var="url" value="/products">
+                    <c:param name="category" value="Bộ đồ liền thân" />
+                  </c:url>
+                  <a href="${url}" class="btn px-4 py-2 text-white rounded fs-5"
                     >Bộ đồ liền thân</a
                   >
                 </div>
@@ -99,7 +108,10 @@ uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
                     style="object-fit: cover"
                     alt="Second slide"
                   />
-                  <a href="#" class="btn px-4 py-2 text-white rounded fs-5"
+                  <c:url var="url" value="/products">
+                    <c:param name="category" value="Tất & bao tay" />
+                  </c:url>
+                  <a href="${url}" class="btn px-4 py-2 text-white rounded fs-5"
                     >Tất & bao tay</a
                   >
                 </div>
@@ -110,7 +122,9 @@ uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
                     style="object-fit: cover"
                     alt="Second slide"
                   />
-                  <a href="#" class="btn px-4 py-2 text-white rounded fs-5"
+                  <a
+                    href="/products"
+                    class="btn px-4 py-2 text-white rounded fs-5"
                     >Organic</a
                   >
                 </div>
@@ -257,7 +271,7 @@ uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
             Các khách hàng đã nhận xét rằng !
           </h1>
         </div>
-        <div class="owl-carousel testimonial-carousel">
+        <div class="owl-carousel testimonial-carousel d-flex">
           <div class="testimonial-item img-border-radius bg-light rounded p-4">
             <div class="position-relative">
               <i
@@ -400,6 +414,7 @@ uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
     <script src="/client/lib/waypoints/waypoints.min.js"></script>
     <script src="/client/lib/lightbox/js/lightbox.min.js"></script>
     <script src="/client/lib/owlcarousel/owl.carousel.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-toast-plugin/1.3.2/jquery.toast.min.js"></script>
 
     <!-- Template Javascript -->
     <script src="/client/js/main.js"></script>

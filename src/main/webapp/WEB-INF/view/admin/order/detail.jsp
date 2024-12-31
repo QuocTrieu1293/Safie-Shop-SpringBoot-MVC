@@ -12,7 +12,7 @@ uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
       name="viewport"
       content="width=device-width, initial-scale=1, shrink-to-fit=no"
     />
-    <meta name="description" content="Laptop shop" />
+    <meta name="description" content="Safie shop" />
     <meta name="author" content="Quoc Trieu" />
     <title>Admin Dashboard</title>
     <link
@@ -20,6 +20,13 @@ uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
       rel="stylesheet"
     />
     <link href="/css/styles.css" rel="stylesheet" />
+
+    <!-- Toast plugin -->
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/jquery-toast-plugin/1.3.2/jquery.toast.min.css"
+      rel="stylesheet"
+    />
+
     <script
       src="https://use.fontawesome.com/releases/v6.3.0/js/all.js"
       crossorigin="anonymous"
@@ -196,6 +203,7 @@ uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
     ></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-toast-plugin/1.3.2/jquery.toast.min.js"></script>
 
     <script>
       $(document).ready(function () {
@@ -210,12 +218,34 @@ uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
         $("[data-status]").click(function () {
           const status = $(this).attr("data-status");
+
+          if (status === statusBtn.text().trim()) {
+            return;
+          }
+
           $.post(
-            "/admin/order/update",
+            "/api/order/update",
             { orderId: "${order.id}", status: status },
             function ({ orderId, status }) {
               statusBtn.text(status);
               setStateColor(statusBtn);
+
+              $.toast({
+                text:
+                  "<span style='font-size: 14px'>Trạng thái đã thay đổi thành <b>" +
+                  status +
+                  "</b></span>", // Text that is to be shown in the toast
+                heading: "Đơn hàng <b>#" + orderId + "</b>", // Optional heading to be shown on the toast
+                icon: "success", // Type of toast icon
+                showHideTransition: "fade", // fade, slide or plain
+                allowToastClose: true, // Boolean value true or false
+                hideAfter: 2500, // false to make it sticky or number representing the miliseconds as time after which toast needs to be hidden
+                stack: false, // false if there should be only one toast at a time or a number representing the maximum number of toasts to be shown at a time
+                position: "bottom-right", // bottom-left or bottom-right or bottom-center or top-left or top-right or top-center or mid-center or an object representing the left, right, top, bottom values
+                textAlign: "left", // Text alignment i.e. left, right or center
+                loader: true, // Whether to show loader or not. True by default
+                loaderBg: "#20c997", // Background color of the toast loader
+              });
             }
           );
         });

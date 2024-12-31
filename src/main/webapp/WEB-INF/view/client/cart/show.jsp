@@ -18,7 +18,7 @@ uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Raleway:wght@600;800&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
       rel="stylesheet"
     />
 
@@ -315,7 +315,7 @@ uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 
       function updateQuantity(cartDetailId, quantity, callback) {
         $.ajax({
-          url: "/api/updateQuantity",
+          url: "/api/cart/update-quantity",
           method: "POST",
           data: {
             cartDetailId: cartDetailId,
@@ -331,23 +331,22 @@ uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
             xhr.setRequestHeader(csrfHeader, csrfToken);
           },
           success: function (response) {
-            callback(response);
             ({ totalPrice, cartSum } = response);
-            // update total price ui
-            $(`p[data-cart-total-price]`).each(function (index, element) {
-              $(element).text(
+            if (cartSum == 0) {
+              location.reload();
+            } else {
+              callback(response);
+
+              // update total price ui
+              $(`p[data-cart-total-price]`).text(
                 new Intl.NumberFormat("vi-VN", {
                   style: "currency",
                   currency: "VND",
                 }).format(parseFloat(totalPrice))
               );
-            });
 
-            // update session ui
-            $("#cart-sum").text(cartSum);
-
-            if (cartSum == 0) {
-              location.reload();
+              // update session ui
+              $("#cart-sum").text(cartSum);
             }
           },
         });

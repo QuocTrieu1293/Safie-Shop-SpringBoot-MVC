@@ -470,7 +470,7 @@
 }
 
 .nav.nav-tabs .nav-link.active {
-  border-bottom: 2px solid var(--bs-secondary) !important;
+  border-bottom: 2px solid var(--bs-primary) !important;
 }
 /*** Single Page End ***/
 
@@ -507,9 +507,10 @@
   flex-grow: 1;
   outline: none;
   background-color: transparent;
+  font-size: 14px;
 }
 
-i:has(+ .my-search-input:focus) {
+:has(> .my-search-input:focus) > i {
   color: #212121;
 }
 
@@ -518,7 +519,7 @@ i:has(+ .my-search-input:focus) {
   border: solid 1px var(--bs-secondary);
   border-radius: 5px;
   font-size: 14px;
-  font-weight: bold;
+  font-weight: 500;
   cursor: pointer;
   transition: background-color 150ms linear;
   background-color: whitesmoke;
