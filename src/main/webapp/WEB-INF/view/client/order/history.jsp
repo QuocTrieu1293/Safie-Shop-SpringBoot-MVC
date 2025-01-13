@@ -50,6 +50,7 @@ uri="http://sargue.net/jsptags/time" prefix="javatime" %>
 
     <!-- Template Stylesheet -->
     <link href="/client/css/style.css" rel="stylesheet" />
+    <link rel="stylesheet" href="/css/mycss.css" />
 
     <style>
       .nav-underline::-webkit-scrollbar {
@@ -339,10 +340,8 @@ uri="http://sargue.net/jsptags/time" prefix="javatime" %>
       const url = new URL(window.location.href);
       const searchParams = url.searchParams;
 
-      function searchOrder() {
-        const search = $("#search-input").val().trim();
-
-        if (search) searchParams.set("search", search);
+      function searchOrder(keyword) {
+        if (keyword) searchParams.set("search", keyword);
         else searchParams.delete("search");
 
         searchParams.delete("page");
@@ -372,30 +371,34 @@ uri="http://sargue.net/jsptags/time" prefix="javatime" %>
           window.location.href = url.toString();
         });
 
-        $("#search-input").keydown(function (e) {
-          if (e.key === "Enter") {
-            searchOrder();
-          }
-        });
         $("#search-input")
           .siblings("i.fa-search[role='button']")
-          .click(searchOrder);
+          .click(function () {
+            searchOrder($("#search-input").val().trim());
+          });
 
         const clearSearch = $("#search-input").siblings(
           "i.bi-x-circle-fill[role='button']"
         );
         if (!$("#search-input").val()) clearSearch.addClass("d-none");
-        $("#search-input").keyup(function () {
+        $("#search-input").on("input", function (e) {
+          const val = $(this).val();
           // console.log($(this).val());
-          if ($(this).val() && clearSearch.hasClass("d-none")) {
+          if (val && clearSearch.hasClass("d-none")) {
             clearSearch.removeClass("d-none");
-          } else if (!$(this).val() && !clearSearch.hasClass("d-none")) {
+          } else if (!val && !clearSearch.hasClass("d-none")) {
             clearSearch.addClass("d-none");
+          }
+        });
+        $("#search-input").keydown(function (e) {
+          if (e.key === "Enter") {
+            searchOrder($("#search-input").val().trim());
           }
         });
         clearSearch.click(function () {
           $("#search-input").val("");
           clearSearch.addClass("d-none");
+          $("#search-input").focus();
         });
       });
     </script>

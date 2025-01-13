@@ -44,6 +44,7 @@ uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
     <!-- Template Stylesheet -->
     <link href="/client/css/style.css" rel="stylesheet" />
+    <link rel="stylesheet" href="/css/mycss.css" />
 
     <!-- Toast plugin -->
     <link

@@ -25,6 +25,8 @@ public interface OrderRepository extends JpaRepository<Order, Long>, JpaSpecific
       + "select od from o.orderDetails od where lower(od.product.name) like lower(concat('%', :keyword ,'%'))" + ")")
   Page<Order> searchByKeyword(@Param("keyword") String keyword, Pageable pageable);
 
+  Page<Order> findAll(Pageable pageable);
+
   Page<Order> findAll(Specification<Order> spec, Pageable pageable);
 
 }

@@ -100,6 +100,7 @@ public class OrderController {
     HttpSession session = request.getSession(false);
     long userId = (long) session.getAttribute("userId");
     orderCriteria.setUserId(userId);
+    orderCriteria.setPageSize(3);
 
     Page<Order> pagedOrder = orderService.getPageWithSpec(orderCriteria);
     List<Order> orders = pagedOrder.getContent();

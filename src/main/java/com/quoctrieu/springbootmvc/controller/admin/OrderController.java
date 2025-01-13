@@ -16,9 +16,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.quoctrieu.springbootmvc.domain.Order;
+import com.quoctrieu.springbootmvc.domain.dto.OrderCriteriaDTO;
 import com.quoctrieu.springbootmvc.repository.OrderRepository;
 import com.quoctrieu.springbootmvc.service.OrderService;
 import com.quoctrieu.springbootmvc.service.UtilsService;
+
+import jakarta.servlet.http.HttpServletRequest;
 
 @Controller
 public class OrderController {
@@ -31,14 +34,23 @@ public class OrderController {
   }
 
   @GetMapping("/admin/order")
-  public String getOrderPage(Model model, @RequestParam(defaultValue = "1") String page) {
+  public String getOrderPage(Model model, OrderCriteriaDTO orderCriteria, HttpServletRequest request) {
+    orderCriteria.setPageSize(4);
 
-    Pageable pageable = UtilsService.getPageRequest(page, 4);
-    Page<Order> pagedOrder = orderRepository.findAll(pageable);
+    Page<Order> pagedOrder = orderService.getPageWithSpec(orderCriteria);
     List<Order> orders = pagedOrder.getContent();
     model.addAttribute("orders", orders);
     model.addAttribute("totalPages", pagedOrder.getTotalPages());
-    model.addAttribute("currentPage", pageable.getPageNumber() + 1);
+    model.addAttribute("currentPage", pagedOrder.getNumber() + 1);
+    model.addAttribute("totalOrders", pagedOrder.getTotalElements());
+
+    String queryString = request.getQueryString();
+    if (queryString != null) {
+      queryString = queryString.replace("page=" + orderCriteria.getPage(), "");
+      if (!queryString.isBlank() && !queryString.startsWith("&"))
+        queryString = "&" + queryString;
+    }
+    model.addAttribute("queryString", queryString);
 
     return "admin/order/show";
   }

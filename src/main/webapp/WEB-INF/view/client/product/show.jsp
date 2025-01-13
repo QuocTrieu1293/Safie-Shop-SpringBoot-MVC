@@ -45,6 +45,7 @@ uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 
     <!-- Template Stylesheet -->
     <link href="/client/css/style.css" rel="stylesheet" />
+    <link rel="stylesheet" href="/css/mycss.css" />
 
     <!-- Toast plugin -->
     <link

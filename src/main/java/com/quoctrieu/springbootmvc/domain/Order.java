@@ -3,6 +3,9 @@ package com.quoctrieu.springbootmvc.domain;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -41,7 +44,13 @@ public class Order {
   private String paymentMethod;
   private String paymentStatus;
   private String paymentRef;
+
+  @CreationTimestamp
+  @Column(nullable = false, updatable = false)
   private LocalDateTime date;
+
+  @UpdateTimestamp
+  private LocalDateTime lastModified;
 
   public long getId() {
     return id;
@@ -153,6 +162,14 @@ public class Order {
 
   public void setDate(LocalDateTime date) {
     this.date = date;
+  }
+
+  public LocalDateTime getLastModified() {
+    return lastModified;
+  }
+
+  public void setLastModified(LocalDateTime lastModified) {
+    this.lastModified = lastModified;
   }
 
   @Override

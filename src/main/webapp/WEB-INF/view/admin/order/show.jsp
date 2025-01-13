@@ -20,6 +20,8 @@ uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
       rel="stylesheet"
     />
     <link href="/css/styles.css" rel="stylesheet" />
+    <link rel="stylesheet" href="/css/mycss.css" />
+
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
@@ -72,6 +74,100 @@ uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
                 </div>
               </c:when>
             </c:choose>
+
+            <!-- Filter -->
+            <div class="row mb-3">
+              <!-- Status filter -->
+              <div class="col-md-auto col-12 row me-3 mb-2 gx-3 flex-nowrap">
+                <label
+                  for="status-filter"
+                  class="col-form-label col-md-auto col-2 fw-semibold"
+                  >Status</label
+                >
+                <div class="col-auto ps-0">
+                  <select name="status" id="status-filter" class="form-select">
+                    <option value="All">All</option>
+                    <option value="PENDING">PENDING</option>
+                    <option value="SHIPPING">SHIPPING</option>
+                    <option value="COMPLETE">COMPLETE</option>
+                    <option value="CANCEL">CANCEL</option>
+                  </select>
+                </div>
+              </div>
+
+              <!-- Date filter -->
+              <div class="col-md-auto col-12 row me-3 mb-2 gx-3 flex-nowrap">
+                <label class="col-form-label col-md-auto col-2 fw-semibold"
+                  >Date</label
+                >
+                <div class="col-auto row flex-nowrap ps-0 gx-2">
+                  <div class="col-auto">
+                    <input
+                      type="date"
+                      name="from"
+                      id="from-date"
+                      class="form-control"
+                    />
+                  </div>
+                  <span class="col-auto align-content-center">-</span>
+                  <div class="col-auto">
+                    <input
+                      type="date"
+                      name="to"
+                      id="to-date"
+                      class="form-control"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <!-- Search -->
+              <div class="col">
+                <div class="form-control p-2 d-flex align-items-center">
+                  <i
+                    class="fas fa-search px-2"
+                    style="font-size: 18px"
+                    role="button"
+                  ></i>
+                  <input
+                    type="text"
+                    class="my-search-input"
+                    id="search"
+                    name="search"
+                    style="font-size: 16px"
+                    placeholder="Search for order ID (ex: #123), customer or product"
+                    spellcheck="false"
+                  />
+                  <i
+                    class="bi bi-x-circle-fill ps-1"
+                    style="font-size: 16px; line-height: 0"
+                    role="button"
+                  ></i>
+                </div>
+              </div>
+            </div>
+
+            <!-- Sort -->
+            <div class="row mb-3">
+              <span class="col-form-label col-auto"
+                >Có <b>${totalOrders}</b> kết quả</span
+              >
+              <div class="col-auto row flex-nowrap ms-auto">
+                <label for="sort" class="col-form-label col-auto fw-semibold"
+                  >Sort by</label
+                >
+                <div class="col-auto">
+                  <select name="sort" id="sort" class="form-select">
+                    <option value="default">Default</option>
+                    <option value="newest-created">Newest Created</option>
+                    <option value="oldest-created">Oldest Created</option>
+                    <option value="recently-updated">Recently Updated</option>
+                    <option value="oldest-updated">Oldest Updated</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
             <table class="table table-hover table-bordered">
               <thead>
                 <tr class="text-center">
@@ -153,7 +249,9 @@ uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
                     </td>
                     <td class="text-center">${order.paymentStatus}</td>
                     <td class="text-center">
-                      <a href="/admin/order/${order.id}" class="btn btn-primary"
+                      <a
+                        href="/admin/order/${order.id}"
+                        class="btn btn-primary mb-2 mb-xl-0"
                         >View</a
                       >
                       <a
@@ -166,13 +264,13 @@ uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
                 </c:forEach>
               </tbody>
             </table>
-            <c:if test="${not empty orders}">
+            <c:if test="${totalPages > 0}">
               <nav aria-label="Order pages navigation">
                 <ul class="pagination justify-content-center">
                   <li class="page-item ${currentPage == 1 ? 'disabled' : ''}">
                     <a
                       class="page-link"
-                      href="/admin/order?page=${currentPage - 1}"
+                      href="/admin/order?page=${currentPage - 1}${queryString}"
                       aria-label="Previous"
                     >
                       <i class="bi bi-chevron-left"></i>
@@ -184,7 +282,7 @@ uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
                     >
                       <a
                         class="page-link"
-                        href="/admin/order?page=${loop.index}"
+                        href="/admin/order?page=${loop.index}${queryString}"
                         >${loop.index}</a
                       >
                     </li>
@@ -194,7 +292,7 @@ uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
                   >
                     <a
                       class="page-link"
-                      href="/admin/order?page=${currentPage + 1}"
+                      href="/admin/order?page=${currentPage + 1}${queryString}"
                       aria-label="Next"
                     >
                       <i class="bi bi-chevron-right"></i>
@@ -237,11 +335,30 @@ uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-toast-plugin/1.3.2/jquery.toast.min.js"></script>
 
     <script>
+      const url = new URL(window.location.href);
+      const searchParams = url.searchParams;
+
+      function searchOrder(keyword) {
+        if (keyword) searchParams.set("search", keyword);
+        else searchParams.delete("search");
+        searchParams.delete("page");
+        window.location.href = url.toString();
+      }
+
       $(document).ready(function () {
         $(".order-status.dropdown-toggle").each(function () {
           const toggle = $(this);
           setStateColor(toggle);
         });
+
+        $("#status-filter, #from-date, #to-date, #sort, #search").each(
+          function () {
+            const name = $(this).attr("name");
+            if (searchParams.has(name)) {
+              $(this).val(searchParams.get(name));
+            }
+          }
+        );
 
         $.ajaxSetup({
           headers: {
@@ -286,6 +403,43 @@ uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
               });
             }
           );
+        });
+
+        $("#status-filter, #from-date, #to-date, #sort").change(function () {
+          const name = $(this).attr("name");
+          const value = $(this).val().trim();
+          if (value) searchParams.set(name, value);
+          else searchParams.delete(name);
+          if ($(this).attr("id") !== "sort" && searchParams.has("page"))
+            searchParams.delete("page");
+          window.location.href = url.toString();
+        });
+
+        $("#search")
+          .prev()
+          .click(function () {
+            searchOrder($("#search").val().trim());
+          });
+        const clearSearch = $("#search").siblings(
+          "i.bi-x-circle-fill[role='button']"
+        );
+        if (!searchParams.has("search")) clearSearch.addClass("d-none");
+        clearSearch.click(function () {
+          $("#search").val("");
+          clearSearch.addClass("d-none");
+          $("#search").focus();
+        });
+        $("#search").on("input", function () {
+          const val = $(this).val();
+          if (val && clearSearch.hasClass("d-none"))
+            clearSearch.removeClass("d-none");
+          else if (!val && !clearSearch.hasClass("d-none"))
+            clearSearch.addClass("d-none");
+        });
+        $("#search").keydown(function (e) {
+          if (e.key === "Enter") {
+            searchOrder($("#search").val().trim());
+          }
         });
       });
 

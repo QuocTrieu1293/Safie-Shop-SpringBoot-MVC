@@ -1,7 +1,5 @@
 package com.quoctrieu.springbootmvc.service;
 
-import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.util.List;
 import java.util.UUID;
 
@@ -65,7 +63,7 @@ public class OrderService {
     String paymentRef = UUID.randomUUID().toString().replaceAll("-", "");
     newOrder.setPaymentRef(paymentMethod.equals("COD") ? "UNKNOWN" : paymentRef);
     // newOrder.setDate(LocalDateTime.now(ZoneId.of(ZoneId.SHORT_IDS.get("VST"))));
-    newOrder.setDate(LocalDateTime.now(ZoneId.of("Asia/Ho_Chi_Minh")));
+    // newOrder.setDate(LocalDateTime.now(ZoneId.of("Asia/Ho_Chi_Minh")));
     newOrder = orderRepository.save(newOrder);
 
     // create OrderDetails # Không thể đồng thời thêm OrderDetail và xoá CartDetail
@@ -114,11 +112,19 @@ public class OrderService {
   }
 
   public Page<Order> getPageWithSpec(OrderCriteriaDTO orderCriteria) {
-    PageRequest pageRequest = UtilsService.getPageRequest(orderCriteria.getPage(), 3);
+    Sort sort = switch (orderCriteria.getSort()) {
+      case "newest-created" -> Sort.by(Order_.DATE).descending();
+      case "oldest-created" -> Sort.by(Order_.DATE).ascending();
+      case "recently-updated" -> Sort.by(Order_.LAST_MODIFIED).descending();
+      case "oldest-updated" -> Sort.by(Order_.LAST_MODIFIED).ascending();
+      default -> Sort.by(Sort.Order.desc(Order_.DATE), Sort.Order.desc(Order_.LAST_MODIFIED));
+    };
+    PageRequest pageRequest = UtilsService.getPageRequest(orderCriteria.getPage(), orderCriteria.getPageSize());
     Specification<Order> spec = Specification.where(OrderSpecs.getByUser(orderCriteria.getUserId()))
         .and(OrderSpecs.getByStatus(orderCriteria.getStatus()))
+        .and(OrderSpecs.getByDateBetween(orderCriteria.getFrom(), orderCriteria.getTo()))
         .and(OrderSpecs.getBySearch(orderCriteria.getSearch()));
-    return orderRepository.findAll(spec, pageRequest.withSort(Sort.by(Order_.DATE).descending()));
+    return orderRepository.findAll(spec, pageRequest.withSort(sort));
   }
 
 }
