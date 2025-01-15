@@ -21,10 +21,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import com.quoctrieu.springbootmvc.domain.User;
+import com.quoctrieu.springbootmvc.repository.UserRepository;
 import com.quoctrieu.springbootmvc.service.FileService;
 import com.quoctrieu.springbootmvc.service.FileService.Type;
+import com.quoctrieu.springbootmvc.specification.UserSpecs;
 import com.quoctrieu.springbootmvc.service.RoleService;
 import com.quoctrieu.springbootmvc.service.UserService;
 import com.quoctrieu.springbootmvc.service.UtilsService;
@@ -33,6 +36,7 @@ import com.quoctrieu.springbootmvc.service.UtilsService;
 // @SessionAttributes("roles")
 public class UserController {
 
+  final private UserRepository userRepository;
   final private UserService userService;
   final private FileService fileService;
   final private RoleService roleService;
@@ -47,7 +51,9 @@ public class UserController {
   // return roleService.getAll();
   // }
 
-  public UserController(UserService userService, FileService fileService, RoleService roleService) {
+  public UserController(UserRepository userRepository, UserService userService, FileService fileService,
+      RoleService roleService) {
+    this.userRepository = userRepository;
     this.userService = userService;
     this.fileService = fileService;
     this.roleService = roleService;
@@ -65,14 +71,24 @@ public class UserController {
   // }
 
   @RequestMapping("/admin/user")
-  public String getUserPage(Model model, @RequestParam(defaultValue = "1") String page) {
+  public String getUserPage(Model model, @RequestParam(defaultValue = "1") String page,
+      @RequestParam(required = false) String search, HttpServletRequest request) {
 
     Pageable pageable = UtilsService.getPageRequest(page, 4);
-    Page<User> pagedUser = userService.getPage(pageable);
+    Page<User> pagedUser = userRepository.findAll(UserSpecs.getBySearch(search), pageable);
     List<User> userList = pagedUser.getContent();
     model.addAttribute("userList", userList);
     model.addAttribute("totalPages", pagedUser.getTotalPages());
     model.addAttribute("currentPage", pageable.getPageNumber() + 1);
+    model.addAttribute("totalUsers", pagedUser.getTotalElements());
+
+    String queryString = request.getQueryString();
+    if (queryString != null) {
+      queryString = queryString.replace("page=" + page, "");
+      if (!queryString.isBlank() && !queryString.startsWith("&"))
+        queryString = "&" + queryString;
+    }
+    model.addAttribute("queryString", queryString);
 
     return "admin/user/show";
   }

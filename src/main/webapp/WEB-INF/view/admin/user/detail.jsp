@@ -22,6 +22,12 @@ uri="http://java.sun.com/jsp/jstl/core" %>
       src="https://use.fontawesome.com/releases/v6.3.0/js/all.js"
       crossorigin="anonymous"
     ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
+      integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
   </head>
   <body class="sb-nav-fixed">
     <jsp:include page="../layout/header.jsp" />
@@ -85,7 +91,9 @@ uri="http://java.sun.com/jsp/jstl/core" %>
                 </div>
               </div>
             </div>
-            <a href="/admin/user" class="btn btn-success mt-3">Back</a>
+            <a class="btn btn-success my-3" role="button" onclick="goBack()"
+              >Back</a
+            >
           </div>
         </main>
         <jsp:include page="../layout/footer.jsp" />

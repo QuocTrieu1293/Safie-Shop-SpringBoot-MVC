@@ -27,7 +27,6 @@ public class OrderSpecs {
   }
 
   public static Specification<Order> getBySearch(String search) {
-
     return (root, query, criteriaBuilder) -> {
       if (search == null || search.isBlank())
         return criteriaBuilder.conjunction();
@@ -35,13 +34,14 @@ public class OrderSpecs {
       query.distinct(true);
 
       Join<Order, OrderDetail> orderDetailJoin = root.join(Order_.ORDER_DETAILS);
+      String likeSearch = "%" + search.toLowerCase().trim() + "%";
 
       return criteriaBuilder
-          .or(criteriaBuilder.equal(criteriaBuilder.concat("#", root.get(Order_.ID).as(String.class)), search),
+          .or(criteriaBuilder.equal(criteriaBuilder.concat("#", root.get(Order_.ID).as(String.class)), search.trim()),
               criteriaBuilder.like(criteriaBuilder.lower(orderDetailJoin.get(OrderDetail_.PRODUCT).get(Product_.NAME)),
-                  "%" + search.toLowerCase() + "%"),
+                  likeSearch),
               criteriaBuilder.like(criteriaBuilder.lower(root.get(Order_.USER).get(User_.FULL_NAME)),
-                  "%" + search.toLowerCase() + "%"));
+                  likeSearch));
     };
   }
 

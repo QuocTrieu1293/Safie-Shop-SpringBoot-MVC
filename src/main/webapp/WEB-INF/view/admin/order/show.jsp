@@ -37,6 +37,12 @@ uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
       src="https://use.fontawesome.com/releases/v6.3.0/js/all.js"
       crossorigin="anonymous"
     ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
+      integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
   </head>
   <body class="sb-nav-fixed">
     <jsp:include page="../layout/header.jsp" />
@@ -85,7 +91,12 @@ uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
                   >Status</label
                 >
                 <div class="col-auto ps-0">
-                  <select name="status" id="status-filter" class="form-select">
+                  <select
+                    name="status"
+                    id="status-filter"
+                    class="form-select"
+                    aria-label="Order status filter"
+                  >
                     <option value="All">All</option>
                     <option value="PENDING">PENDING</option>
                     <option value="SHIPPING">SHIPPING</option>
@@ -122,7 +133,7 @@ uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
               </div>
 
               <!-- Search -->
-              <div class="col">
+              <div class="col ms-auto" style="max-width: 500px">
                 <div class="form-control p-2 d-flex align-items-center">
                   <i
                     class="fas fa-search px-2"
@@ -157,7 +168,12 @@ uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
                   >Sort by</label
                 >
                 <div class="col-auto">
-                  <select name="sort" id="sort" class="form-select">
+                  <select
+                    name="sort"
+                    id="sort"
+                    class="form-select"
+                    aria-label="Orders sort types"
+                  >
                     <option value="default">Default</option>
                     <option value="newest-created">Newest Created</option>
                     <option value="oldest-created">Oldest Created</option>
@@ -311,11 +327,6 @@ uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
       integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
       crossorigin="anonymous"
     ></script>
-    <!-- <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
-      crossorigin="anonymous"
-    ></script> -->
-    <script src="/js/scripts.js"></script>
     <script
       src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js"
       crossorigin="anonymous"
@@ -326,13 +337,8 @@ uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
       crossorigin="anonymous"
     ></script>
 
-    <script
-      src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
-      integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer"
-    ></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-toast-plugin/1.3.2/jquery.toast.min.js"></script>
+    <script src="/js/scripts.js"></script>
 
     <script>
       const url = new URL(window.location.href);

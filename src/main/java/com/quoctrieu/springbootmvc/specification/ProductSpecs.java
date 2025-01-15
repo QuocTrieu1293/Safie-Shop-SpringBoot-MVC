@@ -16,10 +16,10 @@ import com.quoctrieu.springbootmvc.domain.Size_;
 
 public class ProductSpecs {
     public static Specification<Product> filterBy(String categoryName, String[] brandNames, Double minPrice,
-            Double maxPrice, String[] sizeNames) {
+            Double maxPrice, String[] sizeNames, String search) {
 
         return (root, query, criteriaBuilder) -> {
-            query.distinct(true);
+            query.distinct(true); // Do Product có join Sizes và mqh là 1 - n
 
             List<Predicate> predicates = new ArrayList<>();
 
@@ -43,6 +43,16 @@ public class ProductSpecs {
             if (sizeNames != null && sizeNames.length > 0) {
                 Join<Product, Size> sizeJoin = root.join(Product_.SIZES);
                 predicates.add(criteriaBuilder.in(sizeJoin.get(Size_.NAME)).value(List.of(sizeNames)));
+            }
+
+            if (search != null && !search.isBlank()) {
+                String likeSearch = "%" + search.toLowerCase().trim() + "%";
+                predicates.add(
+                        criteriaBuilder.or(
+                                criteriaBuilder.equal(
+                                        criteriaBuilder.concat("#", root.get(Product_.ID).as(String.class)),
+                                        search.trim()),
+                                criteriaBuilder.like(criteriaBuilder.lower(root.get(Product_.NAME)), likeSearch)));
             }
 
             return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));

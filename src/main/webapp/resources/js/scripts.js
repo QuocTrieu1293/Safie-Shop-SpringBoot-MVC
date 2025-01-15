@@ -3,7 +3,7 @@
     * Copyright 2013-2023 Start Bootstrap
     * Licensed under MIT (https://github.com/StartBootstrap/startbootstrap-sb-admin/blob/master/LICENSE)
     */
-    // 
+// 
 // Scripts
 // 
 
@@ -24,3 +24,22 @@ window.addEventListener('DOMContentLoaded', event => {
     }
 
 });
+
+$(document).ready(function () {
+    $("#sidenavAccordion").find("a.nav-link").each(function () {
+        const href = $(this).attr("href");
+        const pathname = window.location.pathname;
+        if (pathname === href || (href !== "/admin" && pathname.startsWith(href)))
+            $(this).addClass("active");
+    });
+});
+
+function goBack() {
+    // console.log(document.referrer);
+    if (!document.referrer || (new URL(document.referrer)).host !== window.location.host || document.referrer === window.location.href)
+        window.location.pathname = $(".breadcrumb-item.active").prev().children("a").attr("href");
+    else
+        window.location.href = document.referrer;
+}
+
+

@@ -1,5 +1,6 @@
 package com.quoctrieu.springbootmvc.service;
 
+import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
@@ -8,6 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.yaml.snakeyaml.util.ArrayUtils;
 
 import com.quoctrieu.springbootmvc.domain.Cart;
 import com.quoctrieu.springbootmvc.domain.CartDetail;
@@ -52,11 +54,13 @@ public class ProductService {
   }
 
   public Page<Product> getPageWithSpec(ProductCriteriaDTO productCriteria) {
-    PageRequest pageRequest = UtilsService.getPageRequest(productCriteria.getPage(), 9);
+    PageRequest pageRequest = UtilsService.getPageRequest(productCriteria.getPage(), productCriteria.getPageSize());
     Sort sort = switch (productCriteria.getSort()) {
-      case "gia-thap" -> Sort.by(Product_.PRICE).ascending();
-      case "gia-cao" -> Sort.by(Product_.PRICE).descending();
-      default -> Sort.by(Product_.QUANTITY).descending();
+      case "gia-thap", "price-lowest" -> Sort.by(Product_.PRICE).ascending();
+      case "gia-cao", "price-highest" -> Sort.by(Product_.PRICE).descending();
+      case "noi-bat", "quant-highest" -> Sort.by(Product_.QUANTITY).descending();
+      case "quant-lowest" -> Sort.by(Product_.QUANTITY).ascending();
+      default -> Sort.unsorted();
     };
 
     String priceStr = productCriteria.getPrice();
@@ -71,8 +75,19 @@ public class ProductService {
     } catch (Exception e) {
       maxPrice = null;
     }
-    Specification<Product> spec = ProductSpecs.filterBy(productCriteria.getCategory(), productCriteria.getBrands(),
-        minPrice, maxPrice, productCriteria.getSizes());
+
+    String[] brands = productCriteria.getBrands();
+    if (productCriteria.getBrand() != null) {
+      if (brands != null) {
+        brands = Arrays.copyOf(brands, brands.length + 1);
+        brands[brands.length - 1] = productCriteria.getBrand();
+      } else {
+        brands = new String[] { productCriteria.getBrand() };
+      }
+    }
+
+    Specification<Product> spec = ProductSpecs.filterBy(productCriteria.getCategory(), brands,
+        minPrice, maxPrice, productCriteria.getSizes(), productCriteria.getSearch());
 
     return productRepository.findAll(spec, pageRequest.withSort(sort));
   }

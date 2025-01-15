@@ -18,10 +18,10 @@ public class UtilsController {
   }
 
   @GetMapping("clear-images")
-  public String clearImages(@RequestHeader(value = "referer", required = false) String referer) {
+  public String clearImages(@RequestHeader("Referer") String referer) {
     long num = fileService.clearImages();
-    System.out.println(num);
-    return "redirect:referer" + (referer != null ? referer : "/admin");
+    System.out.println(">>> CLEAR IMAGES: " + num);
+    return "redirect:" + (referer == null ? "/admin" : referer);
   }
 
 }

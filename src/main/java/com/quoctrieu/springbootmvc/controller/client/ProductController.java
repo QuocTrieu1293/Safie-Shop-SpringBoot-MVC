@@ -41,6 +41,7 @@ public class ProductController {
   @GetMapping("/products")
   public String getProductPage(Model model, ProductCriteriaDTO productCriteria, HttpServletRequest request) {
 
+    productCriteria.setPageSize(9);
     Page<Product> pagedProduct = productService.getPageWithSpec(productCriteria);
     model.addAttribute("products", pagedProduct.getContent());
     model.addAttribute("totalPages", pagedProduct.getTotalPages());

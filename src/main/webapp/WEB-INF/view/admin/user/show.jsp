@@ -13,6 +13,8 @@ uri="http://java.sun.com/jsp/jstl/core" %>
     <meta name="description" content="Safie shop" />
     <meta name="author" content="Quoc Trieu" />
     <title>Admin Dashboard</title>
+
+    <!-- css -->
     <link
       href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css"
       rel="stylesheet"
@@ -22,9 +24,18 @@ uri="http://java.sun.com/jsp/jstl/core" %>
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
     />
+    <link rel="stylesheet" href="/css/mycss.css" />
+
+    <!-- js -->
     <script
       src="https://use.fontawesome.com/releases/v6.3.0/js/all.js"
       crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
+      integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
     ></script>
   </head>
   <body class="sb-nav-fixed">
@@ -75,6 +86,38 @@ uri="http://java.sun.com/jsp/jstl/core" %>
                     </div>
                   </c:when>
                 </c:choose>
+
+                <div class="row mb-3 justify-content-between">
+                  <div
+                    class="col-md-5 col-12 mb-2 mb-md-0"
+                    style="max-width: 800px"
+                  >
+                    <div class="form-control p-2 d-flex align-items-center">
+                      <i
+                        class="fas fa-search px-2"
+                        style="font-size: 18px"
+                        role="button"
+                      ></i>
+                      <input
+                        type="text"
+                        class="my-search-input"
+                        id="search"
+                        name="search"
+                        style="font-size: 16px"
+                        placeholder="Search for user ID (ex: #123), full name or email"
+                        spellcheck="false"
+                      />
+                      <i
+                        class="bi bi-x-circle-fill ps-1"
+                        style="font-size: 16px; line-height: 0"
+                        role="button"
+                      ></i>
+                    </div>
+                  </div>
+                  <span class="col-form-label col-auto align-content-end"
+                    >Có <b>${totalUsers}</b> kết quả</span
+                  >
+                </div>
                 <table class="table table-hover table-bordered">
                   <thead>
                     <tr class="text-center">
@@ -95,15 +138,17 @@ uri="http://java.sun.com/jsp/jstl/core" %>
                         <td>${user.email}</td>
                         <td>${user.fullName}</td>
                         <td class="text-center">${user.role.name}</td>
-                        <td>
+                        <td
+                          class="text-center d-flex justify-content-evenly justify-content-xxl-center flex-column flex-md-row"
+                        >
                           <a
                             href="/admin/user/${user.id}"
-                            class="btn btn-success me-2"
+                            class="btn btn-success me-xxl-2 mb-2 mb-md-0"
                             >View</a
                           >
                           <a
                             href="/admin/user/update/${user.id}"
-                            class="btn btn-warning me-2"
+                            class="btn btn-warning me-xxl-2 mb-2 mb-md-0"
                             >Update</a
                           >
                           <a
@@ -124,7 +169,7 @@ uri="http://java.sun.com/jsp/jstl/core" %>
                       >
                         <a
                           class="page-link"
-                          href="/admin/user?page=${currentPage - 1}"
+                          href="/admin/user?page=${currentPage - 1}${queryString}"
                           aria-label="Previous"
                         >
                           <i class="bi bi-chevron-left"></i>
@@ -136,7 +181,7 @@ uri="http://java.sun.com/jsp/jstl/core" %>
                         >
                           <a
                             class="page-link"
-                            href="/admin/user?page=${loop.index}"
+                            href="/admin/user?page=${loop.index}${queryString}"
                             >${loop.index}</a
                           >
                         </li>
@@ -146,7 +191,7 @@ uri="http://java.sun.com/jsp/jstl/core" %>
                       >
                         <a
                           class="page-link"
-                          href="/admin/user?page=${currentPage + 1}"
+                          href="/admin/user?page=${currentPage + 1}${queryString}"
                           aria-label="Next"
                         >
                           <i class="bi bi-chevron-right"></i>
@@ -167,5 +212,48 @@ uri="http://java.sun.com/jsp/jstl/core" %>
       crossorigin="anonymous"
     ></script>
     <script src="/js/scripts.js"></script>
+    <script>
+      const url = new URL(window.location.href);
+      const searchParams = url.searchParams;
+
+      function searchUser(keyword) {
+        if (keyword) searchParams.set("search", keyword);
+        else searchParams.delete("search");
+        searchParams.delete("page");
+        window.location.href = url.toString();
+      }
+
+      $(document).ready(function () {
+        if (searchParams.has("search"))
+          $("#search").val(searchParams.get("search"));
+
+        $("#search")
+          .prev()
+          .click(function () {
+            searchUser($("#search").val().trim());
+          });
+        const clearSearch = $("#search").siblings(
+          "i.bi-x-circle-fill[role='button']"
+        );
+        if (!searchParams.has("search")) clearSearch.addClass("d-none");
+        clearSearch.click(function () {
+          $("#search").val("");
+          clearSearch.addClass("d-none");
+          $("#search").focus();
+        });
+        $("#search").on("input", function () {
+          const val = $(this).val();
+          if (val && clearSearch.hasClass("d-none"))
+            clearSearch.removeClass("d-none");
+          else if (!val && !clearSearch.hasClass("d-none"))
+            clearSearch.addClass("d-none");
+        });
+        $("#search").keydown(function (e) {
+          if (e.key === "Enter") {
+            searchUser($("#search").val().trim());
+          }
+        });
+      });
+    </script>
   </body>
 </html>

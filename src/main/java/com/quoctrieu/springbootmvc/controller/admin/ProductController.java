@@ -19,8 +19,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import com.quoctrieu.springbootmvc.domain.Product;
+import com.quoctrieu.springbootmvc.domain.dto.ProductCriteriaDTO;
 import com.quoctrieu.springbootmvc.repository.BrandRepository;
 import com.quoctrieu.springbootmvc.repository.CategoryRepository;
 import com.quoctrieu.springbootmvc.repository.SizeRepository;
@@ -62,14 +64,25 @@ public class ProductController {
   }
 
   @GetMapping("/admin/product")
-  public String getProductPage(Model model, @RequestParam(defaultValue = "1") String page) {
+  public String getProductPage(Model model, ProductCriteriaDTO productCriteria, HttpServletRequest request) {
 
-    Pageable pageable = UtilsService.getPageRequest(page, 4);
-    Page<Product> pagedProduct = productService.getPage(pageable);
+    productCriteria.setPageSize(4);
+    Page<Product> pagedProduct = productService.getPageWithSpec(productCriteria);
     List<Product> productList = pagedProduct.getContent();
     model.addAttribute("productList", productList);
     model.addAttribute("totalPages", pagedProduct.getTotalPages());
-    model.addAttribute("currentPage", pageable.getPageNumber() + 1);
+    model.addAttribute("currentPage", pagedProduct.getNumber() + 1);
+    model.addAttribute("categories", categoryRepository.findAll());
+    model.addAttribute("brands", brandRepository.findAll());
+    model.addAttribute("totalProducts", pagedProduct.getTotalElements());
+
+    String queryString = request.getQueryString();
+    if (queryString != null) {
+      queryString = queryString.replace("page=" + productCriteria.getPage(), "");
+      if (!queryString.isBlank() && !queryString.startsWith("&"))
+        queryString = "&" + queryString;
+    }
+    model.addAttribute("queryString", queryString);
 
     return "admin/product/show";
   }

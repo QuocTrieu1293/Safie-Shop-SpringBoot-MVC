@@ -24,7 +24,12 @@ uri="http://www.springframework.org/tags/form" %>
       src="https://use.fontawesome.com/releases/v6.3.0/js/all.js"
       crossorigin="anonymous"
     ></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
+      integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
   </head>
   <body class="sb-nav-fixed">
     <jsp:include page="../layout/header.jsp" />
@@ -187,7 +192,13 @@ uri="http://www.springframework.org/tags/form" %>
                     <button type="submit" class="btn btn-primary me-2">
                       Create
                     </button>
-                    <a class="btn btn-secondary" href="/admin/user">Cancel</a>
+                    <a
+                      class="btn btn-secondary"
+                      role="button"
+                      onclick="goBack()"
+                    >
+                      Cancel
+                    </a>
                   </div>
                 </form:form>
               </div>

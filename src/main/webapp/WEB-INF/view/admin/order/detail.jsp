@@ -31,6 +31,12 @@ uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
       src="https://use.fontawesome.com/releases/v6.3.0/js/all.js"
       crossorigin="anonymous"
     ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
+      integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
   </head>
   <body class="sb-nav-fixed">
     <jsp:include page="../layout/header.jsp" />
@@ -181,7 +187,9 @@ uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
                 </tr>
               </tbody>
             </table>
-            <a href="/admin/order" class="btn btn-success my-3">Back</a>
+            <a role="button" class="btn btn-success my-3" onclick="goBack()"
+              >Back</a
+            >
           </div>
         </main>
         <jsp:include page="../layout/footer.jsp" />
@@ -192,18 +200,8 @@ uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
       integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
       crossorigin="anonymous"
     ></script>
-    <!-- <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
-      crossorigin="anonymous"
-    ></script> -->
-    <script src="/js/scripts.js"></script>
-    <script
-      src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
-      integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer"
-    ></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-toast-plugin/1.3.2/jquery.toast.min.js"></script>
+    <script src="/js/scripts.js"></script>
 
     <script>
       $(document).ready(function () {
