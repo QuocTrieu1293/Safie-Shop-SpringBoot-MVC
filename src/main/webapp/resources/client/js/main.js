@@ -179,15 +179,23 @@
     };
 
     const getSuggestSearch = debounce((search) => {
+        $("#product-search-suggest").addClass("d-none");
+        $("#search-not-found").addClass("d-none");
+        $("#search-loading-spinner").fadeIn("fast");
+
         $.get(`/api/product/search?q=${encodeURIComponent(search.trim())}`, function (products) {
             // console.log(products);
             $("#product-search-suggest").children().last().empty();
             if (products.length === 0) {
                 $("#search-not-found").find("span").text(search.trim());
 
-                if ($("#product-search").val().trim()) {
-                    $("#product-search-suggest").addClass("d-none");
-                    $("#search-not-found").removeClass("d-none");
+                if ($("#product-search").val().trim().length >= 2) {
+                    $("#search-loading-spinner").fadeOut(function () {
+                        $("#product-search-suggest").addClass("d-none");
+                        $("#search-not-found").removeClass("d-none");
+                    });
+                } else {
+                    $("#search-loading-spinner").hide();
                 }
             } else {
                 products.forEach(({ id, productName, price, image }) => {
@@ -214,9 +222,13 @@
                     item.appendTo($("#product-search-suggest").children().last());
                 });
 
-                if ($("#product-search").val().trim()) {
-                    $("#product-search-suggest").removeClass("d-none");
-                    $("#search-not-found").addClass("d-none");
+                if ($("#product-search").val().trim().length >= 2) {
+                    $("#search-loading-spinner").fadeOut(function () {
+                        $("#product-search-suggest").removeClass("d-none");
+                        $("#search-not-found").addClass("d-none");
+                    });
+                } else {
+                    $("#search-loading-spinner").hide();
                 }
             }
 
@@ -244,6 +256,8 @@
         } else {
             productSearchClear.addClass("d-none");
         }
+
+        $("#search-loading-spinner").hide();
 
         // Display product search history
         if (searchHistory.length > 0) {
@@ -273,9 +287,9 @@
             });
         }
 
-        if (!productSearch.val().trim())
+        if (!productSearch.val().trim() && searchHistory.length > 0)
             $("#product-search-history").removeClass("d-none");
-        else
+        else if (productSearch.val().trim())
             getSuggestSearch(productSearch.val().trim());
 
         // $("#searchModal").modal('show')
@@ -306,7 +320,7 @@
                 productSearchClear.addClass("d-none");
 
             // Suggest search query using Ajax + Debounce for better performance
-            if (val.trim()) {
+            if (val.trim().length >= 2) {
                 $("#product-search-history").addClass("d-none");
                 getSuggestSearch(val.trim());
             } else {

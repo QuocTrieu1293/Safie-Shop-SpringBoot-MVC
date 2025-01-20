@@ -1,4 +1,4 @@
-/*!
+/*
  * Bootstrap v5.0.0 (https://getbootstrap.com/)
  * Copyright 2011-2021 The Bootstrap Authors
  * Copyright 2011-2021 Twitter, Inc.
@@ -4996,6 +4996,7 @@ fieldset:disabled .btn {
   position: relative;
   width: auto;
   margin: 0.5rem;
+  margin-top: 2rem;
   pointer-events: none;
 }
 .modal.fade .modal-dialog {
@@ -5096,6 +5097,7 @@ fieldset:disabled .btn {
   .modal-dialog {
     max-width: 500px;
     margin: 1.75rem auto;
+    margin-top: 2rem;
   }
   .modal-dialog-scrollable {
     height: calc(100% - 3.5rem);

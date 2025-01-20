@@ -195,9 +195,7 @@ uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
   aria-labelledby="searchModalLabel"
   aria-hidden="true"
 >
-  <div
-    class="modal-dialog modal-fullscreen-sm-down modal-dialog-centered modal-dialog-scrollable"
-  >
+  <div class="modal-dialog modal-fullscreen-sm-down modal-dialog-scrollable">
     <div class="modal-content">
       <div class="modal-header">
         <h1 class="modal-title fs-5" id="searchModalLabel">
@@ -297,6 +295,13 @@ uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
               <li>Kiểm tra lỗi chính tả với từ khoá đã nhập</li>
               <li>Liên hệ để nhận hỗ trợ</li>
             </ul>
+          </div>
+
+          <!-- Loading spinner -->
+          <div id="search-loading-spinner" class="text-center">
+            <div class="spinner-border text-primary m-2" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
           </div>
         </div>
       </div>

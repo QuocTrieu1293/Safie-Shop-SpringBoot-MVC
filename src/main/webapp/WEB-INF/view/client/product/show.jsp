@@ -330,7 +330,7 @@ uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
               <span class="col-auto" style="color: black"
                 >Tìm thấy <b>${totalProducts}</b> kết quả
                 <c:if test="${not empty param.search}">
-                  ứng với từ khoá <b>${param.search}</b>
+                  ứng với từ khoá <b>"${param.search}"</b>
                 </c:if>
               </span>
               <div class="col-auto d-flex align-items-center">
