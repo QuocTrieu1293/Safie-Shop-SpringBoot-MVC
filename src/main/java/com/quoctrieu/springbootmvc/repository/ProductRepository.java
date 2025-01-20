@@ -34,4 +34,10 @@ public interface ProductRepository extends JpaRepository<Product, Long>, JpaSpec
 
   Page<Product> findAll(Specification<Product> spec, Pageable pageable);
 
+  // @Query("select p from Product p where lower(p.name) like lower(concat('%',
+  // :name, '%'))")
+  Page<Product> findByNameContaining(String name, Pageable pageable);
+
+  List<Product> findTop3ByNameContainingOrderByQuantityDesc(String name);
+
 }

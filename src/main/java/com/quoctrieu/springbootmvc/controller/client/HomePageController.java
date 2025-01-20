@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.quoctrieu.springbootmvc.domain.Product;
@@ -83,7 +84,11 @@ public class HomePageController {
   }
 
   @GetMapping("/login")
-  public String getLoginPage(Model model) {
+  public String getLoginPage(Model model, @RequestParam(required = false) boolean expired) {
+
+    if (expired) {
+      model.addAttribute("errorMessage", "Phiên đăng nhập hết hạn. Vui lòng đăng nhập lại!");
+    }
 
     return "client/auth/login";
   }

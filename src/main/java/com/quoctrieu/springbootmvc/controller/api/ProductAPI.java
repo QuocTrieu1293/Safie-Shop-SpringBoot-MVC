@@ -1,5 +1,9 @@
 package com.quoctrieu.springbootmvc.controller.api;
 
+import java.util.List;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,6 +17,7 @@ import jakarta.servlet.http.HttpSession;
 import com.quoctrieu.springbootmvc.domain.Cart;
 import com.quoctrieu.springbootmvc.domain.Product;
 import com.quoctrieu.springbootmvc.domain.dto.ProductDTO;
+import com.quoctrieu.springbootmvc.repository.ProductRepository;
 import com.quoctrieu.springbootmvc.repository.SizeRepository;
 import com.quoctrieu.springbootmvc.service.ProductService;
 
@@ -22,10 +27,12 @@ public class ProductAPI {
 
   private final ProductService productService;
   private final SizeRepository sizeRepository;
+  private final ProductRepository productRepository;
 
-  public ProductAPI(ProductService productService, SizeRepository sizeRepository) {
+  public ProductAPI(ProductService productService, SizeRepository sizeRepository, ProductRepository productRepository) {
     this.productService = productService;
     this.sizeRepository = sizeRepository;
+    this.productRepository = productRepository;
   }
 
   @GetMapping("/{id}")
@@ -54,6 +61,20 @@ public class ProductAPI {
     return ResponseEntity.ok(new AddProductResponse(productService.get(productId).getName(),
         sizeRepository.findById(sizeId).getName(), quantity, cart.getSum()));
   }
+
+  @GetMapping("/search")
+  public List<SearchedProduct> getSearchedProduct(@RequestParam("q") String search) {
+    List<Product> products = productRepository.findTop3ByNameContainingOrderByQuantityDesc(search);
+    List<SearchedProduct> searchedProducts = products.stream().map(product -> new SearchedProduct(product)).toList();
+    return searchedProducts;
+  }
+
+  // @GetMapping("/test")
+  // public List<Product> testAPI(@RequestParam String search) {
+  // Page<Product> pagedProduct = productRepository.findByNameContaining(search,
+  // PageRequest.of(0, 3));
+  // return pagedProduct.getContent();
+  // }
 
 }
 
@@ -100,6 +121,63 @@ class AddProductResponse {
 
   public void setCartSum(int cartSum) {
     this.cartSum = cartSum;
+  }
+
+}
+
+class SearchedProduct {
+  private long id;
+  private String productName;
+  private double price;
+  private String image;
+  private long quantity;
+
+  public SearchedProduct(Product product) {
+    this.id = product.getId();
+    this.productName = product.getName();
+    this.price = product.getPrice();
+    this.image = product.getImage();
+    this.quantity = product.getQuantity();
+  }
+
+  public String getProductName() {
+    return productName;
+  }
+
+  public void setProductName(String productName) {
+    this.productName = productName;
+  }
+
+  public double getPrice() {
+    return price;
+  }
+
+  public void setPrice(double price) {
+    this.price = price;
+  }
+
+  public String getImage() {
+    return image;
+  }
+
+  public void setImage(String image) {
+    this.image = image;
+  }
+
+  public long getQuantity() {
+    return quantity;
+  }
+
+  public void setQuantity(long quantity) {
+    this.quantity = quantity;
+  }
+
+  public long getId() {
+    return id;
+  }
+
+  public void setId(long id) {
+    this.id = id;
   }
 
 }

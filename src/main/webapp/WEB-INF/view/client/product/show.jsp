@@ -316,6 +316,9 @@ uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
               </div>
 
               <input type="hidden" name="sort" value="noi-bat" />
+              <c:if test="${not empty param.search}">
+                <input type="hidden" name="search" value="${param.search}" />
+              </c:if>
             </form>
           </div>
 
@@ -325,8 +328,11 @@ uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
               class="row g-3 mb-3 justify-content-between align-items-md-end align-items-baseline"
             >
               <span class="col-auto" style="color: black"
-                >Tìm thấy <b>${totalProducts}</b> kết quả</span
-              >
+                >Tìm thấy <b>${totalProducts}</b> kết quả
+                <c:if test="${not empty param.search}">
+                  ứng với từ khoá <b>${param.search}</b>
+                </c:if>
+              </span>
               <div class="col-auto d-flex align-items-center">
                 <span class="col-auto me-2">Sắp xếp theo:</span>
                 <select
@@ -492,11 +498,11 @@ uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
     <script src="/client/js/sizeModal.js"></script>
 
     <script>
-      $(document).ready(function () {
-        const url = new URL(window.location.href);
-        // console.log(window.location.search); // là một query string với `?` ở đầu
-        const searchParams = url.searchParams;
+      const url = new URL(window.location.href);
+      // console.log(window.location.search); // là một query string với `?` ở đầu
+      const searchParams = url.searchParams;
 
+      $(document).ready(function () {
         searchParams.forEach((value, name) => {
           const checkBtn = $(
             '[data-filter] input.btn-check[name="' +

@@ -70,7 +70,7 @@ public class OrderController {
   }
 
   @PostMapping("/admin/order/delete/{id}")
-  public String postMethodName(@PathVariable long id, Model model, RedirectAttributes redirectAttributes) {
+  public String deleteOrder(@PathVariable long id, Model model, RedirectAttributes redirectAttributes) {
 
     orderService.delete(id);
     redirectAttributes.addFlashAttribute("successMessage", "Order deleted successfully!");

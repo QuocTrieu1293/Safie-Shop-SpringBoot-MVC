@@ -1,5 +1,6 @@
 <%@page contentType="text/html" pageEncoding="UTF-8" %> <%@ taglib prefix="c"
-uri="http://java.sun.com/jsp/jstl/core" %>
+uri="http://java.sun.com/jsp/jstl/core" %> <%@ taglib
+uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
 <!-- <link href="/client/css/bootstrap.min.css" rel="stylesheet" />
 <link href="/client/css/style.css" rel="stylesheet" />
@@ -187,19 +188,21 @@ uri="http://java.sun.com/jsp/jstl/core" %>
 <!-- Navbar End -->
 
 <!-- Modal Search Start -->
-<!-- <div
+<div
   class="modal fade"
   id="searchModal"
   tabindex="-1"
-  aria-labelledby="exampleModalLabel"
+  aria-labelledby="searchModalLabel"
   aria-hidden="true"
 >
-  <div class="modal-dialog modal-fullscreen">
-    <div class="modal-content rounded-0">
+  <div
+    class="modal-dialog modal-fullscreen-sm-down modal-dialog-centered modal-dialog-scrollable"
+  >
+    <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">
-          Tìm kiếm bằng từ khoá
-        </h5>
+        <h1 class="modal-title fs-5" id="searchModalLabel">
+          Tìm Sản phẩm theo từ khoá
+        </h1>
         <button
           type="button"
           class="btn-close"
@@ -207,20 +210,97 @@ uri="http://java.sun.com/jsp/jstl/core" %>
           aria-label="Close"
         ></button>
       </div>
-      <div class="modal-body d-flex align-items-center">
-        <div class="input-group w-75 mx-auto d-flex">
-          <input
-            type="search"
-            class="form-control p-3"
-            placeholder="Nhập từ khoá tìm kiếm ..."
-            aria-describedby="search-icon-1"
-          />
-          <span id="search-icon-1" class="input-group-text p-3"
-            ><i class="fa fa-search"></i
-          ></span>
+      <div class="modal-body">
+        <div class="container-fluid">
+          <!-- Search input -->
+          <div class="form-control d-flex align-items-center p-2 mb-3">
+            <input
+              id="product-search"
+              type="text"
+              class="my-search-input"
+              placeholder="Nhập từ khoá cần tìm ..."
+              spellcheck="false"
+            />
+            <i
+              id="product-search-clear"
+              class="bi bi-x-circle-fill ps-1"
+              style="font-size: 16px; line-height: 0"
+              role="button"
+            ></i>
+            <i
+              id="product-search-btn"
+              class="fas fa-search px-2"
+              style="font-size: 18px"
+              role="button"
+            ></i>
+          </div>
+
+          <!-- Search history -->
+          <div id="product-search-history" class="d-none">
+            <div class="mb-1 d-flex justify-content-between">
+              <h5 class="fw-bold text-uppercase">Lịch sử tìm kiếm</h5>
+              <span
+                id="product-search-history-clear"
+                role="button"
+                class="link-secondary fw-medium"
+                style="font-size: 14px"
+                >Xoá lịch sử</span
+              >
+            </div>
+            <div class="ps-2">
+              <!-- <div
+                class="d-flex align-items-center mb-2 px-2 py-1 list-group-item-action rounded"
+                role="button"
+              >
+                <i class="bi bi-clock me-2"></i>Trương Công Quốc Triệu
+                <i class="bi bi-x ms-auto link-secondary d-none"></i>
+              </div> -->
+            </div>
+          </div>
+
+          <!-- Suggestion searched products -->
+          <div id="product-search-suggest" class="d-none">
+            <h5 class="mb-1 fw-bold">Sản phẩm đề xuất</h5>
+            <div>
+              <!-- <a href="/product/{id}" class="row mx-auto mb-2 g-3">
+                <div class="col-3">
+                  <img
+                    src="/images/product/1734890654888-artboard-1-copy-b06f179c-e008-4fd0-a687-c0b0e990bc27.webp"
+                    alt="product name"
+                    class="img-fluid"
+                    style="object-fit: cover"
+                  />
+                </div>
+                <div class="col">
+                  <h6 class="my-card-title">
+                    Quần áo trẻ em Bobicraft - Đầm đô bèo tay dài - Cotton hữu
+                    cơ organic an toàn
+                  </h6>
+                  <p class="fw-medium mb-0" style="color: black">
+                    <fmt:formatNumber type="number" value="292500.0" />
+                    đ
+                  </p>
+                </div>
+              </a> -->
+            </div>
+          </div>
+
+          <!-- Search not found -->
+          <div id="search-not-found" class="d-none">
+            <p class="fw-medium">
+              <i class="bi bi-search me-2 text-primary"></i>Không tìm thấy kết
+              quả với từ khóa
+              <b class="fw-bold" style="color: black">"<span>...</span>"</b>
+            </p>
+            <hr class="my-2" />
+            <ul style="font-size: 14px">
+              <li>Kiểm tra lỗi chính tả với từ khoá đã nhập</li>
+              <li>Liên hệ để nhận hỗ trợ</li>
+            </ul>
+          </div>
         </div>
       </div>
     </div>
   </div>
-</div> -->
+</div>
 <!-- Modal Search End -->

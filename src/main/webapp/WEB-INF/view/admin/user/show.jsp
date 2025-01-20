@@ -224,18 +224,20 @@ uri="http://java.sun.com/jsp/jstl/core" %>
       }
 
       $(document).ready(function () {
+        const clearSearch = $("#search").siblings(
+          "i.bi-x-circle-fill[role='button']"
+        );
+
         if (searchParams.has("search"))
           $("#search").val(searchParams.get("search"));
+        else clearSearch.addClass("d-none");
 
         $("#search")
           .prev()
           .click(function () {
             searchUser($("#search").val().trim());
           });
-        const clearSearch = $("#search").siblings(
-          "i.bi-x-circle-fill[role='button']"
-        );
-        if (!searchParams.has("search")) clearSearch.addClass("d-none");
+
         clearSearch.click(function () {
           $("#search").val("");
           clearSearch.addClass("d-none");

@@ -47,6 +47,7 @@ uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 
     <!-- Template Stylesheet -->
     <link href="/client/css/style.css" rel="stylesheet" />
+    <link rel="stylesheet" href="/css/mycss.css" />
   </head>
 
   <body>
@@ -321,7 +322,7 @@ uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
             cartDetailId: cartDetailId,
             quantity: quantity,
           },
-          timeout: 600000,
+          // timeout: 600000,
           beforeSend: function (xhr) {
             // Retrieve CSRF token and header name from meta tags
             const csrfToken = $("meta[name='_csrf']").attr("content");
@@ -331,6 +332,7 @@ uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
             xhr.setRequestHeader(csrfHeader, csrfToken);
           },
           success: function (response) {
+            console.log(response);
             ({ totalPrice, cartSum } = response);
             if (cartSum == 0) {
               location.reload();
@@ -347,6 +349,11 @@ uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 
               // update session ui
               $("#cart-sum").text(cartSum);
+            }
+          },
+          error: function (response) {
+            if (response.status === 401) {
+              window.location.href = "/login?expired=true";
             }
           },
         });

@@ -4591,7 +4591,7 @@ fieldset:disabled .btn {
   z-index: 1;
   color: #495057;
   text-decoration: none;
-  background-color: #f8f9fa;
+  background-color: rgba(159, 166, 178, 0.2);
 }
 .list-group-item-action:active {
   color: #747d88;
@@ -5805,14 +5805,14 @@ fieldset:disabled .btn {
   color: #9ad039;
 }
 .link-secondary {
-  color: #c5d6c3;
+  color: #747d88;
 }
 .link-blue {
   color: #0d6efd;
 }
 .link-secondary:hover,
 .link-secondary:focus {
-  color: #ffc450;
+  color: #a97349;
 }
 .link-success {
   color: #198754;
@@ -6980,7 +6980,7 @@ fieldset:disabled .btn {
   pointer-events: auto !important;
 }
 .rounded {
-  border-radius: 10px !important;
+  border-radius: 7px !important;
 }
 .rounded-0 {
   border-radius: 0 !important;

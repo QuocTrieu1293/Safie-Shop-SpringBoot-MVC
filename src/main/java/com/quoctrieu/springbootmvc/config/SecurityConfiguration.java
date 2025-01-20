@@ -9,9 +9,12 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.session.security.web.authentication.SpringSessionRememberMeServices;
 
 import jakarta.servlet.DispatcherType;
@@ -76,13 +79,18 @@ public class SecurityConfiguration {
   }
 
   @Bean
+  AuthenticationEntryPoint getCustomAuthenticationEntryPoint() {
+    return new CustomAuthenticationEntryPoint();
+  }
+
+  @Bean
   SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
     http
         .authorizeHttpRequests(authorize -> authorize
             .dispatcherTypeMatchers(DispatcherType.FORWARD, DispatcherType.INCLUDE).permitAll()
 
             .requestMatchers("/login", "/register", "/", "/product/**", "/products/**", "/api/product/{id}",
-                "/client/**", "/css/**", "/images/**", "/js/**")
+                "/api/product/search", "/client/**", "/css/**", "/images/**", "/js/**")
             .permitAll()
 
             .requestMatchers("/admin/**", "/api/order/update").hasRole("Admin")
@@ -100,11 +108,17 @@ public class SecurityConfiguration {
             .logoutSuccessHandler(GetCustomLogoutSuccessHandler()).permitAll()
             .deleteCookies("JSESSIONID").invalidateHttpSession(true))
 
-        .exceptionHandling(ex -> ex.accessDeniedPage("/access-deny"))
+        .exceptionHandling(ex -> ex.accessDeniedPage("/access-deny")
+            .defaultAuthenticationEntryPointFor(getCustomAuthenticationEntryPoint(),
+                new AntPathRequestMatcher("/**")))
 
         .sessionManagement((sessionManagement) -> sessionManagement
             .sessionCreationPolicy(SessionCreationPolicy.ALWAYS)
-            .invalidSessionUrl("/logout?expired")
+            /*
+             * Khồng dùng .invalidSessionUrl() vì đã dùng CustomAuthenticationEntryPoint để
+             * handle AJAX request khi session invalid
+             */
+            // .invalidSessionUrl("/login?expired")
             .maximumSessions(1)
             .maxSessionsPreventsLogin(false))
 

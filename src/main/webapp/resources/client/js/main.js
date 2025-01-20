@@ -137,5 +137,199 @@
         }
     })
 
+    // Product search at header
+    const url = new URL(window.location.href);
+    const searchParams = url.searchParams;
+    let searchHistory = JSON.parse(localStorage.getItem("SEARCH_HISTORY")) ?? [];
+
+    function searchProduct(keyword) {
+        keyword = keyword.trim();
+        if (keyword) {
+            const idx = searchHistory.findIndex(item => item.toLowerCase().trim() === keyword.toLowerCase());
+            if (idx > -1)
+                searchHistory.splice(idx, 1);
+            else if (searchHistory.length >= 5)
+                searchHistory.pop();
+            searchHistory.unshift(keyword);
+            localStorage.setItem("SEARCH_HISTORY", JSON.stringify(searchHistory));
+        }
+
+        if (url.pathname !== "/products") {
+            let href = "/products";
+            if (keyword)
+                href += `?search=${encodeURIComponent(keyword)}`;
+            window.location.href = href;
+        } else {
+            if (keyword)
+                searchParams.set("search", keyword);
+            else
+                searchParams.delete("search")
+            searchParams.delete("page");
+            window.location.href = url.toString();
+        }
+    }
+
+    const debounce = (callback, delay = 600) => {
+        let timeout;
+
+        return (...args) => {
+            clearTimeout(timeout);
+            timeout = setTimeout(() => callback(...args), delay);
+        }
+    };
+
+    const getSuggestSearch = debounce((search) => {
+        $.get(`/api/product/search?q=${encodeURIComponent(search.trim())}`, function (products) {
+            // console.log(products);
+            $("#product-search-suggest").children().last().empty();
+            if (products.length === 0) {
+                $("#search-not-found").find("span").text(search.trim());
+
+                if ($("#product-search").val().trim()) {
+                    $("#product-search-suggest").addClass("d-none");
+                    $("#search-not-found").removeClass("d-none");
+                }
+            } else {
+                products.forEach(({ id, productName, price, image }) => {
+                    const item = $(`
+                        <a href="/product/${id}" class="row mx-auto mb-2 g-3">
+                            <div class="col-3">
+                            <img
+                                src="/images/product/${image}"
+                                alt="${productName}"
+                                class="img-fluid"
+                                style="object-fit: cover"
+                            />
+                            </div>
+                            <div class="col">
+                            <h6 class="my-card-title">
+                                ${productName}
+                            </h6>
+                            <p class="fw-medium mb-0" style="color: black">
+                                ${new Intl.NumberFormat("vi-VN", { style: "currency", currency: "VND" }).format(parseFloat(price))}
+                            </p>
+                            </div>
+                        </a>
+                    `);
+                    item.appendTo($("#product-search-suggest").children().last());
+                });
+
+                if ($("#product-search").val().trim()) {
+                    $("#product-search-suggest").removeClass("d-none");
+                    $("#search-not-found").addClass("d-none");
+                }
+            }
+
+        });
+    });
+
+    $(document).ready(function () {
+        const productSearch = $("#product-search");
+        const productSearchBtn = $("#product-search-btn");
+        const productSearchClear = $("#product-search-clear");
+
+        $("#searchModal").on('shown.bs.modal', () => {
+            productSearch.trigger("focus");
+        });
+
+        // $("#searchModal").on("show.bs.modal", function () {
+        // });
+
+        // fill productSearch
+        if (
+            window.location.pathname === "/products" &&
+            searchParams.has("search")
+        ) {
+            productSearch.val(searchParams.get("search").trim());
+        } else {
+            productSearchClear.addClass("d-none");
+        }
+
+        // Display product search history
+        if (searchHistory.length > 0) {
+            searchHistory.forEach(search => {
+                const item = $("<div></div>", { class: "d-flex align-items-center mb-2 px-2 py-1 list-group-item-action rounded", role: "button" });
+                item.append($("<i></i>", { class: "bi bi-clock me-2" }), search, $("<i></i>", { class: "bi bi-x ms-auto link-secondary d-none fs-5 lh-1" }));
+                item.on("mouseenter", function () {
+                    $(this).children().last().removeClass("d-none");
+                });
+                item.on("mouseleave", function () {
+                    $(this).children().last().addClass("d-none");
+                });
+                item.on("click", function () {
+                    searchProduct(search);
+                });
+                item.children().last().on("click", function (e) {
+                    e.stopPropagation();
+                    searchHistory = searchHistory.filter(s => s !== search);
+                    localStorage.setItem("SEARCH_HISTORY", JSON.stringify(searchHistory));
+                    item.remove();
+                    if (searchHistory.length === 0) {
+                        $("#product-search-history").addClass("d-none");
+                    }
+                });
+
+                $("#product-search-history").children().last().append(item);
+            });
+        }
+
+        if (!productSearch.val().trim())
+            $("#product-search-history").removeClass("d-none");
+        else
+            getSuggestSearch(productSearch.val().trim());
+
+        // $("#searchModal").modal('show')
+
+        productSearchBtn.click(function () {
+            searchProduct(productSearch.val().trim());
+        });
+
+        productSearchClear.click(function () {
+            productSearch.val("");
+            productSearchClear.addClass("d-none");
+            productSearch.focus();
+
+            if (searchHistory.length > 0)
+                $("#product-search-history").removeClass("d-none");
+
+            $("#product-search-suggest").addClass("d-none");
+            $("#search-not-found").addClass("d-none");
+        });
+
+        productSearch.on("input", function () {
+            const val = $(this).val();
+
+            // Ẩn / Hiện clear search btn
+            if (val && productSearchClear.hasClass("d-none"))
+                productSearchClear.removeClass("d-none");
+            else if (!val && !productSearchClear.hasClass("d-none"))
+                productSearchClear.addClass("d-none");
+
+            // Suggest search query using Ajax + Debounce for better performance
+            if (val.trim()) {
+                $("#product-search-history").addClass("d-none");
+                getSuggestSearch(val.trim());
+            } else {
+                if (searchHistory.length > 0)
+                    $("#product-search-history").removeClass("d-none");
+                $("#product-search-suggest").addClass("d-none");
+                $("#search-not-found").addClass("d-none");
+            }
+
+        });
+        productSearch.keydown(function (e) {
+            if (e.key === "Enter") {
+                searchProduct(productSearch.val().trim());
+            }
+        });
+
+        $("#product-search-history-clear").on("click", function () {
+            $("#product-search-history").addClass("d-none");
+            $("#product-search-history").children().last().empty();
+            localStorage.removeItem("SEARCH_HISTORY");
+        })
+
+    });
+
 })(jQuery);
 
