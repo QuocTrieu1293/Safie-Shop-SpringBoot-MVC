@@ -23,7 +23,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     com.quoctrieu.springbootmvc.domain.User user = userService.getUserByEmail(username);
 
-    if (user == null)
+    if (user == null || (user.getAuthenProvider() != null && !user.getAuthenProvider().equals("Local")))
       throw new UsernameNotFoundException("User not found");
 
     return new User(

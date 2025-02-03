@@ -205,7 +205,7 @@
                             <img
                                 src="/images/product/${image}"
                                 alt="${productName}"
-                                class="img-fluid"
+                                class="w-100"
                                 style="object-fit: cover"
                             />
                             </div>

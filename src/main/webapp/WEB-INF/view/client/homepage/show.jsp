@@ -91,7 +91,7 @@ uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
                 <div class="carousel-item active rounded">
                   <img
                     src="/images/others/embe1.jpg"
-                    class="img-fluid w-100 h-100 bg-secondary rounded"
+                    class="w-100 h-100 bg-secondary rounded"
                     style="object-fit: cover"
                     alt="First slide"
                   />
@@ -105,7 +105,7 @@ uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
                 <div class="carousel-item rounded">
                   <img
                     src="/images/others/embe2.jpg"
-                    class="img-fluid w-100 h-100 rounded"
+                    class="w-100 h-100 rounded"
                     style="object-fit: cover"
                     alt="Second slide"
                   />
@@ -119,7 +119,7 @@ uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
                 <div class="carousel-item rounded">
                   <img
                     src="/images/others/embe3.jpg"
-                    class="img-fluid w-100 h-100 rounded"
+                    class="w-100 h-100 rounded"
                     style="object-fit: cover"
                     alt="Second slide"
                   />
@@ -132,7 +132,7 @@ uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
                 <div class="carousel-item rounded">
                   <img
                     src="/images/others/embe4.webp"
-                    class="img-fluid w-100 h-100 rounded"
+                    class="w-100 h-100 rounded"
                     style="object-fit: cover"
                     alt="Second slide"
                   />
@@ -201,7 +201,7 @@ uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
                             <div class="fruite-img">
                               <img
                                 src="/images/product/${product.image}"
-                                class="img-fluid w-100 rounded-top"
+                                class="w-100 rounded-top"
                                 style="object-fit: cover"
                                 alt="product thumbnail"
                               />
@@ -293,7 +293,7 @@ uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
                 <div class="bg-secondary rounded">
                   <img
                     src="/images/others/lananh_hanoi.webp"
-                    class="img-fluid rounded"
+                    class="rounded"
                     style="width: 100px; height: 100px; object-fit: cover"
                     alt=""
                   />
@@ -331,7 +331,7 @@ uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
                 <div class="bg-secondary rounded">
                   <img
                     src="/images/others/anhtrieu.jpg"
-                    class="img-fluid rounded"
+                    class="rounded"
                     style="width: 100px; height: 100px; object-fit: cover"
                     alt=""
                   />
@@ -369,7 +369,7 @@ uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
                 <div class="bg-secondary rounded">
                   <img
                     src="/images/others/anhkhoa.jpg"
-                    class="img-fluid rounded"
+                    class="rounded"
                     style="width: 100px; height: 100px; object-fit: cover"
                     alt=""
                   />
@@ -421,5 +421,29 @@ uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
     <script src="/client/js/main.js"></script>
     <!-- size modal js -->
     <script src="/client/js/sizeModal.js"></script>
+
+    <script>
+      const url = new URL(window.location.href);
+      const searchParams = url.searchParams;
+
+      $(document).ready(function () {
+        // alert logout success
+        if (searchParams.has("logout")) {
+          $.toast({
+            text: "Bạn đã đăng xuất tài khoản",
+            heading: "Đăng xuất thành công", // Optional heading to be shown on the toast
+            icon: "info", // Type of toast icon
+            showHideTransition: "fade", // fade, slide or plain
+            allowToastClose: true, // Boolean value true or false
+            hideAfter: 2500, // false to make it sticky or number representing the miliseconds as time after which toast needs to be hidden
+            stack: false, // false if there should be only one toast at a time or a number representing the maximum number of toasts to be shown at a time
+            position: "bottom-left", // bottom-left or bottom-right or bottom-center or top-left or top-right or top-center or mid-center or an object representing the left, right, top, bottom values
+            textAlign: "left", // Text alignment i.e. left, right or center
+            loader: true, // Whether to show loader or not. True by default
+            loaderBg: "#c5d6c3", // Background color of the toast loader
+          });
+        }
+      });
+    </script>
   </body>
 </html>

@@ -6,16 +6,29 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Lỗi 403 - Truy cập từ chối</title>
-    <link href="css/styles.css" rel="stylesheet" />
+    <link href="/client/css/style.css" rel="stylesheet" />
+    <link href="/client/css/bootstrap.min.css" rel="stylesheet" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
   </head>
   <body>
-    <div class="container py-5">
-      <h1 data-content="404">403 - ACCESS DENIED</h1>
+    <div class="container pt-4 vh-100">
+      <h1>403 - Truy cập từ chối</h1>
 
-      <p class="fs-3">Oops, You don't have permission to access this page.</p>
+      <div class="row my-3">
+        <div class="col-auto mx-auto">
+          <img src="/images/others/disconnect.png" alt="" />
+        </div>
+      </div>
 
-      <a class="btn btn-success mt-2" href="/">Go to homepage</a>
+      <p class="fs-3 text-center">
+        Oops, Bạn không được phép truy cập trang này.
+      </p>
+
+      <div class="row">
+        <div class="col-auto mx-auto">
+          <a class="btn btn-success mt-2 fs-5" href="/">Quay về trang chủ</a>
+        </div>
+      </div>
     </div>
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"

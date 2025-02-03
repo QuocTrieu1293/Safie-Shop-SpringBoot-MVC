@@ -8,7 +8,7 @@ uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <!-- Navbar start-->
 
 <script>
-  const userId = "${userId}"; // Dùng để check user có login hay chưa trong file js
+  const userId = "${userId}"; // Dùng để check user có login hay chưa trong file js. userId được vào session khi đăng nhập thành công.
 </script>
 
 <div class="container-fluid fixed-top px-0">
@@ -218,6 +218,7 @@ uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
               class="my-search-input"
               placeholder="Nhập từ khoá cần tìm ..."
               spellcheck="false"
+              autocomplete="off"
             />
             <i
               id="product-search-clear"
@@ -265,7 +266,7 @@ uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
                   <img
                     src="/images/product/1734890654888-artboard-1-copy-b06f179c-e008-4fd0-a687-c0b0e990bc27.webp"
                     alt="product name"
-                    class="img-fluid"
+                    class="w-100"
                     style="object-fit: cover"
                   />
                 </div>

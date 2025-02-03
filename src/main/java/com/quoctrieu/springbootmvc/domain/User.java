@@ -11,6 +11,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
+import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -20,7 +21,7 @@ import jakarta.validation.constraints.Size;
 @Entity
 @Table(name = "users")
 public class User {
-  private static long idCounter = 0;
+  // private static long idCounter = 0;
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -51,7 +52,7 @@ public class User {
   @JoinColumn(name = "role_id") // mặc định Spring tự tạo cột khoá ngoại này, tên mặc định là <tên entity>_id
   private Role role;
 
-  @OneToMany(mappedBy = "user")
+  @OneToMany(mappedBy = "user", orphanRemoval = false)
   private Set<Order> orders;
 
   @OneToOne(mappedBy = "user")
@@ -60,6 +61,16 @@ public class User {
   // private synchronized long generateId() {
   // return idCounter++;
   // }
+
+  private String authenProvider;
+
+  @PrePersist
+  void prePersist() {
+    if (authenProvider == null)
+      authenProvider = "Local";
+    if (avatar == null)
+      avatar = "user_placeholder.png";
+  }
 
   public User() {
     System.out.println("User created");
@@ -154,11 +165,19 @@ public class User {
     this.cart = cart;
   }
 
+  public String getAuthenProvider() {
+    return authenProvider;
+  }
+
+  public void setAuthenProvider(String authenProvider) {
+    this.authenProvider = authenProvider;
+  }
+
   @Override
   public String toString() {
     return "User [id=" + id + ", email=" + email + ", password=" + password + ", fullName=" + fullName + ", address="
         + address + ", phone=" + phone + ", avatar=" + avatar + ", role=" + role + ", orders=" + orders + ", cart=[id="
-        + cart.getId() + "]]";
+        + cart.getId() + ", authenProvider=" + authenProvider + "]]";
   }
 
 }

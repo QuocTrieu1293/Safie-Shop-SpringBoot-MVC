@@ -2,6 +2,7 @@ package com.quoctrieu.springbootmvc.service;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -55,7 +56,7 @@ public class FileService {
 
       file.transferTo(serverFile); // exception khi file.isEmpty() == true
       fileName = serverFile.getName();
-    } catch (IOException e) {
+    } catch (Exception e) {
       e.printStackTrace();
     }
 

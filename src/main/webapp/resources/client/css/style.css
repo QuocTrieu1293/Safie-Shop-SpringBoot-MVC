@@ -254,12 +254,12 @@
   content: "";
   width: 35px;
   height: 35px;
-  background: var(--bs-secondary);
+  background: var(--bs-danger);
   position: absolute;
   bottom: -10px;
   transform: translate(-50%);
   transform: rotate(45deg);
-  background: var(--bs-secondary);
+  background: var(--bs-danger);
 }
 /*** featurs End ***/
 

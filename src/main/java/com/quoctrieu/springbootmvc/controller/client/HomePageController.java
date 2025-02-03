@@ -4,8 +4,10 @@ import java.util.List;
 
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.WebDataBinder;
@@ -25,6 +27,7 @@ import com.quoctrieu.springbootmvc.service.ProductService;
 import com.quoctrieu.springbootmvc.service.UserService;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 
 @Controller
@@ -56,7 +59,10 @@ public class HomePageController {
   }
 
   @GetMapping("/register")
-  public String getRegisterPage(Model model) {
+  public String getRegisterPage(Model model, HttpServletRequest request) {
+    HttpSession session = request.getSession(false);
+    if (session.getAttribute("userId") != null) // Trường hợp user đã login thì redirect tới trang chủ
+      return "redirect:/";
 
     model.addAttribute("registerUser", new RegisterDTO());
 
@@ -84,10 +90,13 @@ public class HomePageController {
   }
 
   @GetMapping("/login")
-  public String getLoginPage(Model model, @RequestParam(required = false) boolean expired) {
+  public String getLoginPage(Model model, @RequestParam(required = false) boolean invalid, HttpServletRequest request) {
+    HttpSession session = request.getSession(false);
 
-    if (expired) {
-      model.addAttribute("errorMessage", "Phiên đăng nhập hết hạn. Vui lòng đăng nhập lại!");
+    if (invalid) {
+      model.addAttribute("errorMessage", "Vui lòng đăng nhập!");
+    } else if (session.getAttribute("userId") != null) { // Trường hợp user đã login thì redirect tới trang chủ
+      return "redirect:/";
     }
 
     return "client/auth/login";

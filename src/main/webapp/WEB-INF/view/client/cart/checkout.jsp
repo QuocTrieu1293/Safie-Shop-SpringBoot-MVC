@@ -174,7 +174,7 @@ uri="http://www.springframework.org/tags/form" prefix="form"%>
                           <div class="d-flex align-items-center mt-3">
                             <img
                               src="/images/product/${item.product.image}"
-                              class="img-fluid rounded-circle"
+                              class="w-100 rounded-circle"
                               style="
                                 width: 100px;
                                 height: 100px;

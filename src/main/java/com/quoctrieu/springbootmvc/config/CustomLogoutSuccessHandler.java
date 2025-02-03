@@ -1,6 +1,8 @@
 package com.quoctrieu.springbootmvc.config;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -21,18 +23,15 @@ public class CustomLogoutSuccessHandler implements LogoutSuccessHandler {
 
   private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 
-  protected String determineTargetUrl(final Authentication authentication) {
-
-    Map<String, String> roleTargetUrlMap = new HashMap<>();
-    roleTargetUrlMap.put("ROLE_User", "/?logout");
-    roleTargetUrlMap.put("ROLE_Admin", "/login?logout");
-
-    final Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
-    for (final GrantedAuthority grantedAuthority : authorities) {
-      String authorityName = grantedAuthority.getAuthority();
-      if (roleTargetUrlMap.containsKey(authorityName)) {
-        return roleTargetUrlMap.get(authorityName);
-      }
+  protected String determineTargetUrl(HttpServletRequest request) {
+    try {
+      URL refererURL = new URL(request.getHeader("Referer"));
+      if (refererURL.getPath().startsWith("/admin"))
+        return "/login?logout";
+      else
+        return "/?logout";
+    } catch (Exception e) {
+      e.printStackTrace();
     }
 
     throw new IllegalStateException();
@@ -43,7 +42,7 @@ public class CustomLogoutSuccessHandler implements LogoutSuccessHandler {
       HttpServletResponse response,
       Authentication authentication) throws IOException {
 
-    String targetUrl = determineTargetUrl(authentication);
+    String targetUrl = determineTargetUrl(request);
 
     if (response.isCommitted()) {
       return;

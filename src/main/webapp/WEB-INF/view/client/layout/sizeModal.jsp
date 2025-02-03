@@ -47,7 +47,7 @@ uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
                 id="size-modal-img"
                 src="/images/avatar/user_placeholder.png"
                 alt=""
-                class="img-fluid"
+                class="w-100"
                 style="object-fit: cover"
               />
             </div>

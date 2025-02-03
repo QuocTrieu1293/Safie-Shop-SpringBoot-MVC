@@ -36,10 +36,10 @@ import com.quoctrieu.springbootmvc.service.UtilsService;
 // @SessionAttributes("roles")
 public class UserController {
 
-  final private UserRepository userRepository;
-  final private UserService userService;
-  final private FileService fileService;
-  final private RoleService roleService;
+  private final UserRepository userRepository;
+  private final UserService userService;
+  private final FileService fileService;
+  private final RoleService roleService;
 
   @InitBinder
   public void initBinder(WebDataBinder binder) {
@@ -213,7 +213,7 @@ public class UserController {
 // @RestController
 // public class UserController {
 
-// final private UserService userService;
+// private final UserService userService;
 
 // // DI: dependency Injection
 // public UserController(UserService userService) {

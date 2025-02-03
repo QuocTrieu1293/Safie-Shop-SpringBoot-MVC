@@ -95,7 +95,7 @@ uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
                     <a href="#">
                       <img
                         src="/images/product/${product.image}"
-                        class="img-fluid rounded"
+                        class="w-100 rounded"
                         style="object-fit: cover"
                         alt="Image"
                       />
@@ -303,7 +303,7 @@ uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
                     <div class="d-flex">
                       <img
                         src="/client/img/avatar.jpg"
-                        class="img-fluid rounded-circle p-3"
+                        class="w-100 rounded-circle p-3"
                         style="width: 100px; height: 100px; object-fit: cover"
                         alt=""
                       />
@@ -332,7 +332,7 @@ uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
                     <div class="d-flex">
                       <img
                         src="/client/img/avatar.jpg"
-                        class="img-fluid rounded-circle p-3"
+                        class="w-100 rounded-circle p-3"
                         style="width: 100px; height: 100px; object-fit: cover"
                         alt=""
                       />
@@ -470,7 +470,7 @@ uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
                       <a href="/product/${product.id}"
                         ><img
                           src="/images/product/${product.image}"
-                          class="img-fluid rounded"
+                          class="w-100 rounded"
                           style="object-fit: cover"
                           alt="Image"
                       /></a>
@@ -508,7 +508,7 @@ uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
                 <div class="position-relative">
                   <img
                     src="/images/others/baby-banner.webp"
-                    class="img-fluid w-100 rounded"
+                    class="w-100 w-100 rounded"
                     style="object-fit: cover"
                     alt=""
                   />
@@ -542,7 +542,7 @@ uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
                   <a href="/product/${product.id}"
                     ><img
                       src="/images/product/${product.image}"
-                      class="img-fluid w-100 rounded-top"
+                      class="w-100 w-100 rounded-top"
                       style="object-fit: cover"
                       alt=""
                   /></a>
@@ -650,8 +650,8 @@ uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
           if (!userId) {
             $.toast({
               text: "<span style='font-size: 14px'>Bạn cần đăng nhập tài khoản. <a href='/login'>Đăng nhập</a></span>", // Text that is to be shown in the toast
-              heading: "Chưa đăng nhập", // Optional heading to be shown on the toast
-              icon: "warning", // Type of toast icon
+              heading: "Lỗi", // Optional heading to be shown on the toast
+              icon: "error", // Type of toast icon
               showHideTransition: "fade", // fade, slide or plain
               allowToastClose: true, // Boolean value true or false
               hideAfter: 2500, // false to make it sticky or number representing the miliseconds as time after which toast needs to be hidden

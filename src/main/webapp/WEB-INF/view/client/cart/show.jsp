@@ -353,7 +353,7 @@ uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
           },
           error: function (response) {
             if (response.status === 401) {
-              window.location.href = "/login?expired=true";
+              window.location.href = "/login?invalid=true";
             }
           },
         });

@@ -15,9 +15,9 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
   public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException)
       throws IOException, ServletException {
     if ("XMLHttpRequest".equals(request.getHeader("X-Requested-With"))) {
-      response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Session expired or invalid");
+      response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Session invalid");
     } else {
-      response.sendRedirect("/login?expired=true");
+      response.sendRedirect("/login?invalid=true");
     }
   }
 

@@ -2479,7 +2479,7 @@ textarea.form-control.is-valid {
   width: 100%;
   margin-top: 0.25rem;
   font-size: 0.875em;
-  color: #e0b8b8;
+  color: #dc3545;
 }
 .invalid-tooltip {
   position: absolute;
@@ -2502,7 +2502,7 @@ textarea.form-control.is-valid {
 }
 .was-validated .form-control:invalid,
 .form-control.is-invalid {
-  border-color: #e0b8b8;
+  border-color: #dc3545;
   padding-right: calc(1.5em + 0.75rem);
   background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' width='12' height='12' fill='none' stroke='%23dc3545'%3e%3ccircle cx='6' cy='6' r='4.5'/%3e%3cpath stroke-linejoin='round' d='M5.8 3.6h.4L6 6.5z'/%3e%3ccircle cx='6' cy='8.2' r='.6' fill='%23dc3545' stroke='none'/%3e%3c/svg%3e");
   background-repeat: no-repeat;
@@ -2511,7 +2511,7 @@ textarea.form-control.is-valid {
 }
 .was-validated .form-control:invalid:focus,
 .form-control.is-invalid:focus {
-  border-color: #e0b8b8;
+  border-color: #dc3545;
   box-shadow: 0 0 0 0.25rem rgba(220, 53, 69, 0.25);
 }
 .was-validated textarea.form-control:invalid,
@@ -2522,7 +2522,7 @@ textarea.form-control.is-invalid {
 }
 .was-validated .form-select:invalid,
 .form-select.is-invalid {
-  border-color: #e0b8b8;
+  border-color: #dc3545;
 }
 .was-validated .form-select:invalid:not([multiple]):not([size]),
 .was-validated .form-select:invalid:not([multiple])[size="1"],
@@ -2536,16 +2536,16 @@ textarea.form-control.is-invalid {
 }
 .was-validated .form-select:invalid:focus,
 .form-select.is-invalid:focus {
-  border-color: #e0b8b8;
+  border-color: #dc3545;
   box-shadow: 0 0 0 0.25rem rgba(220, 53, 69, 0.25);
 }
 .was-validated .form-check-input:invalid,
 .form-check-input.is-invalid {
-  border-color: #e0b8b8;
+  border-color: #dc3545;
 }
 .was-validated .form-check-input:invalid:checked,
 .form-check-input.is-invalid:checked {
-  background-color: #e0b8b8;
+  background-color: #dc3545;
 }
 .was-validated .form-check-input:invalid:focus,
 .form-check-input.is-invalid:focus {
@@ -2553,7 +2553,7 @@ textarea.form-control.is-invalid {
 }
 .was-validated .form-check-input:invalid ~ .form-check-label,
 .form-check-input.is-invalid ~ .form-check-label {
-  color: #e0b8b8;
+  color: #dc3545;
 }
 .form-check-inline .form-check-input ~ .invalid-feedback {
   margin-left: 0.5em;
@@ -6908,6 +6908,9 @@ fieldset:disabled .btn {
 }
 .text-white {
   color: #fff !important;
+}
+.text-blue {
+  color: #0d6efd;
 }
 .text-body {
   color: #747d88 !important;

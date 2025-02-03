@@ -13,26 +13,70 @@ uri="http://www.springframework.org/tags/form" %>
     />
     <meta name="description" content="" />
     <meta name="author" content="" />
-    <title>Register User</title>
-    <link href="css/styles.css" rel="stylesheet" />
-    <script
-      src="https://use.fontawesome.com/releases/v6.3.0/js/all.js"
+    <title>Safie - An tâm cho con | Đăng ký tài khoản</title>
+
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Icon Font Stylesheet -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css"
+      integrity="sha512-5Hs3dF2AEPkpNAR7UiOHba+lRSJNeM2ECkwxUIxC1Q/FLycGTbNapWXB4tP889k5T5Ju8fs4b1P5z/iB4nMfSQ=="
       crossorigin="anonymous"
-    ></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+      referrerpolicy="no-referrer"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    />
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="css/styles.css" rel="stylesheet" />
+    <link href="/client/css/bootstrap.min.css" rel="stylesheet" />
+
+    <!-- Template Stylesheet -->
+    <link href="/client/css/style.css" rel="stylesheet" />
   </head>
   <body class="bg-primary">
+    <!-- Header -->
+    <nav class="navbar navbar-expand-sm bg-white">
+      <div class="container-fluid justify-content-start">
+        <a href="/" class="navbar-brand me-4"
+          ><img
+            src="/images/others/logo.png"
+            alt="Safie brand"
+            style="height: 76px; object-fit: contain"
+        /></a>
+        <div class="text-black fs-2 pt-2">Đăng ký</div>
+      </div>
+    </nav>
+
     <div id="layoutAuthentication">
       <div id="layoutAuthentication_content">
         <main>
           <div class="container">
-            <div class="row justify-content-center">
-              <div class="col-lg-7">
-                <div class="card shadow-lg border-0 rounded-lg mt-5">
+            <div class="row justify-content-between align-items-center mt-5">
+              <div class="col-lg-6">
+                <img
+                  src="/images/others/logo_white.png"
+                  alt="brand logo"
+                  class="img-fluid mb-lg-5 mb-3"
+                />
+                <p class="text-center text-white fs-2 fw-bold">
+                  Shop thời trang dành cho trẻ nhỏ chất lượng & an toàn số 1
+                  Việt Nam
+                </p>
+              </div>
+              <div class="col-lg-5">
+                <div class="card shadow-lg border-0 rounded-lg">
                   <div class="card-header">
-                    <h3 class="text-center font-weight-light my-4">
-                      Create Account
-                    </h3>
+                    <h3 class="text-center font-weight-light mt-3">Đăng ký</h3>
                   </div>
                   <div class="card-body">
                     <form:form
@@ -58,7 +102,7 @@ uri="http://www.springframework.org/tags/form" %>
                               path="firstName"
                               required="true"
                             />
-                            <label for="inputFirstName">First name</label>
+                            <label for="inputFirstName">Tên</label>
                             ${firstNameBindErrors}
                           </div>
                         </div>
@@ -77,20 +121,23 @@ uri="http://www.springframework.org/tags/form" %>
                               path="lastName"
                               required="true"
                             />
-                            <label for="inputLastName">Last name</label>
+                            <label for="inputLastName">Họ</label>
                             ${lastNameBindErrors}
                           </div>
                         </div>
                       </div>
 
                       <!-- email -->
-                      <div>
+                      <div class="input-group mb-3">
                         <c:set var="emailBindErrors"
                           ><form:errors
                             path="email"
                             cssClass="invalid-feedback server-validate-feedback"
                         /></c:set>
-                        <div class="form-floating mb-3">
+                        <span class="input-group-text"
+                          ><i class="bi bi-envelope-at-fill"></i
+                        ></span>
+                        <div class="form-floating">
                           <form:input
                             class="form-control ${not empty emailBindErrors ? 'is-invalid' : ''}"
                             id="inputEmail"
@@ -99,7 +146,7 @@ uri="http://www.springframework.org/tags/form" %>
                             path="email"
                             required="true"
                           />
-                          <label for="inputEmail">Email address</label>
+                          <label for="inputEmail">Địa chỉ email</label>
                           ${emailBindErrors}
                         </div>
                       </div>
@@ -120,7 +167,7 @@ uri="http://www.springframework.org/tags/form" %>
                               path="password"
                               required="true"
                             />
-                            <label for="inputPassword">Password</label>
+                            <label for="inputPassword">Mật khẩu</label>
                             ${passwordBindErrors}
                           </div>
                         </div>
@@ -140,27 +187,66 @@ uri="http://www.springframework.org/tags/form" %>
                               required="true"
                             />
                             <label for="inputPasswordConfirm"
-                              >Confirm Password</label
+                              >Nhập lại mật khẩu</label
                             >
                             ${CfPasswordBindErrors}
                           </div>
                         </div>
                       </div>
-                      <div class="mt-4 mb-0">
+                      <div class="mt-4">
                         <div class="d-grid">
                           <button
                             type="submit"
                             class="btn btn-primary btn-block"
                           >
-                            Create Account
+                            Đăng ký
                           </button>
                         </div>
                       </div>
                     </form:form>
+
+                    <!-- OAuth2 -->
+                    <div class="mb-2">
+                      <div class="position-relative">
+                        <hr class="mt-4 mb-3" />
+                        <span
+                          class="bg-white px-1 pb-1 position-absolute translate-middle top-50 start-50"
+                          >Hoặc đăng nhập với</span
+                        >
+                      </div>
+                      <div class="d-flex gap-3 justify-content-center">
+                        <!-- Google -->
+                        <a
+                          href="/oauth2/authorization/google"
+                          class="rounded-circle bg-white p-1 d-inline-block shadow user-select-none"
+                          style="width: 48px; height: 48px"
+                          title="Google"
+                        >
+                          <img
+                            class="img-fluid"
+                            src="/images/others/google-login.png"
+                          />
+                        </a>
+
+                        <!-- Github -->
+                        <a
+                          href="/oauth2/authorization/github"
+                          class="rounded-circle bg-white p-1 d-inline-block shadow user-select-none"
+                          style="width: 48px; height: 48px"
+                          title="Github"
+                        >
+                          <img
+                            class="img-fluid"
+                            src="/images/others/github-login.png"
+                          />
+                        </a>
+                      </div>
+                    </div>
                   </div>
                   <div class="card-footer text-center py-3">
                     <div class="small">
-                      <a href="/login">Have an account? Go to login</a>
+                      <span>Đã có tài khoản?</span>
+                      <a href="/login" class="fw-medium"> Đăng nhập</a>
                     </div>
                   </div>
                 </div>
@@ -170,10 +256,15 @@ uri="http://www.springframework.org/tags/form" %>
         </main>
       </div>
     </div>
+    <!-- Footer -->
+    <jsp:include page="../layout/footer.jsp" />
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
     <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+      src="https://use.fontawesome.com/releases/v6.3.0/js/all.js"
       crossorigin="anonymous"
     ></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
     <script src="js/scripts.js"></script>
     <script>
       $(document).ready(() => {

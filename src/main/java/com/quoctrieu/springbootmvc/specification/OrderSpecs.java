@@ -1,6 +1,5 @@
 package com.quoctrieu.springbootmvc.specification;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import org.springframework.data.jpa.domain.Specification;

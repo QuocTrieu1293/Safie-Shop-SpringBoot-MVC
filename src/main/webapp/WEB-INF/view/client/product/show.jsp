@@ -367,7 +367,7 @@ uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
                       <div class="fruite-img">
                         <img
                           src="/images/product/${product.image}"
-                          class="img-fluid w-100 rounded-top"
+                          class="w-100 rounded-top"
                           style="object-fit: cover"
                           alt="product thumbnail"
                         />

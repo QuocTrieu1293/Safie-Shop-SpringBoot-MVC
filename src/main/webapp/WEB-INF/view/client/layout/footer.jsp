@@ -9,7 +9,7 @@
     >
       <div class="row g-4 justify-content-between">
         <div class="col-lg-3">
-          <a href="#">
+          <a href="/">
             <img
               src="/images/others/logo.png"
               alt=""
@@ -95,7 +95,7 @@
           </div>
           <img
             src="/client/img/payment.png"
-            class="img-fluid"
+            class="w-100"
             style="object-fit: cover"
             alt=""
           />
