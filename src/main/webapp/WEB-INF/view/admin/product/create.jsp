@@ -67,7 +67,7 @@ uri="http://www.springframework.org/tags/form" %>
                     <label for="name" class="form-label">Name:</label>
                     <form:input
                       type="text"
-                      class="form-control ${not empty nameBindError ? 'is-invalid' : ''}"
+                      cssClass="form-control ${not empty nameBindError ? 'is-invalid' : ''}"
                       id="name"
                       required="not empty string here"
                       path="name"
@@ -83,7 +83,7 @@ uri="http://www.springframework.org/tags/form" %>
                     </c:set>
                     <label for="brand" class="form-label">Brand:</label>
                     <form:select
-                      class="form-select ${not empty brandBindError ? 'is-invalid' : ''}"
+                      cssClass="form-select ${not empty brandBindError ? 'is-invalid' : ''}"
                       id="brand"
                       required="not empty string here"
                       path="brand.id"
@@ -108,7 +108,7 @@ uri="http://www.springframework.org/tags/form" %>
                     </c:set>
                     <label for="category" class="form-label">Category:</label>
                     <form:select
-                      class="form-select ${not empty categoryBindError ? 'is-invalid' : ''}"
+                      cssClass="form-select ${not empty categoryBindError ? 'is-invalid' : ''}"
                       id="category"
                       required="not empty string here"
                       path="category.id"
@@ -134,7 +134,7 @@ uri="http://www.springframework.org/tags/form" %>
                     <label for="price" class="form-label">Price:</label>
                     <form:input
                       type="number"
-                      class="form-control ? ${not empty priceBindError ? 'is-invalid' : ''}"
+                      cssClass="form-control ? ${not empty priceBindError ? 'is-invalid' : ''}"
                       id="price"
                       required="not empty string here"
                       path="price"
@@ -150,7 +150,7 @@ uri="http://www.springframework.org/tags/form" %>
                     </c:set>
                     <label for="size" class="form-label">Sizes:</label>
                     <form:select
-                      class="form-select ${not empty sizesBindError ? 'is-invalid' : ''}"
+                      cssClass="form-select ${not empty sizesBindError ? 'is-invalid' : ''}"
                       id="size"
                       required="not empty string here"
                       path="sizes"
@@ -179,7 +179,7 @@ uri="http://www.springframework.org/tags/form" %>
                     <label for="quantity" class="form-label">Quantity:</label>
                     <form:input
                       type="number"
-                      class="form-control ${not empty quantityBindError ? 'is-invalid' : ''}"
+                      cssClass="form-control ${not empty quantityBindError ? 'is-invalid' : ''}"
                       id="quantity"
                       path="quantity"
                     />
@@ -197,7 +197,7 @@ uri="http://www.springframework.org/tags/form" %>
                     >
                     <form:input
                       type="text"
-                      class="form-control ${not empty shortDescBindError ? 'is-invalid' : ''}"
+                      cssClass="form-control ${not empty shortDescBindError ? 'is-invalid' : ''}"
                       id="shortDesc"
                       path="shortDesc"
                     />
@@ -214,7 +214,7 @@ uri="http://www.springframework.org/tags/form" %>
                       >Description:</label
                     >
                     <form:textarea
-                      class="form-control ${not empty detailDescBindError ? 'is-invalid' : ''}"
+                      cssClass="form-control ${not empty detailDescBindError ? 'is-invalid' : ''}"
                       rows="4"
                       id="detailDesc"
                       path="detailDesc"

@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -19,9 +18,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.validation.Valid;
+import com.quoctrieu.springbootmvc.domain.Brand;
+import com.quoctrieu.springbootmvc.domain.Category;
 import com.quoctrieu.springbootmvc.domain.Product;
+import com.quoctrieu.springbootmvc.domain.Size;
 import com.quoctrieu.springbootmvc.domain.dto.ProductCriteriaDTO;
 import com.quoctrieu.springbootmvc.repository.BrandRepository;
 import com.quoctrieu.springbootmvc.repository.CategoryRepository;
@@ -29,7 +29,9 @@ import com.quoctrieu.springbootmvc.repository.SizeRepository;
 import com.quoctrieu.springbootmvc.service.FileService;
 import com.quoctrieu.springbootmvc.service.FileService.Type;
 import com.quoctrieu.springbootmvc.service.ProductService;
-import com.quoctrieu.springbootmvc.service.UtilsService;
+
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 
 @Controller("adminProductController")
 public class ProductController {
@@ -57,10 +59,19 @@ public class ProductController {
     this.fileService = fileService;
   }
 
-  void populateSelects(Model model) {
-    model.addAttribute("categories", categoryRepository.findAll());
-    model.addAttribute("brands", brandRepository.findAll());
-    model.addAttribute("sizes", sizeRepository.findAll());
+  @ModelAttribute("categories")
+  public List<Category> populateCategories() {
+    return categoryRepository.findAll();
+  }
+
+  @ModelAttribute("brands")
+  public List<Brand> populateBrand() {
+    return brandRepository.findAll();
+  }
+
+  @ModelAttribute("sizes")
+  public List<Size> populateSizes() {
+    return sizeRepository.findAll();
   }
 
   @GetMapping("/admin/product")
@@ -91,7 +102,6 @@ public class ProductController {
   public String getCreateProductPage(Model model) {
 
     model.addAttribute("newProduct", new Product());
-    populateSelects(model);
 
     return "admin/product/create";
   }
@@ -117,7 +127,6 @@ public class ProductController {
       errors.forEach(
           (e) -> System.out.println(">>> ERR Create Product: " + e.getField() + " - " + e.getDefaultMessage()));
 
-      populateSelects(model);
       return "admin/product/create";
     }
 
@@ -130,8 +139,6 @@ public class ProductController {
   public String getProductUpdatePage(@PathVariable long id, Model model) {
     Product product = productService.get(id);
     model.addAttribute("product", product);
-
-    populateSelects(model);
 
     return "admin/product/update";
   }
@@ -149,7 +156,6 @@ public class ProductController {
       List<FieldError> errors = productBindingResult.getFieldErrors();
       errors.forEach(
           (e) -> System.out.println(">>> ERR Update Product: " + e.getField() + " - " + e.getDefaultMessage()));
-      populateSelects(model);
       return "admin/product/update";
     }
 

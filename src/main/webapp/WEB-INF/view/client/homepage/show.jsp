@@ -405,9 +405,6 @@ uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
     <!-- side bar for choosing product size -->
     <jsp:include page="../layout/sizeModal.jsp" />
 
-    <!-- alert modal cho biết thành công/thất bại khi add to cart -->
-    <jsp:include page="../layout/alertModal.jsp" />
-
     <!-- JavaScript Libraries -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>

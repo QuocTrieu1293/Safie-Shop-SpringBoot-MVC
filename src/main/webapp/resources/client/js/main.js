@@ -1,3 +1,19 @@
+
+// alert modal for success or failure
+const alertModal = function (message, type) {
+    $("#alert-modal-message").text(message);
+    if (type === 'success')
+        $("#alert-modal-icon").html('<i class="bi bi-check-circle fs-1 text-success"/>');
+    else if (type === "error")
+        $("#alert-modal-icon").html('<i class="bi bi-x-circle fs-1 text-red"></i>');
+    $("#alert-modal").modal("show");
+    setTimeout(() => $("#alert-modal").modal("hide"), 5000);
+}
+$(document).ready(function () {
+    if (successMessage) alertModal(successMessage, "success");
+    else if (errorMessage) alertModal(errorMessage, "error");
+});
+
 (function ($) {
     "use strict";
 
@@ -28,7 +44,6 @@
         }
     });
 
-
     // Back to top button
     $(window).scroll(function () {
         if ($(this).scrollTop() > 300) {
@@ -41,7 +56,6 @@
         $('html, body').animate({ scrollTop: 0 }, 1500, 'easeInOutExpo');
         return false;
     });
-
 
     // Testimonial carousel
     $(".testimonial-carousel").owlCarousel({
@@ -76,7 +90,6 @@
         }
     });
 
-
     // vegetable carousel
     $(".vegetable-carousel").owlCarousel({
         autoplay: true,
@@ -110,7 +123,6 @@
         }
     });
 
-
     // Modal Video
     $(document).ready(function () {
         var $videoSrc;
@@ -128,14 +140,19 @@
         })
     });
 
-    $("#navbarCollapse").find("a.nav-item").each(function () {
-        if ($(this).attr("href") === window.location.pathname) {
+    $("a.nav-item, a.nav-link").each(function () {
+        if ($(this).attr("href") === window.location.pathname &&
+            $(this).next("ul").length === 0 // xem sideNav.jsp, cụ thể khi nấn vào `Tài khoản của tôi` thì mặc định `Hồ sơ` active
+        ) {
+
             $(this).addClass("active");
             $(this).attr("aria-current", "page");
-        } else {
-            $(this).removeAttr("aria-current");
         }
     })
+    $(".nav .nav").each(function () {
+        if ($(this).find(".nav-item.active, .nav-link.active").length === 0)
+            $(this).hide();
+    }) // ẩn các ul cấp 2 ko có item active (xem sideNav.jsp)
 
     // Product search at header
     const url = new URL(window.location.href);
@@ -234,6 +251,7 @@
 
         });
     });
+    // end Product search at header
 
     $(document).ready(function () {
         const productSearch = $("#product-search");
@@ -342,7 +360,6 @@
             $("#product-search-history").children().last().empty();
             localStorage.removeItem("SEARCH_HISTORY");
         })
-
     });
 
 })(jQuery);

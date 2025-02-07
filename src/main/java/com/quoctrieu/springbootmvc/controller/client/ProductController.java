@@ -19,7 +19,7 @@ import com.quoctrieu.springbootmvc.service.ProductService;
 
 import jakarta.servlet.http.HttpServletRequest;
 
-@Controller("clientProductController")
+@Controller("ClientProductController")
 public class ProductController {
 
   private final ProductService productService;

@@ -5,6 +5,7 @@
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
  */
 :root {
+  --bs-red: #d9534f;
   --bs-blue: #0d6efd;
   --bs-indigo: #6610f2;
   --bs-purple: #6f42c1;
@@ -17,6 +18,7 @@
   --bs-cyan: #f4d1b3;
   --bs-white: #fff;
   --bs-gray: #6c757d;
+  --bs-gray-white: #f8f8fc;
   --bs-gray-dark: #343a40;
   --bs-primary: #a97349 !important;
   --bs-secondary: #c5d6c3;
@@ -37,7 +39,7 @@
     rgba(255, 255, 255, 0.15),
     rgba(255, 255, 255, 0)
   );
-  --bs-emphasis-color: #a97349 !important;
+  /* --bs-emphasis-color: #a97349 !important; */
 }
 *,
 *::before,
@@ -3152,6 +3154,40 @@ fieldset:disabled .btn {
   color: #e0b8b8;
   background-color: rgba(0, 0, 0, 0);
 }
+.btn-outline-red {
+  color: #d9534f;
+  border-color: #d9534f;
+}
+.btn-outline-red:hover {
+  color: #fff;
+  background-color: #d9534f;
+  border-color: #d9534f;
+}
+.btn-check:focus + .btn-outline-red,
+.btn-outline-red:focus {
+  box-shadow: 0 0 0 0.25rem rgba(220, 53, 69, 0.5);
+}
+.btn-check:checked + .btn-outline-red,
+.btn-check:active + .btn-outline-red,
+.btn-outline-red:active,
+.btn-outline-red.active,
+.btn-outline-red.dropdown-toggle.show {
+  color: #fff;
+  background-color: #d9534f;
+  border-color: #d9534f;
+}
+.btn-check:checked + .btn-outline-red:focus,
+.btn-check:active + .btn-outline-red:focus,
+.btn-outline-red:active:focus,
+.btn-outline-red.active:focus,
+.btn-outline-red.dropdown-toggle.show:focus {
+  box-shadow: 0 0 0 0.25rem rgba(220, 53, 69, 0.5);
+}
+.btn-outline-red:disabled,
+.btn-outline-red.disabled {
+  color: #d9534f;
+  background-color: rgba(0, 0, 0, 0);
+}
 .btn-outline-light {
   color: #fdf8e3;
   border-color: #fdf8e3;
@@ -3703,7 +3739,7 @@ fieldset:disabled .btn {
 }
 .nav-tabs .nav-link.active,
 .nav-tabs .nav-item.show .nav-link {
-  color: #a97349;
+  color: #a97349 !important;
   background-color: #fff;
   border-color: #dee2e6 #dee2e6 #fff;
 }
@@ -6900,6 +6936,9 @@ fieldset:disabled .btn {
 .text-danger {
   color: #e0b8b8 !important;
 }
+.text-red {
+  color: #d9534f;
+}
 .text-light {
   color: #fdf8e3 !important;
 }
@@ -6956,6 +6995,9 @@ fieldset:disabled .btn {
 }
 .bg-white {
   background-color: #fff !important;
+}
+.bg-gray-white {
+  background-color: #f8f8fc !important;
 }
 .bg-transparent {
   background-color: rgba(0, 0, 0, 0) !important;

@@ -61,3 +61,16 @@
   position: absolute;
   visibility: hidden;
 }
+
+.my-nav-underline::-webkit-scrollbar {
+  display: none; /* Hides the scrollbar */
+}
+
+.my-nav-underline {
+  overflow: -moz-scrollbars-none; /* Hides the scrollbar */
+}
+
+.my-nav-underline > .nav-item:has(> .nav-link.active) {
+  color: var(--bs-primary);
+  border-bottom: solid var(--bs-primary) 2.5px;
+}

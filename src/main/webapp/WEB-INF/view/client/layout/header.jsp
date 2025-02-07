@@ -7,8 +7,11 @@ uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script> -->
 <!-- Navbar start-->
 
+<!-- Dùng thẻ script trong file .jsp để có thể lấy được các giá trị truyền qua model từ Controller -->
 <script>
   const userId = "${userId}"; // Dùng để check user có login hay chưa trong file js. userId được vào session khi đăng nhập thành công.
+  const errorMessage = "${errorMessage}";
+  const successMessage = "${successMessage}";
 </script>
 
 <div class="container-fluid fixed-top px-0">
@@ -132,11 +135,9 @@ uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
                 <ul
                   class="dropdown-menu dropdown-menu-end p-4"
                   aria-labelledby="dropdownMenuLink"
+                  style="max-width: 235px"
                 >
-                  <li
-                    class="d-flex align-items-center flex-column"
-                    style="min-width: 200px"
-                  >
+                  <li class="text-center mb-2">
                     <img
                       style="
                         width: 85px;
@@ -147,18 +148,18 @@ uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
                       "
                       src="/images/avatar/${not empty avatar ? avatar : 'user_placeholder.png'}"
                     />
-                    <div class="text-center my-3">
-                      <!-- biến fullName lấy từ session. Nếu có biến trùng tên thì dùng sessionScope.fullName -->
-                      <span> ${fullName}</span>
-                    </div>
+                    <!-- biến fullName lấy từ session. Nếu có biến trùng tên thì dùng sessionScope.fullName -->
+                    <div class="text-truncate mt-2">${fullName}</div>
                   </li>
 
                   <li>
-                    <a class="dropdown-item" href="#">Quản lý tài khoản</a>
+                    <a class="dropdown-item" href="/profile/account"
+                      >Quản lý tài khoản</a
+                    >
                   </li>
 
                   <li>
-                    <a class="dropdown-item" href="/order-history"
+                    <a class="dropdown-item" href="/profile/order-history"
                       >Lịch sử mua hàng</a
                     >
                   </li>
@@ -310,3 +311,24 @@ uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
   </div>
 </div>
 <!-- Modal Search End -->
+
+<div
+  class="modal fade"
+  id="alert-modal"
+  tabindex="-1"
+  aria-labelledby="alert-modal-label"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-body">
+        <div class="text-center p-3">
+          <span id="alert-modal-icon"><i class="bi bi-check-circle"></i></span>
+          <p id="alert-modal-message" class="fs-4">
+            Alert modal message goes here
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

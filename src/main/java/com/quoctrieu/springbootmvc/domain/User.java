@@ -2,6 +2,8 @@ package com.quoctrieu.springbootmvc.domain;
 
 import java.util.Set;
 
+import org.hibernate.validator.constraints.Length;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -15,6 +17,7 @@ import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
@@ -34,9 +37,12 @@ public class User {
 
   @NotBlank(message = "Password cannot be blank")
   @Size(min = 8, message = "Password must be at least 8 characters")
+  @NotNull
   private String password;
 
   @NotBlank(message = "Fullname cannot be blank")
+  @NotNull
+  @Length(min = 2, max = 30, message = "Name must be from 2 to 30 characters")
   private String fullName;
 
   // @NotBlank(message = "Address cannot be blank")
@@ -47,6 +53,8 @@ public class User {
   private String phone;
 
   private String avatar;
+
+  private String gender;
 
   @ManyToOne
   @JoinColumn(name = "role_id") // mặc định Spring tự tạo cột khoá ngoại này, tên mặc định là <tên entity>_id
@@ -68,8 +76,8 @@ public class User {
   void prePersist() {
     if (authenProvider == null)
       authenProvider = "Local";
-    if (avatar == null)
-      avatar = "user_placeholder.png";
+    // if (avatar == null)
+    // avatar = "user_placeholder.png";
   }
 
   public User() {
@@ -173,11 +181,19 @@ public class User {
     this.authenProvider = authenProvider;
   }
 
+  public String getGender() {
+    return gender;
+  }
+
+  public void setGender(String gender) {
+    this.gender = gender;
+  }
+
   @Override
   public String toString() {
     return "User [id=" + id + ", email=" + email + ", password=" + password + ", fullName=" + fullName + ", address="
         + address + ", phone=" + phone + ", avatar=" + avatar + ", role=" + role + ", orders=" + orders + ", cart=[id="
-        + cart.getId() + ", authenProvider=" + authenProvider + "]]";
+        + cart.getId() + ", authenProvider=" + authenProvider + ", gender=" + gender + "]]";
   }
 
 }

@@ -32,6 +32,8 @@ $(document).ready(function () {
         if (pathname === href || (href !== "/admin" && pathname.startsWith(href)))
             $(this).addClass("active");
     });
+
+
 });
 
 function goBack() {

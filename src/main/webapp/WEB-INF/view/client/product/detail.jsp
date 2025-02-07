@@ -601,9 +601,6 @@ uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
       ><i class="fa fa-arrow-up"></i
     ></a>
 
-    <!-- alert modal cho biết thành công/thất bại khi add to cart -->
-    <jsp:include page="../layout/alertModal.jsp" />
-
     <!-- size modal for related products -->
     <jsp:include page="../layout/sizeModal.jsp" />
 
