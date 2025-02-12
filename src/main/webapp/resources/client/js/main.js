@@ -362,5 +362,7 @@ $(document).ready(function () {
         })
     });
 
+    $("button, .btn").on("focus", function () { $(this).trigger("blur") });
+
 })(jQuery);
 

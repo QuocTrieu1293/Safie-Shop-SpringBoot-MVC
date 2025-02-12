@@ -84,9 +84,6 @@ uri="http://java.sun.com/jsp/jstl/core" %>
                       <b>Full name:</b> ${user.fullName}
                     </li>
                     <li class="list-group-item"><b>Phone:</b> ${user.phone}</li>
-                    <li class="list-group-item">
-                      <b>Address:</b> ${user.address}
-                    </li>
                   </ul>
                 </div>
               </div>

@@ -12,8 +12,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
 import com.quoctrieu.springbootmvc.domain.Cart;
 import com.quoctrieu.springbootmvc.domain.Order;
 import com.quoctrieu.springbootmvc.domain.dto.CheckoutDTO;
@@ -22,6 +20,9 @@ import com.quoctrieu.springbootmvc.repository.OrderRepository;
 import com.quoctrieu.springbootmvc.service.CartService;
 import com.quoctrieu.springbootmvc.service.OrderService;
 import com.quoctrieu.springbootmvc.service.VNPayService;
+
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 
 @Controller("ClientOrderController")
 public class OrderController {
@@ -92,6 +93,31 @@ public class OrderController {
     model.addAttribute("orderId", orderId);
 
     return "client/cart/thankyou";
+  }
+
+  @GetMapping("/profile/order-history")
+  public String getOrderHistoryPage(Model model, OrderCriteriaDTO orderCriteria, HttpServletRequest request) {
+
+    HttpSession session = request.getSession(false);
+    long userId = (long) session.getAttribute("userId");
+    orderCriteria.setUserId(userId);
+    orderCriteria.setPageSize(3);
+
+    Page<Order> pagedOrder = orderService.getPageWithSpec(orderCriteria);
+    List<Order> orders = pagedOrder.getContent();
+    model.addAttribute("orders", orders);
+    model.addAttribute("totalPages", pagedOrder.getTotalPages());
+    model.addAttribute("currentPage", pagedOrder.getNumber() + 1);
+
+    String queryString = request.getQueryString();
+    if (queryString != null) {
+      queryString = queryString.replace("page=" + (pagedOrder.getNumber() + 1), "");
+      if (!queryString.isBlank() && !queryString.startsWith("&"))
+        queryString = "&" + queryString;
+    }
+    model.addAttribute("queryString", queryString);
+
+    return "client/profile/orderHistory";
   }
 
 }

@@ -48,7 +48,6 @@ public class UserService {
 
     updatedUser.setPhone(user.getPhone());
     updatedUser.setFullName(user.getFullName());
-    updatedUser.setAddress(user.getAddress());
     updatedUser.setRole(user.getRole());
     updatedUser.setAvatar(user.getAvatar());
 

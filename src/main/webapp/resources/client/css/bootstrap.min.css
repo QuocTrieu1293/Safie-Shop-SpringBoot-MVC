@@ -29,6 +29,8 @@
   --bs-light: #fdf8e3;
   --bs-dark: #45595b;
   --bs-light-primary: #a67c52;
+  --bs-light-primary-2: #dcc7b6;
+  --neutral-gray: #f3f4f6;
   --bs-font-sans-serif: system-ui, -apple-system, "Segoe UI", Roboto,
     "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif,
     "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
@@ -2087,7 +2089,7 @@ textarea.form-control-lg {
   filter: brightness(90%);
 }
 .form-check-input:focus {
-  border-color: #c0e284;
+  border-color: #a67c52;
   outline: 0;
   box-shadow: 0 0 0 0.1rem rgba(169, 115, 73, 0.25);
 }
@@ -2132,7 +2134,7 @@ textarea.form-control-lg {
   }
 }
 .form-switch .form-check-input:focus {
-  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='%23c0e284'/%3e%3c/svg%3e");
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='%23a67c52'/%3e%3c/svg%3e");
 }
 .form-switch .form-check-input:checked {
   background-position: right center;
@@ -2616,7 +2618,7 @@ fieldset:disabled .btn {
 }
 .btn-check:focus + .btn-primary,
 .btn-primary:focus {
-  color: #c5d6c3;
+  color: white;
   background-color: #a97349;
   border-color: #4d403b;
   box-shadow: 0 0 0 0.15rem rgba(169, 115, 73, 0.55);
@@ -2635,7 +2637,7 @@ fieldset:disabled .btn {
 .btn-primary:active:focus,
 .btn-primary.active:focus,
 .show > .btn-primary.dropdown-toggle:focus {
-  box-shadow: 0 0 0 0.25rem rgba(110, 167, 7, 0.5);
+  box-shadow: 0 0 0 0.25rem rgba(166, 124, 82, 0.5);
 }
 .btn-primary:disabled,
 .btn-primary.disabled {
@@ -2801,8 +2803,8 @@ fieldset:disabled .btn {
 }
 .btn-danger {
   color: #fff;
-  background-color: #e0b8b8;
-  border-color: #e0b8b8;
+  background-color: #d9534f;
+  border-color: #d9534f;
 }
 .btn-danger:hover {
   color: #fff;
@@ -6176,6 +6178,9 @@ fieldset:disabled .btn {
 .border-primary {
   border-color: #a97349 !important;
 }
+.border-light-primary {
+  border-color: #a67c52 !important;
+}
 .border-secondary {
   border-color: #c5d6c3 !important;
 }
@@ -6942,6 +6947,9 @@ fieldset:disabled .btn {
 .text-light {
   color: #fdf8e3 !important;
 }
+.text-light-primary {
+  color: #a67c52 !important;
+}
 .text-dark {
   color: #45595b !important;
 }
@@ -6968,6 +6976,9 @@ fieldset:disabled .btn {
 }
 .bg-primary {
   background-color: #a97349 !important;
+}
+.bg-light-primary-2 {
+  background-color: #dcc7b6 !important;
 }
 .bg-secondary {
   background-color: #c5d6c3 !important;
@@ -6998,6 +7009,9 @@ fieldset:disabled .btn {
 }
 .bg-gray-white {
   background-color: #f8f8fc !important;
+}
+.bg-neutral-gray {
+  background-color: #f3f4f6 !important;
 }
 .bg-transparent {
   background-color: rgba(0, 0, 0, 0) !important;
@@ -7036,10 +7050,10 @@ fieldset:disabled .btn {
   border-radius: 10px !important;
 }
 .rounded-2 {
-  border-radius: 10px !important;
+  border-radius: 15px !important;
 }
 .rounded-3 {
-  border-radius: 10px !important;
+  border-radius: 20px !important;
 }
 .rounded-circle {
   border-radius: 50% !important;

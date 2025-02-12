@@ -74,3 +74,15 @@
   color: var(--bs-primary);
   border-bottom: solid var(--bs-primary) 2.5px;
 }
+
+.modal-dialog-right {
+  position: absolute;
+  right: 0;
+  margin: 0;
+  height: 100vh;
+}
+
+.modal-dialog-right .modal-content {
+  height: 100%; /* Make the modal fill the viewport height */
+  border-radius: 0; /* Remove border-radius for a seamless design */
+}

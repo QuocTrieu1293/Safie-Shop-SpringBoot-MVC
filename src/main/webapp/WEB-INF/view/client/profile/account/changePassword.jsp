@@ -67,7 +67,10 @@ uri="http://sargue.net/jsptags/time" prefix="javatime" %>
 
     <!-- Cart Page Start -->
 
-    <div class="container container-fluid py-md-4" style="margin-top: 180px">
+    <div
+      class="container container-fluid py-md-4"
+      style="margin-top: 180px; min-height: 85vh"
+    >
       <div class="row flex-nowrap">
         <div class="col-auto">
           <jsp:include page="../sideNav.jsp" />

@@ -158,7 +158,7 @@ public class SecurityConfiguration {
 
         .logout(logout -> logout
             .logoutSuccessHandler(customLogoutSuccessHandler).permitAll()
-            .deleteCookies("JSESSIONID").invalidateHttpSession(true))
+            .deleteCookies("SESSION").invalidateHttpSession(true))
 
         .exceptionHandling(ex -> ex.accessDeniedPage("/access-deny")
             .authenticationEntryPoint(customAuthenticationEntryPoint))

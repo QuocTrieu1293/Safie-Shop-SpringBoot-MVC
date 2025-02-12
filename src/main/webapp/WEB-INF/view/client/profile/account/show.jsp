@@ -31,11 +31,11 @@ uri="http://www.springframework.org/tags/form" %>
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
     />
-    <link
+    <!-- <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css
     "
-    />
+    /> -->
 
     <!-- Libraries Stylesheet -->
     <link href="/client/lib/lightbox/css/lightbox.min.css" rel="stylesheet" />
@@ -64,9 +64,12 @@ uri="http://www.springframework.org/tags/form" %>
 
     <jsp:include page="../../layout/header.jsp" />
 
-    <!-- Cart Page Start -->
+    <!-- Account Info Page Start -->
 
-    <div class="container container-fluid py-md-4" style="margin-top: 180px">
+    <div
+      class="container container-fluid py-md-4"
+      style="margin-top: 180px; min-height: 85vh"
+    >
       <div class="row flex-nowrap">
         <div class="col-auto">
           <jsp:include page="../sideNav.jsp" />
@@ -76,7 +79,7 @@ uri="http://www.springframework.org/tags/form" %>
             class="rounded shadow-sm bg-white p-3 pb-5 d-flex flex-column"
             style="min-height: 450px"
           >
-            <h3 class="fs-4">Thông tin tài khoản</h3>
+            <h2 class="fs-3">Thông tin tài khoản</h2>
             <form:form
               action="/profile/account"
               method="post"
@@ -108,6 +111,7 @@ uri="http://www.springframework.org/tags/form" %>
                           cssClass="form-control-plaintext"
                           readonly="true"
                           required="true"
+                          disabled="true"
                         />
                       </td>
                     </tr>
@@ -136,7 +140,9 @@ uri="http://www.springframework.org/tags/form" %>
                           spellcheck="false"
                           required="true"
                         />
-                        <div class="invalid-feedback">Bắt buộc nhập Họ Tên</div>
+                        <div class="invalid-feedback">
+                          Thông tin bắt buộc nhập
+                        </div>
                         ${nameBindError}
                       </td>
                     </tr>
@@ -274,7 +280,7 @@ uri="http://www.springframework.org/tags/form" %>
       </div>
     </div>
 
-    <!-- Cart Page End -->
+    <!-- Account Info Page End -->
 
     <jsp:include page="../../layout/footer.jsp" />
 
@@ -347,13 +353,13 @@ uri="http://www.springframework.org/tags/form" %>
           if (!this.checkValidity()) {
             e.stopPropagation();
             e.preventDefault();
+            $(this)
+              .find("input")
+              .each(function () {
+                if (!this.checkValidity()) $(this).addClass("is-invalid");
+              });
           }
           // $(this).addClass("was-validated");
-          $(this)
-            .find("input")
-            .each(function () {
-              if (!this.checkValidity()) $(this).addClass("is-invalid");
-            });
         });
         $("#form")
           .find("input")

@@ -1,9 +1,11 @@
 package com.quoctrieu.springbootmvc.domain;
 
+import java.util.List;
 import java.util.Set;
 
 import org.hibernate.validator.constraints.Length;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -45,9 +47,6 @@ public class User {
   @Length(min = 2, max = 30, message = "Name must be from 2 to 30 characters")
   private String fullName;
 
-  // @NotBlank(message = "Address cannot be blank")
-  private String address;
-
   // @NotBlank(message = "Phone cannot be blank")
   @Pattern(regexp = "^\\d{10}$", message = "Phone number must be exactly 10 digits")
   private String phone;
@@ -65,6 +64,9 @@ public class User {
 
   @OneToOne(mappedBy = "user")
   private Cart cart;
+
+  @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+  private List<Address> addressBook;
 
   // private synchronized long generateId() {
   // return idCounter++;
@@ -88,9 +90,12 @@ public class User {
     this.email = email;
     this.password = password;
     this.fullName = fullName;
-    this.address = address;
     this.phone = phone;
     this.id = -1;
+  }
+
+  public User(long id) {
+    this.id = id;
   }
 
   public void setId(long id) { // Phải tạo public setter thì jsp form:form mới có thể truy cập, gán giá trị đc
@@ -107,10 +112,6 @@ public class User {
 
   public void setFullName(String fullName) {
     this.fullName = fullName;
-  }
-
-  public void setAddress(String address) {
-    this.address = address;
   }
 
   public void setPhone(String phone) {
@@ -135,10 +136,6 @@ public class User {
 
   public String getFullName() {
     return fullName;
-  }
-
-  public String getAddress() {
-    return address;
   }
 
   public String getPhone() {
@@ -189,10 +186,18 @@ public class User {
     this.gender = gender;
   }
 
+  public List<Address> getAddressBook() {
+    return addressBook;
+  }
+
+  public void setAddressBook(List<Address> addressBook) {
+    this.addressBook = addressBook;
+  }
+
   @Override
   public String toString() {
-    return "User [id=" + id + ", email=" + email + ", password=" + password + ", fullName=" + fullName + ", address="
-        + address + ", phone=" + phone + ", avatar=" + avatar + ", role=" + role + ", orders=" + orders + ", cart=[id="
+    return "User [id=" + id + ", email=" + email + ", password=" + password + ", fullName=" + fullName + ", phone="
+        + phone + ", avatar=" + avatar + ", role=" + role + ", orders=" + orders + ", cart=[id="
         + cart.getId() + ", authenProvider=" + authenProvider + ", gender=" + gender + "]]";
   }
 

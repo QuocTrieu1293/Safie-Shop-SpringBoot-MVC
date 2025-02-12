@@ -164,22 +164,6 @@ uri="http://www.springframework.org/tags/form" prefix="form"%>
                     />
                     ${phoneBindError}
                   </div>
-                  <div class="mb-3">
-                    <c:set var="addressBindError">
-                      <form:errors
-                        path="address"
-                        cssClass="invalid-feedback server-validate-feedback"
-                      />
-                    </c:set>
-                    <label for="address" class="form-label">Address:</label>
-                    <form:input
-                      type="text"
-                      class="form-control ${not empty addressBindError ? 'is-invalid' : ''}"
-                      id="address"
-                      path="address"
-                    />
-                    ${addressBindError}
-                  </div>
                   <div class="mb-3 row">
                     <label for="role" class="form-label col-auto col-form-label"
                       >Role:</label

@@ -85,6 +85,12 @@
 			<artifactId>spring-session-jdbc</artifactId>
 		</dependency>
 
+		<!-- Redis -->
+		<!-- <dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-redis</artifactId>
+		</dependency> -->
+
 		<!-- javatime JSP tag -->
 		<dependency>
 			<groupId>net.sargue</groupId>

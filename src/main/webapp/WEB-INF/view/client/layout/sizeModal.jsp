@@ -2,20 +2,6 @@
 uri="http://java.sun.com/jsp/jstl/core" %> <%@ taglib
 uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
-<style>
-  .modal-dialog-right {
-    position: absolute;
-    right: 0;
-    margin: 0;
-    height: 100%;
-  }
-
-  .modal-dialog-right .modal-content {
-    height: 100%; /* Make the modal fill the viewport height */
-    border-radius: 0; /* Remove border-radius for a seamless design */
-  }
-</style>
-
 <div
   class="modal fade"
   id="size-modal"
