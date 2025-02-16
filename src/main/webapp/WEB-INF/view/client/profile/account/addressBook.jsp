@@ -107,10 +107,7 @@ uri="http://www.springframework.org/tags/form" %>
                     cssClass="invalid-feedback server-validate-feedback"
                   />
                 </c:set>
-                <form:label
-                  path="fullName"
-                  for="fullName"
-                  cssClass="form-label mb-1"
+                <form:label path="fullName" cssClass="form-label mb-1"
                   >Họ và tên</form:label
                 >
                 <form:input
@@ -132,7 +129,7 @@ uri="http://www.springframework.org/tags/form" %>
                     cssClass="invalid-feedback server-validate-feedback"
                   />
                 </c:set>
-                <form:label path="phone" for="phone" cssClass="form-label mb-1"
+                <form:label path="phone" cssClass="form-label mb-1"
                   >Số điện thoại</form:label
                 >
                 <form:input
@@ -168,7 +165,7 @@ uri="http://www.springframework.org/tags/form" %>
                     cssClass="invalid-feedback server-validate-feedback"
                   />
                 </c:set>
-                <form:label path="city" for="city" cssClass="form-label mb-1"
+                <form:label path="city" cssClass="form-label mb-1"
                   >Tỉnh/Thành phố</form:label
                 >
                 <form:select
@@ -193,10 +190,7 @@ uri="http://www.springframework.org/tags/form" %>
                     cssClass="invalid-feedback server-validate-feedback"
                   />
                 </c:set>
-                <form:label
-                  path="district"
-                  for="district"
-                  cssClass="form-label mb-1"
+                <form:label path="district" cssClass="form-label mb-1"
                   >Quận/Huyện</form:label
                 >
                 <form:select
@@ -221,7 +215,7 @@ uri="http://www.springframework.org/tags/form" %>
                     cssClass="invalid-feedback server-validate-feedback"
                   />
                 </c:set>
-                <form:label path="ward" for="ward" cssClass="form-label mb-1"
+                <form:label path="ward" cssClass="form-label mb-1"
                   >Phường/Xã</form:label
                 >
                 <form:select
@@ -246,10 +240,7 @@ uri="http://www.springframework.org/tags/form" %>
                     cssClass="invalid-feedback server-validate-feedback"
                   />
                 </c:set>
-                <form:label
-                  path="street"
-                  for="street"
-                  cssClass="form-label mb-1"
+                <form:label path="street" cssClass="form-label mb-1"
                   >Địa chỉ cụ thể</form:label
                 >
                 <form:input
@@ -309,10 +300,7 @@ uri="http://www.springframework.org/tags/form" %>
 
             <!-- default -->
             <div class="d-flex justify-content-between align-items-center">
-              <form:label
-                path="defaultAddress"
-                for="defaultAddress"
-                cssClass="col-form-label"
+              <form:label path="defaultAddress" cssClass="col-form-label"
                 >Đặt làm địa chỉ mặc định</form:label
               >
               <div class="form-switch form-check">
@@ -583,6 +571,7 @@ uri="http://www.springframework.org/tags/form" %>
           throw new Error("Fail to load " + type + " API");
         }
       };
+
       const resetForm = function () {
         $(
           "#fullName, #phone, #city, #district, #ward, #street,#cityId, #districtId, #wardId"
@@ -641,9 +630,7 @@ uri="http://www.springframework.org/tags/form" %>
                 .find("option[data-id=" + ward_id + "]")
                 .prop("selected", true);
             })
-            .catch((e) =>
-              console.log(">>> ADDRESS BOOK VALIDATE ERR:", e.message)
-            )
+            .catch((e) => console.log(">>> ADDRESS BOOK VALIDATE ERR:", e))
             .finally(() => {
               $("#address-modal").removeClass("fade");
               $("#address-modal").modal("show");
@@ -654,6 +641,41 @@ uri="http://www.springframework.org/tags/form" %>
         }
 
         // Handle event
+        $("#city").change(function () {
+          // console.log($(this).find("option:selected"));
+          $("#district").children(":not(:first-child)").remove();
+          $("#ward").children(":not(:first-child)").remove();
+          $("#ward").prop("disabled", true);
+          $("#district").prop("disabled", true);
+
+          if ($(this).val()) {
+            const city_id = $(this).find("option:selected").data("id");
+            $("#cityId").val(city_id);
+            getAddress("district", city_id);
+          } else {
+            $("#cityId").val("");
+          }
+          $(this).blur();
+        });
+        $("#district").change(function () {
+          $("#ward").children(":not(:first-child)").remove();
+          $("#ward").prop("disabled", true);
+          if ($(this).val()) {
+            const district_id = $(this).find("option:selected").data("id");
+            $("#districtId").val(district_id);
+            getAddress("ward", district_id);
+          } else {
+            $("#districtId").val("");
+          }
+          $(this).blur();
+        });
+        $("#ward").change(function () {
+          const ward_id = $(this).find("option:selected").data("id");
+          $("#wardId").val(ward_id);
+
+          $(this).blur();
+        });
+
         $("#add-address-btn").click(function () {
           getAddress("city");
           const form = $("#address-modal-form");
@@ -709,44 +731,6 @@ uri="http://www.springframework.org/tags/form" %>
           resetForm();
         });
 
-        $("#city").change(function () {
-          // console.log($(this).find("option:selected"));
-          $("#district").children(":not(:first-child)").remove();
-          $("#ward").children(":not(:first-child)").remove();
-          $("#ward").prop("disabled", true);
-          $("#district").prop("disabled", true);
-
-          if ($(this).val()) {
-            const city_id = $(this).find("option:selected").data("id");
-            $("#cityId").val(city_id);
-            getAddress("district", city_id);
-          } else {
-            $("#cityId").val("");
-          }
-          $(this).blur();
-        });
-        $("#district").change(function () {
-          $("#ward").children(":not(:first-child)").remove();
-          $("#ward").prop("disabled", true);
-          if ($(this).val()) {
-            const district_id = $(this).find("option:selected").data("id");
-            $("#districtId").val(district_id);
-            getAddress("ward", district_id);
-          } else {
-            $("#districtId").val("");
-          }
-          $(this).blur();
-        });
-        $("#ward").change(function () {
-          const ward_id = $(this).find("option:selected").data("id");
-          $("#wardId").val(ward_id);
-
-          $(this).blur();
-        });
-
-        $("input[type='radio'], input[type='checkbox']").focus(function () {
-          $(this).blur();
-        });
         $("#address-modal-submit").click(function () {
           $("#address-modal-form").submit();
         });

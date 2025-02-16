@@ -70,22 +70,23 @@ uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 
     <div class="container-fluid" style="margin-top: 180px">
       <div class="container py-md-4">
-        <h1 class="text-center fw-bold" style="font-size: 50px">CẢM ƠN BẠN!</h1>
+        <h1 class="text-center fw-bold" style="font-size: 50px">CẢM ƠN BẠN</h1>
 
         <div
           class="main-content justify-content-center text-center d-flex flex-column"
         >
           <i class="fa fa-check text-success fs-1"></i>
-          <div class="text-start align-self-center fw-bold">
+          <div class="text-start align-self-center fw-medium px-md-5 px-3">
             <p>
-              Đơn hàng với mã là #${orderId} của bạn đã được xác nhận và chúng
-              tôi sẽ sớm giao đến bạn. <br />
-              Cảm ơn bạn đã tin tưởng và lựa chọn những sản phẩm quần áo organic
-              an toàn cho bé yêu của mình. 💚
+              Đơn hàng với mã là <b class="text-primary">#${orderId}</b> của bạn
+              đã được xác nhận và chúng tôi sẽ sớm giao đến bạn. Cảm ơn bạn đã
+              tin tưởng và lựa chọn những sản phẩm quần áo organic an toàn cho
+              bé yêu của mình. 💚
             </p>
             <p>
-              Mọi thông tin về đơn hàng sẽ được gửi qua email của bạn. Nếu cần
-              hỗ trợ thêm, vui lòng liên hệ với chúng tôi!
+              Thông tin về đơn hàng sẽ được gửi qua email
+              <b class="text-primary">${email}</b>. Nếu cần hỗ trợ thêm, vui
+              lòng liên hệ với chúng tôi!
             </p>
           </div>
           <a
@@ -119,5 +120,28 @@ uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 
     <!-- Template Javascript -->
     <script src="/client/js/main.js"></script>
+
+    <script>
+      const redirectAttributes = {
+        email: "${email}",
+        orderId: "${orderId}",
+      };
+      // console.log(redirectAttributes);
+
+      fetch("/api/order/sendVerifyMail", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json;charset=utf-8",
+          "${_csrf.headerName}": "${_csrf.token}",
+        },
+        body: JSON.stringify(redirectAttributes),
+      })
+        .then((response) => {
+          if (!response.ok) return Promise.reject("Mail sent fail");
+          return response.text();
+        })
+        .then((data) => console.log(data))
+        .catch((e) => console.log(e));
+    </script>
   </body>
 </html>

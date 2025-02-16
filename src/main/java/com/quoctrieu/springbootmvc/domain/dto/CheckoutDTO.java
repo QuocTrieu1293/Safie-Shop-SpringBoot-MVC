@@ -1,59 +1,49 @@
 package com.quoctrieu.springbootmvc.domain.dto;
 
+import com.quoctrieu.springbootmvc.domain.Order.PaymentMethod;
+
+import jakarta.validation.Valid;
+
 public class CheckoutDTO {
 
-  private String email;
-  private String fullName;
-  private String address;
-  private String phone;
+  @Valid
+  AddressDTO receiveInfo;
+
   private String orderNotes;
-  private String paymentMethod;
 
-  public String getEmail() {
-    return email;
+  private PaymentMethod paymentMethod;
+
+  public CheckoutDTO() {
+    paymentMethod = PaymentMethod.COD;
+    receiveInfo = new AddressDTO();
   }
 
-  public void setEmail(String email) {
-    this.email = email;
+  public CheckoutDTO(AddressDTO receiveInfo) {
+    this();
+    this.receiveInfo = receiveInfo;
   }
 
-  public String getFullName() {
-    return fullName;
+  public AddressDTO getReceiveInfo() {
+    return receiveInfo;
   }
 
-  public void setFullName(String fullName) {
-    this.fullName = fullName;
-  }
-
-  public String getAddress() {
-    return address;
-  }
-
-  public void setAddress(String address) {
-    this.address = address;
-  }
-
-  public String getPhone() {
-    return phone;
-  }
-
-  public void setPhone(String phone) {
-    this.phone = phone;
-  }
-
-  public String getOrderNotes() {
-    return orderNotes;
+  public void setReceiveInfo(AddressDTO receiveInfo) {
+    this.receiveInfo = receiveInfo;
   }
 
   public void setOrderNotes(String orderNotes) {
     this.orderNotes = orderNotes;
   }
 
-  public String getPaymentMethod() {
+  public String getOrderNotes() {
+    return orderNotes;
+  }
+
+  public PaymentMethod getPaymentMethod() {
     return paymentMethod;
   }
 
-  public void setPaymentMethod(String payment) {
+  public void setPaymentMethod(PaymentMethod payment) {
     this.paymentMethod = payment;
   }
 

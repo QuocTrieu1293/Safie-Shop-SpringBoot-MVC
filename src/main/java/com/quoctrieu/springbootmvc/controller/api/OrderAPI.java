@@ -5,20 +5,24 @@ import java.util.Map;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.quoctrieu.springbootmvc.domain.Order;
 import com.quoctrieu.springbootmvc.repository.OrderRepository;
+import com.quoctrieu.springbootmvc.service.MailService;
 
 @RestController
 @RequestMapping("/api/order")
 public class OrderAPI {
   private final OrderRepository orderRepository;
+  private final MailService mailService;
 
-  public OrderAPI(OrderRepository orderRepository) {
+  public OrderAPI(OrderRepository orderRepository, MailService mailService) {
     this.orderRepository = orderRepository;
+    this.mailService = mailService;
   }
 
   @PostMapping("/update")
@@ -38,5 +42,22 @@ public class OrderAPI {
       response.put("errorMessage", "Failed to update order status");
       return ResponseEntity.badRequest().body(response);
     }
+  }
+
+  @PostMapping("/sendVerifyMail")
+  public String sendVerifyMail(@RequestBody Map<String, Object> body) {
+
+    try {
+      String email = (String) body.get("email");
+      Long orderId = Long.parseLong((String) body.get("orderId"));
+      Order order = orderRepository.findById(orderId).orElse(null);
+      if (order == null || email == null) {
+        return "Mail not sent";
+      }
+      mailService.sendVerifyOrderMail(email, order);
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    return "Mail sent";
   }
 }

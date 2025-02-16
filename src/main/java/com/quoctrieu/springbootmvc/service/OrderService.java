@@ -1,5 +1,6 @@
 package com.quoctrieu.springbootmvc.service;
 
+import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
 
@@ -16,6 +17,7 @@ import com.quoctrieu.springbootmvc.domain.OrderDetail;
 import com.quoctrieu.springbootmvc.domain.Order_;
 import com.quoctrieu.springbootmvc.domain.Product;
 import com.quoctrieu.springbootmvc.domain.Size;
+import com.quoctrieu.springbootmvc.domain.Order.PaymentMethod;
 import com.quoctrieu.springbootmvc.domain.dto.CheckoutDTO;
 import com.quoctrieu.springbootmvc.domain.dto.OrderCriteriaDTO;
 import com.quoctrieu.springbootmvc.repository.CartDetailRepository;
@@ -47,21 +49,17 @@ public class OrderService {
     Cart cart = cartService.get(cartId);
 
     // create new order
-    Order newOrder = new Order();
-    newOrder.setNotes(checkoutDTO.getOrderNotes());
-    newOrder.setReceiverAddress(checkoutDTO.getAddress());
-    newOrder.setReceiverName(checkoutDTO.getFullName());
-    newOrder.setReceiverPhone(checkoutDTO.getPhone());
+    Order newOrder = new Order(checkoutDTO);
     newOrder.setSum(cart.getSum());
     newOrder.setTotalPrice(cartService.getTotalPrice(cartId));
     newOrder.setUser(cart.getUser());
 
     newOrder.setStatus("PENDING");
     newOrder.setPaymentStatus("PAYMENT_UNPAID");
-    String paymentMethod = checkoutDTO.getPaymentMethod();
-    newOrder.setPaymentMethod(paymentMethod);
+
+    PaymentMethod paymentMethod = newOrder.getPaymentMethod();
     String paymentRef = UUID.randomUUID().toString().replaceAll("-", "");
-    newOrder.setPaymentRef(paymentMethod.equals("COD") ? "UNKNOWN" : paymentRef);
+    newOrder.setPaymentRef(paymentMethod == PaymentMethod.COD ? "UNKNOWN" : paymentRef);
     // newOrder.setDate(LocalDateTime.now(ZoneId.of(ZoneId.SHORT_IDS.get("VST"))));
     // newOrder.setDate(LocalDateTime.now(ZoneId.of("Asia/Ho_Chi_Minh")));
     newOrder = orderRepository.save(newOrder);
@@ -70,6 +68,7 @@ public class OrderService {
     List<CartDetail> items = cart.getCartDetails();
     if (items != null) {
 
+      List<OrderDetail> orderDetails = new LinkedList<>();
       for (CartDetail item : items) {
         OrderDetail od = new OrderDetail();
         od.setOrder(newOrder);
@@ -80,8 +79,11 @@ public class OrderService {
         od.setQuantity(item.getQuantity());
         Size size = item.getSize();
         od.setSize(size);
-        orderDetailRepository.save(od);
+        od = orderDetailRepository.save(od);
+        orderDetails.add(od);
       }
+
+      newOrder.setOrderDetails(orderDetails);
 
       // remove CartDetails
       for (CartDetail item : items) {
@@ -95,7 +97,6 @@ public class OrderService {
     cart.setSum(0);
     cartRepository.save(cart);
 
-    newOrder = orderRepository.findById(newOrder.getId()).orElse(null);
     return newOrder;
   }
 

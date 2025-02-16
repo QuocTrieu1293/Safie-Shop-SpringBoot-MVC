@@ -34,8 +34,8 @@ public class AddressDTO {
   @NotBlank(message = "Ward cannot be blank")
   private String ward;
 
-  @NotNull(message = "Street cannot be empty")
-  @NotBlank(message = "Street cannot be blank")
+  @NotNull(message = "Street cannot be empty from addressDTO")
+  @NotBlank(message = "Street cannot be blank from addressDTO")
   private String street;
 
   private Address.Type type;
@@ -56,6 +56,9 @@ public class AddressDTO {
   };
 
   public AddressDTO(Address address) {
+    this();
+    if (address == null)
+      return;
     this.id = address.getId();
     this.fullName = address.getReceiverName();
     this.phone = address.getReceiverPhone();

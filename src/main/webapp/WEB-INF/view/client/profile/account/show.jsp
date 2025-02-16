@@ -95,7 +95,7 @@ uri="http://www.springframework.org/tags/form" %>
                   <table class="table table-borderless">
                     <!-- email -->
                     <tr>
-                      <td class="text-end pe-3 pe-3 fw-medium">
+                      <td class="text-end pe-3 fw-medium">
                         <form:label
                           for="email"
                           path="email"

@@ -76,92 +76,332 @@ uri="http://www.springframework.org/tags/form" prefix="form"%>
         <form:form
           action="/checkout"
           method="post"
-          id="form"
+          id="checkout-form"
           modelAttribute="checkoutDTO"
+          novalidate="true"
         >
           <div class="row g-5">
+            <!-- Thông tin đặt hàng -->
             <div class="col-md-12 col-lg-5">
-              <div class="row g-5">
-                <div class="form-item col-12">
-                  <label class="form-label fw-bold" for="fullName"
-                    >Họ tên người nhận<sup>*</sup></label
-                  >
-                  <form:input
-                    type="text"
-                    class="form-control"
-                    required="true"
-                    path="fullName"
-                    id="fullName"
-                    value="${cart.user.fullName}"
-                    spellcheck="false"
-                  />
-                </div>
+              <!-- Thông tin người đặt -->
+              <div class="rounded-1 shadow bg-secondary py-3 px-2 mb-5">
+                <h3 class="fs-4 p-2">Người đặt hàng</h3>
+                <table
+                  class="table table-borderless fw-medium text-dark"
+                  style="border-spacing: 15px 0px; border-collapse: separate"
+                >
+                  <tr>
+                    <td class="p-0 text-end">
+                      <label class="col-form-label" for="fullName">
+                        Họ tên:
+                      </label>
+                    </td>
+                    <td class="p-0">
+                      <input
+                        type="text"
+                        class="form-control-plaintext"
+                        id="fullName"
+                        value="${cart.user.fullName}"
+                        disabled
+                      />
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="p-0 text-end">
+                      <label for="email" class="col-form-label">Email:</label>
+                    </td>
+                    <td class="p-0">
+                      <input
+                        id="email"
+                        type="email"
+                        class="form-control-plaintext"
+                        value="${cart.user.email}"
+                        disabled
+                      />
+                    </td>
+                  </tr>
+                </table>
+              </div>
 
-                <div class="form-item col-12">
-                  <label class="form-label fw-bold" for="address"
-                    >Địa chỉ nhận hàng <sup>*</sup></label
-                  >
-                  <form:input
-                    type="text"
-                    class="form-control"
-                    placeholder="Số nhà tên đường"
-                    id="address"
-                    path="address"
-                    required="true"
-                    value="${cart.user.address}"
-                    spellcheck="false"
-                  />
-                </div>
+              <!-- Receive Info -->
+              <div class="rounded-1 shadow bg-secondary py-3 px-2 mb-5">
+                <h3 class="fs-4 p-2">Thông tin nhận hàng</h3>
+                <table
+                  class="table table-borderless fw-medium text-dark"
+                  style="border-spacing: 15px 15px; border-collapse: separate"
+                >
+                  <!-- Receiver Name -->
+                  <tr>
+                    <td class="p-0 text-end">
+                      <form:label
+                        cssClass="col-form-label"
+                        path="receiveInfo.fullName"
+                      >
+                        Họ tên<sup>*</sup>
+                      </form:label>
+                    </td>
+                    <td class="p-0">
+                      <c:set var="receiverNameBindError">
+                        <form:errors
+                          path="receiveInfo.fullName"
+                          cssClass="invalid-feedback server-validate-feedback"
+                        />
+                      </c:set>
+                      <form:input
+                        type="text"
+                        cssClass="form-control ${not empty receiverNameBindError ? 'is-invalid' : ''}"
+                        path="receiveInfo.fullName"
+                        required="true"
+                        spellcheck="false"
+                      />
+                      <div class="invalid-feedback">
+                        Thông tin bắt buộc nhập
+                      </div>
+                      ${receiverNameBindError}
+                    </td>
+                  </tr>
 
-                <div class="form-item col-12">
-                  <label class="form-label fw-bold" for="phone"
-                    >Số điện thoại<sup>*</sup></label
-                  >
-                  <form:input
-                    id="phone"
-                    type="tel"
-                    class="form-control"
-                    path="phone"
-                    required="true"
-                    value="${cart.user.phone}"
-                  />
-                </div>
-                <div class="form-item col-12">
-                  <label class="form-label fw-bold" for="email"
-                    >Email<sup>*</sup></label
-                  >
-                  <form:input
-                    id="email"
-                    type="email"
-                    class="form-control"
-                    required="true"
-                    path="email"
-                    value="${cart.user.email}"
-                  />
-                </div>
+                  <!-- Receiver Phone -->
+                  <tr>
+                    <td class="p-0 text-end">
+                      <form:label
+                        cssClass="col-form-label"
+                        path="receiveInfo.phone"
+                      >
+                        Số điện thoại<sup>*</sup>
+                      </form:label>
+                    </td>
+                    <td class="p-0">
+                      <c:set var="receiverPhoneBindError">
+                        <form:errors
+                          path="receiveInfo.phone"
+                          cssClass="invalid-feedback server-validate-feedback"
+                        />
+                      </c:set>
+                      <form:input
+                        type="tel"
+                        cssClass="form-control ${not empty receiverPhoneBindError ? 'is-invalid' : ''}"
+                        path="receiveInfo.phone"
+                        required="true"
+                        spellcheck="false"
+                        pattern="\d{10}"
+                      />
+                      <div class="invalid-feedback">SĐT gồm 10 chữ số.</div>
+                      ${receiverPhoneBindError}
+                    </td>
+                  </tr>
 
-                <div class="form-item col-12">
-                  <form:textarea
-                    path="orderNotes"
-                    class="form-control"
-                    spellcheck="false"
-                    cols="30"
-                    rows="11"
-                    placeholder="Lưu ý đơn hàng (Nếu có)"
-                  ></form:textarea>
-                </div>
+                  <!-- city -->
+                  <tr>
+                    <td class="p-0 text-end">
+                      <form:label
+                        path="receiveInfo.city"
+                        for="city"
+                        cssClass="col-form-label"
+                      >
+                        Tỉnh/Thành phố
+                      </form:label>
+                    </td>
+                    <td class="p-0">
+                      <c:set var="cityBindError">
+                        <form:errors
+                          path="receiveInfo.city"
+                          cssClass="invalid-feedback server-validate-feedback"
+                        />
+                      </c:set>
+                      <form:select
+                        path="receiveInfo.city"
+                        id="city"
+                        cssClass="form-select ${not empty cityBindError ? 'is-invalid' : ''}"
+                        required="true"
+                      >
+                        <form:option value="" label="Chọn Tỉnh/Thành phố" />
+                      </form:select>
+                      <div class="invalid-feedback">
+                        Thông tin bắt buộc. Vui lòng điền đủ.
+                      </div>
+                      ${cityBindError}
+                    </td>
+                  </tr>
+
+                  <!-- district -->
+                  <tr>
+                    <td class="p-0 text-end">
+                      <form:label
+                        for="district"
+                        path="receiveInfo.district"
+                        cssClass="col-form-label"
+                        >Quận/Huyện</form:label
+                      >
+                    </td>
+                    <td class="p-0">
+                      <c:set var="districtBindError">
+                        <form:errors
+                          path="receiveInfo.district"
+                          cssClass="invalid-feedback server-validate-feedback"
+                        />
+                      </c:set>
+                      <form:select
+                        id="district"
+                        path="receiveInfo.district"
+                        cssClass="form-select ${not empty districtBindError ? 'is-invalid' : ''}"
+                        required="true"
+                      >
+                        <form:option value="" label="Chọn Quận/Huyện" />
+                      </form:select>
+                      <div class="invalid-feedback">
+                        Thông tin bắt buộc. Vui lòng điền đủ.
+                      </div>
+                      ${districtBindError}
+                    </td>
+                  </tr>
+
+                  <!-- ward -->
+                  <tr>
+                    <td class="p-0 text-end">
+                      <form:label
+                        for="ward"
+                        path="receiveInfo.ward"
+                        cssClass="col-form-label"
+                        >Phường/Xã</form:label
+                      >
+                    </td>
+                    <td class="p-0">
+                      <c:set var="wardBindError">
+                        <form:errors
+                          path="receiveInfo.ward"
+                          cssClass="invalid-feedback server-validate-feedback"
+                        />
+                      </c:set>
+                      <form:select
+                        id="ward"
+                        path="receiveInfo.ward"
+                        cssClass="form-select ${not empty wardBindError ? 'is-invalid' : ''}"
+                        required="true"
+                      >
+                        <form:option value="" label="Chọn Phường/Xã" />
+                      </form:select>
+                      <div class="invalid-feedback">
+                        Thông tin bắt buộc. Vui lòng điền đủ.
+                      </div>
+                      ${wardBindError}
+                    </td>
+                  </tr>
+
+                  <tr>
+                    <!-- street -->
+                    <td class="p-0 text-end">
+                      <form:label
+                        path="receiveInfo.street"
+                        cssClass="col-form-label"
+                        >Địa chỉ cụ thể</form:label
+                      >
+                    </td>
+                    <td class="p-0">
+                      <c:set var="streetBindError">
+                        <form:errors
+                          path="receiveInfo.street"
+                          cssClass="invalid-feedback server-validate-feedback"
+                        />
+                      </c:set>
+                      <form:input
+                        type="text"
+                        path="receiveInfo.street"
+                        cssClass="form-control ${not empty streetBindError ? 'is-invalid' : ''}"
+                        spellcheck="false"
+                        placeholder="Nhập địa chỉ cụ thể"
+                        required="true"
+                      />
+                      <div class="invalid-feedback">
+                        Thông tin bắt buộc. Vui lòng điền đủ.
+                      </div>
+                      ${streetBindError}
+                    </td>
+                  </tr>
+                  <tr>
+                    <!-- type -->
+                    <td class="p-0 text-end" style="vertical-align: middle">
+                      <form:label
+                        path="receiveInfo.type"
+                        cssClass="col-form-label"
+                        >Loại địa chỉ</form:label
+                      >
+                    </td>
+                    <td class="d-flex justify-content-end gap-2">
+                      <div>
+                        <form:radiobutton
+                          cssClass="btn-check"
+                          id="home"
+                          path="receiveInfo.type"
+                          value="HOME"
+                        />
+                        <label
+                          class="btn btn-outline-primary rounded-pill"
+                          for="home"
+                          ><i class="bi bi-house-door-fill"></i> Nhà</label
+                        >
+                      </div>
+
+                      <div>
+                        <form:radiobutton
+                          cssClass="btn-check"
+                          id="office"
+                          path="receiveInfo.type"
+                          value="OFFICE"
+                        />
+                        <label
+                          class="btn btn-outline-primary rounded-pill"
+                          for="office"
+                          ><i class="bi bi-building-fill"></i> Văn phòng</label
+                        >
+                      </div>
+                    </td>
+                    <form:input
+                      type="hidden"
+                      id="cityId"
+                      path="receiveInfo.cityId"
+                    />
+                    <form:input
+                      type="hidden"
+                      id="districtId"
+                      path="receiveInfo.districtId"
+                    />
+                    <form:input
+                      type="hidden"
+                      id="wardId"
+                      path="receiveInfo.wardId"
+                    />
+                  </tr>
+                </table>
+              </div>
+
+              <div class="p-3 mb-4 shadow rounded-1 bg-secondary">
+                <h3 class="fs-5">Lời nhắn cho cửa hàng (nếu có)</h3>
+                <form:textarea
+                  path="orderNotes"
+                  cssClass="form-control"
+                  spellcheck="false"
+                  cols="30"
+                  rows="11"
+                  placeholder="Ví dụ: Hãy gọi tôi trước khi giao hàng 10 phút"
+                ></form:textarea>
               </div>
             </div>
+
+            <!-- các Sản phẩm -->
             <div
-              class="col-md-12 col-lg-7 rounded p-5 border-secondary border-1"
-              style="background-color: whitesmoke"
+              class="col-md-12 col-lg-7 rounded-1 p-5 border-secondary border-1 shadow bg-neutral-gray"
             >
               <div class="table-responsive">
                 <table class="table">
                   <thead>
                     <tr>
-                      <th scope="col" style="width: 120px">Sản phẩm</th>
-                      <th scope="col" style="width: 30%">Tên</th>
+                      <th scope="col" style="width: 120px; min-width: 120px">
+                        Sản phẩm
+                      </th>
+                      <th scope="col" style="width: 30%; min-width: 150px">
+                        Tên
+                      </th>
                       <th scope="col" class="text-nowrap">Đơn giá</th>
                       <th scope="col" class="text-nowrap">Số lượng</th>
                       <th scope="col" class="text-nowrap">Thành tiền</th>
@@ -184,7 +424,9 @@ uri="http://www.springframework.org/tags/form" prefix="form"%>
                             />
                           </div>
                         </th>
-                        <td class="mt-3">${item.product.name}</td>
+                        <td class="mt-3" style="text-align: justify">
+                          ${item.product.name}
+                        </td>
                         <td class="mt-3 text-nowrap">
                           <fmt:formatNumber
                             type="number"
@@ -214,7 +456,7 @@ uri="http://www.springframework.org/tags/form" prefix="form"%>
                       </td>
                       <td class="py-5">
                         <div class="py-3 border-bottom border-top">
-                          <p class="mb-0 text-dark">
+                          <p class="mb-0 text-dark fw-semibold">
                             <fmt:formatNumber
                               type="number"
                               value="${totalPrice}"
@@ -225,7 +467,7 @@ uri="http://www.springframework.org/tags/form" prefix="form"%>
                       </td>
                     </tr>
                     <tr>
-                      <th scope="row"></th>
+                      <th></th>
                       <td class="py-5">
                         <p class="mb-0 text-dark py-4 fw-bold">
                           Loại giao hàng
@@ -251,7 +493,7 @@ uri="http://www.springframework.org/tags/form" prefix="form"%>
                       </td>
                     </tr>
                     <tr>
-                      <th scope="row"></th>
+                      <th></th>
                       <td class="py-5">
                         <p class="mb-0 text-dark text-uppercase py-3 fw-bold">
                           Tổng số tiền
@@ -261,7 +503,7 @@ uri="http://www.springframework.org/tags/form" prefix="form"%>
                       <td class="py-5"></td>
                       <td class="py-5">
                         <div class="py-3 border-bottom border-top">
-                          <p class="mb-0 text-dark">
+                          <p class="mb-0 text-dark fw-medium">
                             <fmt:formatNumber
                               type="number"
                               value="${totalPrice}"
@@ -280,7 +522,7 @@ uri="http://www.springframework.org/tags/form" prefix="form"%>
                 <div class="col-12">
                   <div class="form-check text-start my-3 col-auto">
                     <form:radiobutton
-                      class="form-check-input bg-primary border-0"
+                      cssClass="form-check-input bg-primary border-0"
                       id="cod"
                       path="paymentMethod"
                       value="COD"
@@ -300,7 +542,7 @@ uri="http://www.springframework.org/tags/form" prefix="form"%>
                     <div class="col-auto d-flex align-items-center">
                       <div class="form-check text-start my-3">
                         <form:radiobutton
-                          class="form-check-input bg-primary border-0"
+                          cssClass="form-check-input bg-primary border-0"
                           id="vnpay"
                           path="paymentMethod"
                           value="VNPAY"
@@ -333,11 +575,6 @@ uri="http://www.springframework.org/tags/form" prefix="form"%>
               </div>
             </div>
           </div>
-          <input
-            type="hidden"
-            name="${_csrf.parameterName}"
-            value="${_csrf.token}"
-          />
         </form:form>
       </div>
     </div>
@@ -362,5 +599,179 @@ uri="http://www.springframework.org/tags/form" prefix="form"%>
 
     <!-- Template Javascript -->
     <script src="/client/js/main.js"></script>
+
+    <script>
+      const getAddress = async function (type, id) {
+        let param1, param2;
+        // switch case sử dụng strict comparison (===)
+        switch (type) {
+          case "city": {
+            param1 = 1;
+            param2 = 0;
+            break;
+          }
+          case "district": {
+            param1 = 2;
+            param2 = id;
+            break;
+          }
+          case "ward": {
+            param1 = 3;
+            param2 = id;
+            break;
+          }
+          default:
+            return;
+        }
+
+        $("#" + type).prop("disabled", true);
+        // console.log("api calling ...");
+        const res = await $.getJSON(
+          "https://esgoo.net/api-tinhthanh/" + param1 + "/" + param2 + ".htm"
+        );
+        // console.log(res);
+        if (res.error === 0) {
+          const data = res.data;
+          $.each(data, function (_, item) {
+            $("#" + type).append(
+              "<option data-id='" +
+                item.id +
+                "' value='" +
+                item.full_name +
+                "'>" +
+                item.full_name +
+                "</option>"
+            );
+          });
+          $("#" + type).prop("disabled", false);
+        } else {
+          alert("Fail to fetch address API. Try reloading this page!");
+          Array.from({ length: 3 }, (_, i) =>
+            $("#" + type).append(
+              "<option data-id='-1' value='test sample " +
+                i +
+                "'>test sample " +
+                i +
+                "</option>"
+            )
+          );
+          $("#" + type).prop("disabled", false);
+          throw new Error("Fail to load " + type + " API");
+        }
+      };
+
+      $(document).ready(function () {
+        getAddress("city")
+          .then(() => {
+            const city_id = $("#cityId").val();
+
+            if ($("#city").hasClass("is-invalid") || !city_id) {
+              $("#city, #district, #ward, #cityId, #districtId, #wardId").val(
+                ""
+              );
+              $("#district, #ward").prop("disabled", true);
+              return Promise.reject("invalid at city");
+            }
+
+            $("#city")
+              .find("option[data-id=" + city_id + "]")
+              .prop("selected", true);
+            return getAddress("district", city_id);
+          })
+          .then(() => {
+            const district_id = $("#districtId").val();
+
+            if ($("#district").hasClass("is-invalid") || !district_id) {
+              $("#district, #districtId, #ward, #wardId").val("");
+              $("#ward").prop("disabled", true);
+              return Promise.reject("invalid at district");
+            }
+
+            $("#district")
+              .find("option[data-id=" + district_id + "]")
+              .prop("selected", true);
+            return getAddress("ward", district_id);
+          })
+          .then(() => {
+            const ward_id = $("#wardId").val();
+
+            if ($("#ward").hasClass("is-invalid") || !ward_id) {
+              $("#ward, #wardId").val("");
+              return Promise.reject("invalid at ward");
+            }
+
+            $("#ward")
+              .find("option[data-id=" + ward_id + "]")
+              .prop("selected", true);
+          })
+          .catch((e) => console.log(">>> ADDRESS BOOK VALIDATE ERR:", e));
+
+        if ($("#checkout-form .server-validate-feedback").length > 0) {
+          $("#checkout-form .server-validate-feedback")
+            .siblings(".invalid-feedback:not(.server-validate-feedback)")
+            .addClass("d-none");
+        }
+
+        // handle events
+        $("#city").change(function () {
+          // console.log($(this).find("option:selected"));
+          $("#district").children(":not(:first-child)").remove();
+          $("#ward").children(":not(:first-child)").remove();
+          $("#ward").prop("disabled", true);
+          $("#district").prop("disabled", true);
+
+          if ($(this).val()) {
+            const city_id = $(this).find("option:selected").data("id");
+            $("#cityId").val(city_id);
+            getAddress("district", city_id);
+          } else {
+            $("#cityId").val("");
+          }
+          $(this).blur();
+        });
+        $("#district").change(function () {
+          $("#ward").children(":not(:first-child)").remove();
+          $("#ward").prop("disabled", true);
+          if ($(this).val()) {
+            const district_id = $(this).find("option:selected").data("id");
+            $("#districtId").val(district_id);
+            getAddress("ward", district_id);
+          } else {
+            $("#districtId").val("");
+          }
+          $(this).blur();
+        });
+        $("#ward").change(function () {
+          const ward_id = $(this).find("option:selected").data("id");
+          $("#wardId").val(ward_id);
+
+          $(this).blur();
+        });
+
+        $("#checkout-form").submit(function (e) {
+          if (!this.checkValidity()) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            $(this)
+              .find("input, select")
+              .each(function () {
+                if (!this.checkValidity()) $(this).addClass("is-invalid");
+              });
+          }
+        });
+        $("#checkout-form")
+          .find("input, select")
+          .on("input change", function () {
+            $(this).siblings(".server-validate-feedback").remove();
+            $(this)
+              .siblings(".invalid-feedback:not(.server-validate-feedback)")
+              .removeClass("d-none");
+
+            if (!this.checkValidity()) $(this).addClass("is-invalid");
+            else $(this).removeClass("is-invalid");
+          });
+      });
+    </script>
   </body>
 </html>

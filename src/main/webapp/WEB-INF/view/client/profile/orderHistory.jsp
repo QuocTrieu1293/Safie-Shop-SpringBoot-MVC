@@ -167,11 +167,13 @@ uri="http://sargue.net/jsptags/time" prefix="javatime" %>
                             <div class="col-12">
                               <div class="row gx-3">
                                 <div class="col-auto">
-                                  <img
-                                    src="/images/product/${item.product.image}"
-                                    alt=""
-                                    style="width: 100px; aspect-ratio: 1 / 1"
-                                  />
+                                  <a href="/product/${item.product.id}">
+                                    <img
+                                      src="/images/product/${item.product.image}"
+                                      alt=""
+                                      style="width: 100px; aspect-ratio: 1 / 1"
+                                    />
+                                  </a>
                                 </div>
                                 <div class="col d-flex justify-content-between">
                                   <div

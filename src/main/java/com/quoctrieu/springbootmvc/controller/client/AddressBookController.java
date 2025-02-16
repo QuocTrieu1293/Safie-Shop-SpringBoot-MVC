@@ -3,7 +3,6 @@ package com.quoctrieu.springbootmvc.controller.client;
 import java.util.List;
 
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -41,7 +40,7 @@ public class AddressBookController {
   @ModelAttribute("addressList")
   List<AddressDTO> getAddressList(HttpSession session) {
     Long userId = (Long) session.getAttribute("userId");
-    List<AddressDTO> addressList = addressService.findByUserId(userId);
+    List<AddressDTO> addressList = addressService.findByUser(userId);
     return addressList;
   }
 

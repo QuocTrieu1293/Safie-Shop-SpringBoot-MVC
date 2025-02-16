@@ -13,4 +13,7 @@ public interface AddressRepository extends JpaRepository<Address, Long> {
 
   @Query("select a from Address a where a.user.id = ?1 order by a.defaultAddress desc, a.updatedAt desc")
   List<Address> findByUser(Long userId);
+
+  @Query("select a from Address a where a.user.id = ?1 order by a.defaultAddress desc, a.updatedAt desc")
+  Address findDefaultByUser(Long userId);
 }

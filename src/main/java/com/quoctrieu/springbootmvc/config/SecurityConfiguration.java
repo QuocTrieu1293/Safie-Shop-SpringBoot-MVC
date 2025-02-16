@@ -70,7 +70,7 @@ public class SecurityConfiguration {
   // .passwordEncoder(passwordEncoder);
   // return authenticationManagerBuilder.build();
   // }
-
+  
   @Bean
   DaoAuthenticationProvider authProvider(
       PasswordEncoder passwordEncoder,
@@ -118,7 +118,7 @@ public class SecurityConfiguration {
             .dispatcherTypeMatchers(DispatcherType.FORWARD, DispatcherType.INCLUDE).permitAll()
 
             .requestMatchers("/login", "/register", "/", "/product/**", "/products/**", "/api/product/{id}",
-                "/api/product/search", "/client/**", "/css/**", "/images/**", "/js/**")
+                "/api/product/search", "/client/**", "/css/**", "/images/**", "/js/**", "/api/test/**")
             .permitAll()
 
             .requestMatchers("/admin/**", "/api/order/update").hasRole("Admin")

@@ -362,7 +362,9 @@ $(document).ready(function () {
         })
     });
 
-    $("button, .btn").on("focus", function () { $(this).trigger("blur") });
+    $("input[type='radio'], input[type='checkbox'], input[type='submit'], button, .btn").focus(function () {
+        $(this).blur();
+    });
 
 })(jQuery);
 

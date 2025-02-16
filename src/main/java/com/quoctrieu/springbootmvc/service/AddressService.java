@@ -18,10 +18,16 @@ public class AddressService {
     this.addressRepo = addressRepo;
   }
 
-  public List<AddressDTO> findByUserId(Long userId) {
+  public List<AddressDTO> findByUser(Long userId) {
     List<Address> addressList = addressRepo.findByUser(userId);
     List<AddressDTO> dtoList = addressList.stream().map(addr -> new AddressDTO(addr)).toList();
     return dtoList;
+  }
+
+  public AddressDTO findDefaultByUser(Long userId) {
+    Address address = addressRepo.findDefaultByUser(userId);
+    AddressDTO addressDTO = new AddressDTO(address);
+    return addressDTO;
   }
 
   public AddressDTO findById(Long id, Long userId) {

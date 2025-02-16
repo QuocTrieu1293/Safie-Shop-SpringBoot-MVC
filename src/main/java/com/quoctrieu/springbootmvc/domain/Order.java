@@ -6,8 +6,12 @@ import java.util.List;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import com.quoctrieu.springbootmvc.domain.dto.CheckoutDTO;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -19,6 +23,10 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name = "`orders`")
 public class Order {
+
+  public enum PaymentMethod {
+    COD, VNPAY
+  }
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,12 +45,20 @@ public class Order {
   private List<OrderDetail> orderDetails;
 
   private String receiverName;
+
   private String receiverAddress;
+
   private String receiverPhone;
+
   private String notes;
+
   private String status;
-  private String paymentMethod;
+
+  @Enumerated(EnumType.STRING)
+  private PaymentMethod paymentMethod;
+
   private String paymentStatus;
+
   private String paymentRef;
 
   @CreationTimestamp
@@ -51,6 +67,21 @@ public class Order {
 
   @UpdateTimestamp
   private LocalDateTime lastModified;
+
+  public Order() {
+  }
+
+  public Order(CheckoutDTO checkoutDTO) {
+    this.receiverName = checkoutDTO.getReceiveInfo().getFullName();
+    this.receiverPhone = checkoutDTO.getReceiveInfo().getPhone();
+    this.receiverAddress = String.format("%s, %s, %s, %s",
+        checkoutDTO.getReceiveInfo().getStreet(),
+        checkoutDTO.getReceiveInfo().getWard(),
+        checkoutDTO.getReceiveInfo().getDistrict(),
+        checkoutDTO.getReceiveInfo().getCity());
+    this.notes = checkoutDTO.getOrderNotes();
+    this.paymentMethod = checkoutDTO.getPaymentMethod();
+  }
 
   public long getId() {
     return id;
@@ -132,11 +163,11 @@ public class Order {
     this.status = status;
   }
 
-  public String getPaymentMethod() {
+  public PaymentMethod getPaymentMethod() {
     return paymentMethod;
   }
 
-  public void setPaymentMethod(String paymentMethod) {
+  public void setPaymentMethod(PaymentMethod paymentMethod) {
     this.paymentMethod = paymentMethod;
   }
 
