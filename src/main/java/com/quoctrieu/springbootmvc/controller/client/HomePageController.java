@@ -4,10 +4,8 @@ import java.util.List;
 
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.WebDataBinder;
@@ -15,7 +13,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -31,7 +28,6 @@ import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 
 @Controller
-@RequestMapping("/")
 public class HomePageController {
 
   private final ProductService productService;
@@ -71,7 +67,7 @@ public class HomePageController {
 
   @PostMapping("/register")
   public String handleRegister(@Valid @ModelAttribute("registerUser") RegisterDTO registerDTO,
-      BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+      BindingResult bindingResult, RedirectAttributes redirectAttributes, HttpServletRequest request) {
 
     if (bindingResult.hasFieldErrors()) {
       List<FieldError> errors = bindingResult.getFieldErrors();
@@ -80,13 +76,11 @@ public class HomePageController {
       return "client/auth/register";
     }
 
-    User user = userService.registerDTOToUser(registerDTO);
+    User user = registerDTO.toUser();
     user.setRole(roleRepository.findByName("User"));
     User registeredUser = userService.registerUser(user);
 
-    redirectAttributes.addFlashAttribute("successMessage", "Account registered successfully!");
-
-    return "redirect:/login";
+    return "redirect:/verifyUser/sendMail?email=" + registeredUser.getEmail();
   }
 
   @GetMapping("/login")

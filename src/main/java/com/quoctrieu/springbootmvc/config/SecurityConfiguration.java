@@ -9,27 +9,17 @@ import org.springframework.security.authentication.dao.DaoAuthenticationProvider
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.oauth2.client.oidc.userinfo.OidcUserRequest;
-import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
-import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
-import org.springframework.security.oauth2.core.oidc.user.OidcUser;
-import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 import org.springframework.session.security.web.authentication.SpringSessionRememberMeServices;
 
-import com.quoctrieu.springbootmvc.repository.RoleRepository;
-import com.quoctrieu.springbootmvc.service.CustomUserDetailsService;
-import com.quoctrieu.springbootmvc.service.UserService;
-
 import jakarta.servlet.DispatcherType;
-import jakarta.servlet.ServletContext;
 
 @Configuration
 @EnableMethodSecurity(securedEnabled = true) // active spring web security
@@ -40,24 +30,21 @@ public class SecurityConfiguration {
     return new BCryptPasswordEncoder();
   }
 
-  @Bean
-  UserDetailsService userDetailsService(UserService userService) {
-    return new CustomUserDetailsService(userService);
-  }
+  // @Bean
+  // OAuth2UserService<OidcUserRequest, OidcUser> customOidcUserService(
+  // UserService userService,
+  // RoleRepository roleRepository, ServletContext servletContext) {
+  // return new CustomOidcUserService(userService, roleRepository,
+  // servletContext);
+  // }
 
-  @Bean
-  OAuth2UserService<OidcUserRequest, OidcUser> customOidcUserService(
-      UserService userService,
-      RoleRepository roleRepository, ServletContext servletContext) {
-    return new CustomOidcUserService(userService, roleRepository, servletContext);
-  }
-
-  @Bean
-  OAuth2UserService<OAuth2UserRequest, OAuth2User> customOAuth2UserService(
-      UserService userService,
-      RoleRepository roleRepository, ServletContext servletContext) {
-    return new CustomOAuth2UserService(userService, roleRepository, servletContext);
-  }
+  // @Bean
+  // OAuth2UserService<OAuth2UserRequest, OAuth2User> customOAuth2UserService(
+  // UserService userService,
+  // RoleRepository roleRepository, ServletContext servletContext) {
+  // return new CustomOAuth2UserService(userService, roleRepository,
+  // servletContext);
+  // }
 
   // @Bean
   // AuthenticationManager authenticationManager(HttpSecurity http,
@@ -70,14 +57,14 @@ public class SecurityConfiguration {
   // .passwordEncoder(passwordEncoder);
   // return authenticationManagerBuilder.build();
   // }
-  
+
   @Bean
   DaoAuthenticationProvider authProvider(
       PasswordEncoder passwordEncoder,
-      UserDetailsService userDetailsService) {
+      CustomUserDetailsService customUserDetailsService) {
 
     DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
-    authProvider.setUserDetailsService(userDetailsService);
+    authProvider.setUserDetailsService(customUserDetailsService);
     authProvider.setPasswordEncoder(passwordEncoder);
     authProvider.setHideUserNotFoundExceptions(false);
 
@@ -87,6 +74,11 @@ public class SecurityConfiguration {
   @Bean
   AuthenticationSuccessHandler customAuthenticationSuccessHandler() {
     return new CustomAuthenticationSuccessHandler();
+  }
+
+  @Bean
+  AuthenticationFailureHandler customAuthenticationFailureHandler() {
+    return new CustomAuthenticationFailureHandler();
   }
 
   @Bean
@@ -108,9 +100,10 @@ public class SecurityConfiguration {
 
   @Bean
   SecurityFilterChain filterChain(HttpSecurity http, AuthenticationSuccessHandler customAuthenticationSuccessHandler,
+      AuthenticationFailureHandler customAuthenticationFailureHandler,
       LogoutSuccessHandler customLogoutSuccessHandler, AuthenticationEntryPoint customAuthenticationEntryPoint,
-      OAuth2UserService<OidcUserRequest, OidcUser> customOidcUserService,
-      OAuth2UserService<OAuth2UserRequest, OAuth2User> customOAuth2UserService)
+      CustomOidcUserService customOidcUserService,
+      CustomOAuth2UserService customOAuth2UserService)
       throws Exception {
 
     http
@@ -118,17 +111,21 @@ public class SecurityConfiguration {
             .dispatcherTypeMatchers(DispatcherType.FORWARD, DispatcherType.INCLUDE).permitAll()
 
             .requestMatchers("/login", "/register", "/", "/product/**", "/products/**", "/api/product/{id}",
-                "/api/product/search", "/client/**", "/css/**", "/images/**", "/js/**", "/api/test/**")
+                "/api/product/search", "/client/**", "/css/**", "/images/**", "/js/**", "/api/test/**",
+                "/verifyUser/**")
             .permitAll()
-
+            // .requestMatchers(HttpMethod.POST, "/verifyUser/sendMail").permitAll() //Vẫn
+            // chạy được khi ko explicit include HttpMethod.POST
             .requestMatchers("/admin/**", "/api/order/update").hasRole("Admin")
 
             .anyRequest().authenticated())
 
         .formLogin(formLogin -> formLogin
             .loginPage("/login")
-            .failureUrl("/login?error")
+            .loginProcessingUrl("/login") // Submit URL khi login
+            // .failureUrl("/login?error")
             // .defaultSuccessUrl("/product/3")
+            .failureHandler(customAuthenticationFailureHandler)
             .successHandler(customAuthenticationSuccessHandler)
             .permitAll())
 

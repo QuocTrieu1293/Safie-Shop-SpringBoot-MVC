@@ -124,7 +124,7 @@ uri="http://www.springframework.org/tags/form" %>
                       method="post"
                       action="/login"
                       novalidate="true"
-                      id="form"
+                      id="login-form"
                     >
                       <div class="form-floating mb-3">
                         <!-- <c:set var="emailBindErrors">
@@ -290,7 +290,7 @@ uri="http://www.springframework.org/tags/form" %>
       }
 
       $(document).ready(() => {
-        $("#form").submit(function (e) {
+        $("#login-form").submit(function (e) {
           if (!this.checkValidity()) {
             e.preventDefault();
             e.stopPropagation();

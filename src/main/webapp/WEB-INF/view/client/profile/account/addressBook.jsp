@@ -715,6 +715,10 @@ uri="http://www.springframework.org/tags/form" %>
                 .find("option[data-id=" + data.wardId + "]")
                 .prop("selected", true)
             );
+          }).fail((response) => {
+            if (response.status === 401) {
+              window.location.href = "/login?invalid=true";
+            }
           });
 
           form.attr("action", "/profile/account/address/update/" + addressId);

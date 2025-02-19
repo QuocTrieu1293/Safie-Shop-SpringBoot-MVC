@@ -33,7 +33,9 @@ $(document).ready(function () {
             $(this).addClass("active");
     });
 
-
+    $("input[type='radio'], input[type='checkbox'], input[type='submit'], button, .btn").focus(function () {
+        $(this).blur();
+    });
 });
 
 function goBack() {
@@ -43,5 +45,7 @@ function goBack() {
     else
         window.location.href = document.referrer;
 }
+
+
 
 

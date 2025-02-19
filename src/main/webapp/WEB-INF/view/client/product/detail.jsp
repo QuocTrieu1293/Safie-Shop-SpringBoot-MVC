@@ -706,7 +706,11 @@ uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 
               $("#cart-sum").text(cartSum);
             }
-          );
+          ).fail((response) => {
+            if (response.status === 401) {
+              window.location.href = "/login?invalid=true";
+            }
+          });
         });
 
         $("#add-to-cart-form label:has(> input[type='radio'])").click(

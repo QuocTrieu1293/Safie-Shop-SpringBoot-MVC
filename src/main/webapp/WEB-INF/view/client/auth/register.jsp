@@ -80,119 +80,140 @@ uri="http://www.springframework.org/tags/form" %>
                   </div>
                   <div class="card-body">
                     <form:form
-                      modelAttribute="registerUser"
                       method="post"
                       action="/register"
                       novalidate="true"
-                      id="form"
+                      id="registration-form"
+                      modelAttribute="registerUser"
+                      cssClass="pt-3"
                     >
-                      <div class="row mb-3">
-                        <div class="col-md-6">
-                          <div class="form-floating mb-3 mb-md-0">
-                            <c:set var="firstNameBindErrors"
-                              ><form:errors
-                                path="firstName"
-                                cssClass="invalid-feedback server-validate-feedback"
-                            /></c:set>
-                            <form:input
-                              class="form-control ${not empty firstNameBindErrors ? 'is-invalid' : ''}"
-                              id="inputFirstName"
-                              type="text"
-                              placeholder="Enter your first name"
-                              path="firstName"
-                              required="true"
-                            />
-                            <label for="inputFirstName">Tên</label>
-                            ${firstNameBindErrors}
-                          </div>
-                        </div>
-                        <div class="col-md-6">
-                          <div class="form-floating">
-                            <c:set var="lastNameBindErrors"
-                              ><form:errors
-                                path="lastName"
-                                cssClass="invalid-feedback server-validate-feedback"
-                            /></c:set>
-                            <form:input
-                              class="form-control ${not empty lastNameBindErrors ? 'is-invalid' : ''}"
-                              id="inputLastName"
-                              type="text"
-                              placeholder="Enter your last name"
-                              path="lastName"
-                              required="true"
-                            />
-                            <label for="inputLastName">Họ</label>
-                            ${lastNameBindErrors}
-                          </div>
-                        </div>
-                      </div>
-
                       <!-- email -->
-                      <div class="input-group mb-3">
-                        <c:set var="emailBindErrors"
-                          ><form:errors
+                      <div class="input-group mb-3 has-validation rounded">
+                        <c:set var="emailError">
+                          <form:errors
                             path="email"
                             cssClass="invalid-feedback server-validate-feedback"
-                        /></c:set>
+                            cssStyle="margin-left: 45px"
+                          />
+                        </c:set>
                         <span class="input-group-text"
                           ><i class="bi bi-envelope-at-fill"></i
                         ></span>
-                        <div class="form-floating">
+                        <div
+                          class="form-floating ${not empty emailError ? 'is-invalid' : ''}"
+                        >
                           <form:input
-                            class="form-control ${not empty emailBindErrors ? 'is-invalid' : ''}"
-                            id="inputEmail"
-                            type="email"
-                            placeholder="name@example.com"
+                            type="text"
+                            cssClass="form-control ${not empty emailError ? 'is-invalid' : ''}"
                             path="email"
                             required="true"
+                            placeholder="Nhập địa chỉ email"
                           />
-                          <label for="inputEmail">Địa chỉ email</label>
-                          ${emailBindErrors}
+                          <form:label path="email">Địa chỉ email</form:label>
+                        </div>
+                        <div class="invalid-feedback" style="margin-left: 45px">
+                          Vui lòng điền Email
+                        </div>
+                        ${emailError}
+                      </div>
+
+                      <!-- fullName -->
+                      <div class="input-group mb-3 has-validation rounded">
+                        <c:set var="fullNameError">
+                          <form:errors
+                            path="fullName"
+                            cssClass="invalid-feedback server-validate-feedback"
+                            cssStyle="margin-left: 45px"
+                          />
+                        </c:set>
+                        <span class="input-group-text"
+                          ><i class="bi bi-person-fill"></i
+                        ></span>
+                        <div
+                          class="form-floating ${not empty fullNameError ? 'is-invalid' : ''}"
+                        >
+                          <form:input
+                            type="text"
+                            cssClass="form-control ${not empty fullNameError ? 'is-invalid' : ''}"
+                            path="fullName"
+                            required="true"
+                            placeholder="Nhập họ tên"
+                          />
+                          <form:label path="fullName">Họ tên</form:label>
+                        </div>
+                        <div class="invalid-feedback" style="margin-left: 45px">
+                          Vui lòng điền Họ tên
+                        </div>
+                        ${fullNameError}
+                      </div>
+
+                      <!-- password -->
+                      <div class="mb-3 input-group has-validation rounded">
+                        <c:set var="passwordError">
+                          <form:errors
+                            path="password"
+                            cssClass="invalid-feedback server-validate-feedback"
+                          />
+                        </c:set>
+                        <div
+                          class="form-floating ${not empty passwordError ? 'is-invalid' : ''}"
+                        >
+                          <form:input
+                            cssClass="form-control ${not empty passwordError ? 'is-invalid' : ''}"
+                            type="password"
+                            placeholder="Password"
+                            required="true"
+                            path="password"
+                          />
+                          <form:label path="password">Mật khẩu</form:label>
+                        </div>
+                        <span class="input-group-text"
+                          ><i
+                            class="bi bi-eye-slash-fill fs-4"
+                            role="button"
+                            id="toggle-password"
+                          ></i
+                        ></span>
+                        <div class="invalid-feedback">
+                          Vui lòng điền Mật khẩu
+                        </div>
+                        ${passwordError}
+                        <div
+                          class="form-text ${not empty passwordError ? 'd-none' : ''}"
+                        >
+                          Chứa tối thiểu 8 kí tự bao gồm chữ in hoa, in thường,
+                          số và kí tự đặc biệt
                         </div>
                       </div>
 
-                      <div class="row mb-3">
-                        <div class="col-md-6">
-                          <c:set var="passwordBindErrors"
-                            ><form:errors
-                              path="password"
-                              cssClass="invalid-feedback server-validate-feedback"
-                          /></c:set>
-                          <div class="form-floating mb-3 mb-md-0">
-                            <form:input
-                              class="form-control ${not empty passwordBindErrors ? 'is-invalid' : ''}"
-                              id="inputPassword"
-                              type="password"
-                              placeholder="Create a password"
-                              path="password"
-                              required="true"
-                            />
-                            <label for="inputPassword">Mật khẩu</label>
-                            ${passwordBindErrors}
-                          </div>
+                      <!-- confirm password -->
+                      <div class="input-group has-validation rounded">
+                        <c:set var="confirmPasswordError">
+                          <form:errors
+                            path="confirmPassword"
+                            cssClass="invalid-feedback server-validate-feedback"
+                          />
+                        </c:set>
+                        <div
+                          class="form-floating ${not empty confirmPasswordError ? 'is-invalid' : ''}"
+                        >
+                          <form:input
+                            cssClass="form-control ${not empty confirmPasswordError ? 'is-invalid' : ''}"
+                            type="password"
+                            placeholder="confirmPassword"
+                            required="true"
+                            path="confirmPassword"
+                          />
+                          <form:label path="confirmPassword"
+                            >Nhập lại Mật khẩu</form:label
+                          >
                         </div>
-                        <div class="col-md-6">
-                          <c:set var="CfPasswordBindErrors"
-                            ><form:errors
-                              path="confirmPassword"
-                              cssClass="invalid-feedback server-validate-feedback"
-                          /></c:set>
-                          <div class="form-floating mb-3 mb-md-0">
-                            <form:input
-                              class="form-control ${not empty CfPasswordBindErrors ? 'is-invalid' : ''}"
-                              id="inputPasswordConfirm"
-                              type="password"
-                              placeholder="Confirm password"
-                              path="confirmPassword"
-                              required="true"
-                            />
-                            <label for="inputPasswordConfirm"
-                              >Nhập lại mật khẩu</label
-                            >
-                            ${CfPasswordBindErrors}
-                          </div>
+                        <div class="invalid-feedback">
+                          Vui lòng nhập lại Mật khẩu ở trên
                         </div>
+                        ${confirmPasswordError}
                       </div>
+
                       <div class="mt-4">
                         <div class="d-grid">
                           <button
@@ -268,21 +289,52 @@ uri="http://www.springframework.org/tags/form" %>
     <script src="js/scripts.js"></script>
     <script>
       $(document).ready(() => {
-        $("#form").submit(function (e) {
+        if ($("#registration-form .server-validate-feedback").length > 0) {
+          $("#registration-form .server-validate-feedback")
+            .siblings(".invalid-feedback:not(.server-validate-feedback)")
+            .addClass("d-none");
+        }
+
+        // handle events
+        $("#registration-form").submit(function (e) {
           if (!this.checkValidity()) {
             e.preventDefault();
             e.stopPropagation();
-          }
 
-          $(this).addClass("was-validated");
-          $(".server-validate-feedback").remove();
-          $(".client-validate-feedback").removeClass("d-none");
+            $(this)
+              .find("input")
+              .each(function () {
+                if (!this.checkValidity()) {
+                  $(this).addClass("is-invalid");
+                  $(this).closest(".form-floating").addClass("is-invalid");
+                }
+              });
+          }
         });
 
-        $(".form-control").on("input", function () {
-          $(this).removeClass("is-invalid");
-          $(this).siblings(".server-validate-feedback").remove();
-          $(".client-validate-feedback").removeClass("d-none");
+        $("#registration-form input").on("input", function () {
+          $(this).parent().siblings(".server-validate-feedback").remove();
+          $(this)
+            .parent()
+            .siblings(".invalid-feedback:not(.server-validate-feedback)")
+            .removeClass("d-none");
+          $(this).parent().siblings(".form-text").removeClass("d-none");
+
+          if (!this.checkValidity()) {
+            $(this).addClass("is-invalid");
+            $(this).closest(".form-floating").addClass("is-invalid");
+          } else {
+            $(this).removeClass("is-invalid");
+            $(this).closest(".form-floating").removeClass("is-invalid");
+          }
+        });
+
+        $("#toggle-password").on("click", function () {
+          const show =
+            $("#password").attr("type") === "password" ? true : false;
+          $("#password").attr("type", show ? "text" : "password");
+          $(this).removeClass(show ? "bi-eye-slash-fill" : "bi-eye-fill");
+          $(this).addClass(show ? "bi-eye-fill" : "bi-eye-slash-fill");
         });
       });
     </script>

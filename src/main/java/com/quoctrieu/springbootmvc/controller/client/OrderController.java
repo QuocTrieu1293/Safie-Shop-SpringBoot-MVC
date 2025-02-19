@@ -66,12 +66,13 @@ public class OrderController {
     long userId = (long) session.getAttribute("userId");
     Cart cart = cartService.get(cartId);
     double totalPrice = cartService.getTotalPrice(cartId);
-    AddressDTO receiveInfo = addressService.findDefaultByUser(userId);
-    CheckoutDTO checkoutDTO = new CheckoutDTO(receiveInfo);
+    List<AddressDTO> receiveInfos = addressService.findByUser(userId);
+    CheckoutDTO checkoutDTO = new CheckoutDTO(receiveInfos != null ? receiveInfos.get(0) : null);
 
     model.addAttribute("cart", cart);
     model.addAttribute("totalPrice", totalPrice);
     model.addAttribute("checkoutDTO", checkoutDTO);
+    model.addAttribute("receiveInfos", receiveInfos);
 
     return "client/cart/checkout";
   }

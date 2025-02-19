@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Service;
 import com.quoctrieu.springbootmvc.domain.Order;
 import com.quoctrieu.springbootmvc.domain.OrderDetail;
 import com.quoctrieu.springbootmvc.domain.Product;
+import com.quoctrieu.springbootmvc.domain.VerifyUserToken;
 
 import jakarta.activation.DataHandler;
 import jakarta.activation.DataSource;
@@ -41,6 +43,9 @@ public class MailService {
 
   private final String VERIFY_ORDER_MAIL = "/WEB-INF/view/template/verifyOrderMail.jsp";
   private final String VERIFY_ORDER_MAIL_SUBJECT = "Xác nhận đơn hàng";
+
+  private final String VERIFY_USER_MAIL = "/WEB-INF/view/template/verifyUserMail.jsp";
+  private final String VERIFY_USER_SUBJECT = "Xác thực tài khoản";
 
   private final JavaMailSender mailSender;
   private final ServletContext servletContext;
@@ -88,11 +93,12 @@ public class MailService {
   }
 
   // @Async
-  public void sendVerifyOrderMail(String toAddress, Order order)
+  public void sendVerifyOrderMail(Order order)
       throws IOException, ServletException, MessagingException {
 
     MimeMessage message = mailSender.createMimeMessage();
     MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
+    String toAddress = order.getUser().getEmail();
     helper.setFrom(fromAddress);
     helper.setTo(toAddress);
     helper.setSubject(VERIFY_ORDER_MAIL_SUBJECT);
@@ -126,4 +132,30 @@ public class MailService {
 
   }
 
+  public void sendVerifyRegistrationMail(VerifyUserToken verifyToken)
+      throws MessagingException, ServletException, IOException {
+    MimeMessage message = mailSender.createMimeMessage();
+    MimeMessageHelper helper = new MimeMessageHelper(message, "UTF-8");
+    helper.setFrom(fromAddress);
+    String toAddress = verifyToken.getUser().getEmail();
+    helper.setTo(toAddress);
+    helper.setPriority(1);
+    helper.setSubject(VERIFY_USER_SUBJECT);
+    helper.setSentDate(new Date());
+
+    String htmlString = renderHtmlJspTemplate(VERIFY_USER_MAIL,
+        Map.of("verifyToken", verifyToken, "verifyURL",
+            "http://localhost:8080/verifyUser/verify?token=" + verifyToken.getToken()));
+    helper.setText(htmlString, true);
+
+    // SimpleMailMessage message = new SimpleMailMessage();
+    // message.setFrom(fromAddress);
+    // String toAddress = verifyToken.getUser().getEmail();
+    // message.setTo(toAddress);
+    // message.setSubject(VERIFY_USER_SUBJECT);
+    // message.setText("http://localhost:8080/verifyUser?token=" +
+    // verifyToken.getToken());
+
+    mailSender.send(message);
+  }
 }

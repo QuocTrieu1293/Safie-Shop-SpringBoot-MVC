@@ -54,9 +54,10 @@ public class OrderAPI {
       if (order == null || email == null) {
         return "Mail not sent";
       }
-      mailService.sendVerifyOrderMail(email, order);
+      mailService.sendVerifyOrderMail(order);
     } catch (Exception e) {
       e.printStackTrace();
+      return "Mail not sent";
     }
     return "Mail sent";
   }

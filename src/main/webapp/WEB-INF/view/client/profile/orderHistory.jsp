@@ -261,7 +261,7 @@ uri="http://sargue.net/jsptags/time" prefix="javatime" %>
                   <li class="page-item ${currentPage == 1 ? 'disabled' : ''}">
                     <a
                       class="page-link"
-                      href="/order-history?page=${currentPage - 1}${queryString}"
+                      href="/profile/order-history?page=${currentPage - 1}${queryString}"
                       aria-label="Previous"
                     >
                       <i class="bi bi-chevron-left"></i>
@@ -273,7 +273,7 @@ uri="http://sargue.net/jsptags/time" prefix="javatime" %>
                     >
                       <a
                         class="page-link"
-                        href="/order-history?page=${loop.index}${queryString}"
+                        href="/profile/order-history?page=${loop.index}${queryString}"
                         >${loop.index}</a
                       >
                     </li>
@@ -283,7 +283,7 @@ uri="http://sargue.net/jsptags/time" prefix="javatime" %>
                   >
                     <a
                       class="page-link"
-                      href="/order-history?page=${currentPage + 1}${queryString}"
+                      href="/profile/order-history?page=${currentPage + 1}${queryString}"
                       aria-label="Next"
                     >
                       <i class="bi bi-chevron-right"></i>

@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import com.quoctrieu.springbootmvc.domain.Cart;
 import com.quoctrieu.springbootmvc.domain.Order;
 import com.quoctrieu.springbootmvc.domain.User;
-import com.quoctrieu.springbootmvc.domain.dto.RegisterDTO;
+import com.quoctrieu.springbootmvc.domain.VerifyUserToken;
 import com.quoctrieu.springbootmvc.repository.CartRepository;
 import com.quoctrieu.springbootmvc.repository.OrderRepository;
 import com.quoctrieu.springbootmvc.repository.UserRepository;
@@ -21,19 +21,25 @@ public class UserService {
   private final PasswordEncoder passwordEncoder;
   private final CartRepository cartRepository;
   private final OrderRepository orderRepository;
+  private final VerifyUserTokenService verifyTokenService;
 
   public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, CartRepository cartRepository,
-      OrderRepository orderRepository) {
+      OrderRepository orderRepository, VerifyUserTokenService verifyTokenService) {
     this.userRepository = userRepository;
     this.passwordEncoder = passwordEncoder;
     this.cartRepository = cartRepository;
     this.orderRepository = orderRepository;
+    this.verifyTokenService = verifyTokenService;
   }
 
   public User registerUser(User user) {
     String hashed_password = passwordEncoder.encode(user.getPassword());
     user.setPassword(hashed_password);
-    return userRepository.save(user);
+    user.setEnabled(false);
+    user = userRepository.save(user);
+
+    VerifyUserToken verifyToken = verifyTokenService.createToken(user);
+    return user;
   }
 
   public User updateUser(User user) throws Exception {
@@ -75,16 +81,6 @@ public class UserService {
 
   public boolean emailExists(String email) {
     return userRepository.existsByEmail(email);
-  }
-
-  public User registerDTOToUser(RegisterDTO registerDTO) {
-    User user = new User();
-
-    user.setFullName(registerDTO.getFirstName() + " " + registerDTO.getLastName());
-    user.setEmail(registerDTO.getEmail());
-    user.setPassword(registerDTO.getPassword());
-
-    return user;
   }
 
   public User getUserByEmail(String email) {

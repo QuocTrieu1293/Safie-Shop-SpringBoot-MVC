@@ -46,6 +46,15 @@ uri="http://www.springframework.org/tags/form" prefix="form"%>
 
     <!-- Template Stylesheet -->
     <link href="/client/css/style.css" rel="stylesheet" />
+    <link href="/css/mycss.css" rel="stylesheet" />
+
+    <style>
+      #address-modal .list-group > .list-group-item-action.active {
+        box-shadow: none;
+        background-color: var(--bs-light-primary-2);
+        border: solid 1px var(--bs-primary);
+      }
+    </style>
   </head>
 
   <body>
@@ -92,7 +101,7 @@ uri="http://www.springframework.org/tags/form" prefix="form"%>
                 >
                   <tr>
                     <td class="p-0 text-end">
-                      <label class="col-form-label" for="fullName">
+                      <label class="col-form-label" for="user-fullName">
                         Họ tên:
                       </label>
                     </td>
@@ -100,7 +109,7 @@ uri="http://www.springframework.org/tags/form" prefix="form"%>
                       <input
                         type="text"
                         class="form-control-plaintext"
-                        id="fullName"
+                        id="user-fullName"
                         value="${cart.user.fullName}"
                         disabled
                       />
@@ -125,8 +134,23 @@ uri="http://www.springframework.org/tags/form" prefix="form"%>
 
               <!-- Receive Info -->
               <div class="rounded-1 shadow bg-secondary py-3 px-2 mb-5">
+                <div class="d-flex justify-content-end">
+                  <c:if test="${not empty receiveInfos}">
+                    <span
+                      role="button"
+                      style="font-size: 15px"
+                      class="fw-bold text-decoration-underline text-primary"
+                      data-bs-toggle="modal"
+                      data-bs-target="#address-modal"
+                    >
+                      Chọn từ sổ địa chỉ
+                      <i class="bi bi-journal-text ms-1 fs-5"></i>
+                    </span>
+                  </c:if>
+                </div>
                 <h3 class="fs-4 p-2">Thông tin nhận hàng</h3>
                 <table
+                  id="receive-info"
                   class="table table-borderless fw-medium text-dark"
                   style="border-spacing: 15px 15px; border-collapse: separate"
                 >
@@ -136,6 +160,7 @@ uri="http://www.springframework.org/tags/form" prefix="form"%>
                       <form:label
                         cssClass="col-form-label"
                         path="receiveInfo.fullName"
+                        for="fullName"
                       >
                         Họ tên<sup>*</sup>
                       </form:label>
@@ -153,6 +178,7 @@ uri="http://www.springframework.org/tags/form" prefix="form"%>
                         path="receiveInfo.fullName"
                         required="true"
                         spellcheck="false"
+                        id="fullName"
                       />
                       <div class="invalid-feedback">
                         Thông tin bắt buộc nhập
@@ -167,6 +193,7 @@ uri="http://www.springframework.org/tags/form" prefix="form"%>
                       <form:label
                         cssClass="col-form-label"
                         path="receiveInfo.phone"
+                        for="phone"
                       >
                         Số điện thoại<sup>*</sup>
                       </form:label>
@@ -185,6 +212,7 @@ uri="http://www.springframework.org/tags/form" prefix="form"%>
                         required="true"
                         spellcheck="false"
                         pattern="\d{10}"
+                        id="phone"
                       />
                       <div class="invalid-feedback">SĐT gồm 10 chữ số.</div>
                       ${receiverPhoneBindError}
@@ -294,6 +322,7 @@ uri="http://www.springframework.org/tags/form" prefix="form"%>
                       <form:label
                         path="receiveInfo.street"
                         cssClass="col-form-label"
+                        for="street"
                         >Địa chỉ cụ thể</form:label
                       >
                     </td>
@@ -311,6 +340,7 @@ uri="http://www.springframework.org/tags/form" prefix="form"%>
                         spellcheck="false"
                         placeholder="Nhập địa chỉ cụ thể"
                         required="true"
+                        id="street"
                       />
                       <div class="invalid-feedback">
                         Thông tin bắt buộc. Vui lòng điền đủ.
@@ -580,6 +610,81 @@ uri="http://www.springframework.org/tags/form" prefix="form"%>
     </div>
     <!-- Checkout Page End -->
 
+    <!-- Start address modal -->
+    <c:if test="${not empty receiveInfos}">
+      <div
+        class="modal fade"
+        id="address-modal"
+        tabindex="-1"
+        aria-labelledby="address-modal-title"
+        aria-hidden="true"
+      >
+        <div
+          class="modal-dialog modal-dialog-right modal-fullscreen-sm-down modal-dialog-scrollable"
+        >
+          <!-- Right-aligned and responsive -->
+          <div class="modal-content" style="min-width: 432px">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="address-modal-title">
+                Chọn thông tin nhận hàng
+              </h1>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div class="modal-body bg-neutral-gray">
+              <div class="list-group">
+                <c:forEach
+                  var="item"
+                  items="${receiveInfos}"
+                  varStatus="status"
+                >
+                  <button
+                    class="${not status.first ? 'mt-1' : ''} p-3 rounded-1 shadow-sm list-group-item list-group-item-action"
+                    data-address-id="${item.id}"
+                  >
+                    <div style="color: black" class="fw-medium">
+                      <span>${item.fullName}</span>
+                      <span class="ps-2 ms-2 border-start border-2"
+                        >${item.phone}</span
+                      >
+                    </div>
+                    <div
+                      class="fw-medium text-dark mb-1"
+                      style="font-size: 14px"
+                    >
+                      <div>${item.street}</div>
+                      <div>${item.ward}, ${item.district}, ${item.city}</div>
+                    </div>
+                    <div class="d-flex gap-2">
+                      <span
+                        class="px-2 py-1 fw-medium rounded bg-secondary text-dark"
+                        style="font-size: 12px"
+                        >${item.type == 'HOME' ? 'Nhà' : 'Văn phòng'}</span
+                      >
+                      <c:if test="${status.first}">
+                        <span
+                          class="rounded px-2 py-1 text-primary border-light-primary border fw-medium text-nowrap"
+                          style="font-size: 12px; background-color: #ede3da"
+                        >
+                          Mặc định
+                        </span>
+                      </c:if>
+                    </div>
+                  </button>
+                </c:forEach>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </c:if>
+
+    <!-- End address modal -->
+
     <jsp:include page="../layout/footer.jsp" />
 
     <!-- Back to Top -->
@@ -661,6 +766,8 @@ uri="http://www.springframework.org/tags/form" prefix="form"%>
       };
 
       $(document).ready(function () {
+        // $("#address-modal").modal("show");
+
         getAddress("city")
           .then(() => {
             const city_id = $("#cityId").val();
@@ -771,6 +878,55 @@ uri="http://www.springframework.org/tags/form" prefix="form"%>
             if (!this.checkValidity()) $(this).addClass("is-invalid");
             else $(this).removeClass("is-invalid");
           });
+
+        $("#address-modal .list-group-item-action").click(function () {
+          // khi click ra ngoài thì modal không tắt
+          $("#address-modal").data("bs-backdrop", "static");
+          $("#address-modal").data("bs-keyboard", "false");
+
+          const addressId = $(this).data("address-id");
+          $.get("/api/address/" + addressId, function (data) {
+            console.log(data);
+
+            const form = $("#checkout-form");
+            form
+              .find("input[type='text'], input[type='hidden']")
+              .each(function () {
+                const id = $(this).attr("id");
+                if (id in data) $(this).val(data[id]);
+              });
+            form
+              .find("input[name='receiveInfo.type'][value='" + data.type + "']")
+              .prop("checked", true);
+
+            Promise.all([
+              getAddress("city"),
+              getAddress("district", data.cityId),
+              getAddress("ward", data.districtId),
+            ])
+              .then(() => {
+                $("#city")
+                  .find("option[data-id=" + data.cityId + "]")
+                  .prop("selected", true);
+                $("#district")
+                  .find("option[data-id=" + data.districtId + "]")
+                  .prop("selected", true);
+                $("#ward")
+                  .find("option[data-id=" + data.wardId + "]")
+                  .prop("selected", true);
+              })
+              .catch((e) => console.log(">>> ERR call address api:", e))
+              .finally(() => {
+                $("#address-modal").modal("hide");
+                $("#address-modal").removeData("bs-backdrop");
+                $("#address-modal").removeData("bs-keyboard");
+              });
+          }).fail(function (response) {
+            if (response.status === 401) {
+              window.location.href = "/login?invalid=true";
+            }
+          });
+        });
       });
     </script>
   </body>

@@ -245,7 +245,11 @@ uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
                 loaderBg: "#20c997", // Background color of the toast loader
               });
             }
-          );
+          ).fail(function (response) {
+            if (response.status === 401) {
+              window.location.href = "/login?invalid=true";
+            }
+          });
         });
       });
 

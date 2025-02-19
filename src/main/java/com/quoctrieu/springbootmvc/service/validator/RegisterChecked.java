@@ -15,7 +15,7 @@ import jakarta.validation.Payload;
 @Documented
 public @interface RegisterChecked {
 
-    String message() default "User register validation failed";
+    String message() default "Đăng kí tài khoản không thành công";
 
     Class<?>[] groups() default {};
 

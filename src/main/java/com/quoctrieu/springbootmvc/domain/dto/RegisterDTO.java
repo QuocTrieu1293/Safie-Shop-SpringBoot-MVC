@@ -1,44 +1,37 @@
 package com.quoctrieu.springbootmvc.domain.dto;
 
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
+import org.hibernate.validator.constraints.Length;
+
+import com.quoctrieu.springbootmvc.domain.User;
 import com.quoctrieu.springbootmvc.service.validator.RegisterChecked;
 import com.quoctrieu.springbootmvc.service.validator.StrongPassword;
+
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 
 @RegisterChecked
 public class RegisterDTO {
 
-  @NotBlank(message = "First name must be not blank")
-  @Size(min = 3, message = "First name must have at least 3 characters")
-  private String firstName;
+  @NotBlank(message = "Họ Tên không được để trống")
+  @Length(min = 2, max = 30, message = "Họ Tên có độ dài tối thiểu 2 và tối đa 30 kí tự")
+  private String fullName;
 
-  private String lastName;
-
-  @Email(message = "Email is not valid", regexp = "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$")
-  @NotBlank(message = "Email cannot be blank")
+  @Email(message = "Email không đúng định dạng", regexp = "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$")
+  @NotBlank(message = "Email không được để trống")
   private String email;
 
   @StrongPassword
-  @NotBlank(message = "Password cannot be blank")
+  @NotBlank(message = "Mật khẩu không được để trống")
   private String password;
 
   private String confirmPassword;
 
-  public String getFirstName() {
-    return firstName;
-  }
-
-  public void setFirstName(String firstName) {
-    this.firstName = firstName;
-  }
-
-  public String getLastName() {
-    return lastName;
-  }
-
-  public void setLastName(String lastName) {
-    this.lastName = lastName;
+  public User toUser() {
+    User user = new User();
+    user.setEmail(email);
+    user.setFullName(fullName);
+    user.setPassword(password);
+    return user;
   }
 
   public String getEmail() {
@@ -64,4 +57,13 @@ public class RegisterDTO {
   public void setConfirmPassword(String confirmPassword) {
     this.confirmPassword = confirmPassword;
   }
+
+  public String getFullName() {
+    return fullName;
+  }
+
+  public void setFullName(String fullName) {
+    this.fullName = fullName;
+  }
+
 }

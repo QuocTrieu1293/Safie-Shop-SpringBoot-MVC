@@ -74,6 +74,8 @@ public class User {
 
   private String authenProvider;
 
+  private boolean enabled;
+
   @PrePersist
   void prePersist() {
     if (authenProvider == null)
@@ -198,7 +200,15 @@ public class User {
   public String toString() {
     return "User [id=" + id + ", email=" + email + ", password=" + password + ", fullName=" + fullName + ", phone="
         + phone + ", avatar=" + avatar + ", role=" + role + ", orders=" + orders + ", cart=[id="
-        + cart.getId() + ", authenProvider=" + authenProvider + ", gender=" + gender + "]]";
+        + cart.getId() + ", authenProvider=" + authenProvider + ", gender=" + gender + "enabled=" + enabled + "]]";
+  }
+
+  public boolean isEnabled() {
+    return enabled;
+  }
+
+  public void setEnabled(boolean enabled) {
+    this.enabled = enabled;
   }
 
 }

@@ -20,7 +20,8 @@ public class CheckoutDTO {
 
   public CheckoutDTO(AddressDTO receiveInfo) {
     this();
-    this.receiveInfo = receiveInfo;
+    if (receiveInfo != null)
+      this.receiveInfo = receiveInfo;
   }
 
   public AddressDTO getReceiveInfo() {

@@ -17,7 +17,7 @@ public class AccountInfoDTO {
   @Length(min = 2, max = 30, message = "Họ Tên có độ dài tối thiểu 2 và tối đa 30 kí tự")
   private String fullName;
 
-  @Pattern(regexp = "^\\d{10}$", message = "Phone number must be exactly 10 digits")
+  @Pattern(regexp = "^\\d{10}$", message = "Số điện thoại phải có 10 chữ số")
   private String phone;
 
   private String avatar;

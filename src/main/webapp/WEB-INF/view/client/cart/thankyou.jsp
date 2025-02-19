@@ -128,6 +128,7 @@ uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
       };
       // console.log(redirectAttributes);
 
+      // call api to send mail
       fetch("/api/order/sendVerifyMail", {
         method: "POST",
         headers: {
@@ -137,11 +138,17 @@ uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
         body: JSON.stringify(redirectAttributes),
       })
         .then((response) => {
-          if (!response.ok) return Promise.reject("Mail sent fail");
+          if (!response.ok) return Promise.reject(response);
           return response.text();
         })
         .then((data) => console.log(data))
-        .catch((e) => console.log(e));
+        .catch((response) => {
+          if (response.status === 401) {
+            window.location.href = "/login?invalid=true";
+          } else {
+            console.log("Mail sent fail!");
+          }
+        });
     </script>
   </body>
 </html>

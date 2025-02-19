@@ -11,28 +11,34 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.core.io.UrlResource;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.client.oidc.userinfo.OidcUserRequest;
 import org.springframework.security.oauth2.client.oidc.userinfo.OidcUserService;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.OAuth2Error;
 import org.springframework.security.oauth2.core.oidc.user.DefaultOidcUser;
 import org.springframework.security.oauth2.core.oidc.user.OidcUser;
+import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import com.quoctrieu.springbootmvc.domain.User;
 import com.quoctrieu.springbootmvc.repository.RoleRepository;
-import com.quoctrieu.springbootmvc.service.UserService;
+import com.quoctrieu.springbootmvc.repository.UserRepository;
 
 import jakarta.servlet.ServletContext;
 
+@Service
 public class CustomOidcUserService extends OidcUserService {
 
-  private final UserService userService;
+  private final UserRepository userRepository;
+  private final PasswordEncoder passwordEncoder;
   private final RoleRepository roleRepository;
   private final ServletContext servletContext;
 
-  public CustomOidcUserService(UserService userService, RoleRepository roleRepository, ServletContext servletContext) {
-    this.userService = userService;
+  public CustomOidcUserService(UserRepository userRepository, PasswordEncoder passwordEncoder,
+      RoleRepository roleRepository, ServletContext servletContext) {
+    this.userRepository = userRepository;
+    this.passwordEncoder = passwordEncoder;
     this.roleRepository = roleRepository;
     this.servletContext = servletContext;
   }
@@ -49,7 +55,7 @@ public class CustomOidcUserService extends OidcUserService {
       throw new OAuth2AuthenticationException(error);
     }
 
-    User user = userService.getUserByEmail(email);
+    User user = userRepository.findByEmail(email);
     if (user == null) {
       String password = RandomStringUtils.randomAlphanumeric(8);
       user = new User(
@@ -78,8 +84,12 @@ public class CustomOidcUserService extends OidcUserService {
         e.printStackTrace();
       }
 
-      user = userService.registerUser(user);
+      String hashPassword = passwordEncoder.encode(user.getPassword());
+      user.setPassword(hashPassword);
+
+      user = userRepository.save(user);
     }
+    user.setEnabled(true);
 
     Set<GrantedAuthority> authorities = new LinkedHashSet<>(oidcUser.getAuthorities());
     authorities.add(new SimpleGrantedAuthority("ROLE_" + user.getRole().getName()));
