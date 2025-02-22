@@ -69,7 +69,7 @@ uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb mb-5">
             <li class="breadcrumb-item"><a href="/">Trang chủ</a></li>
-            <li class="breadcrumb-item active">Giỏ hàng</li>
+            <li class="breadcrumb-item active fw-medium">Giỏ hàng</li>
           </ol>
         </nav>
         <c:choose>
@@ -233,7 +233,7 @@ uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
             <div class="text-center">
               <span
                 ><img
-                  src="/images/others/empty_cart.jpg"
+                  src="/images/others/empty_cart.png"
                   alt=""
                   style="width: 300px; object-fit: cover"
               /></span>

@@ -1,7 +1,6 @@
 <%@page contentType="text/html" pageEncoding="UTF-8" %> <%@ taglib prefix="c"
-uri="http://java.sun.com/jsp/jstl/core" %> <%@ taglib
-uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %> <%@ taglib
-uri="http://sargue.net/jsptags/time" prefix="javatime" %>
+uri="http://java.sun.com/jsp/jstl/core" %> <%@ taglib prefix="form"
+uri="http://www.springframework.org/tags/form" %>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -32,11 +31,10 @@ uri="http://sargue.net/jsptags/time" prefix="javatime" %>
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
     />
-    <link
+    <!-- <link
       rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css
-    "
-    />
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+    /> -->
 
     <!-- Libraries Stylesheet -->
     <link href="/client/lib/lightbox/css/lightbox.min.css" rel="stylesheet" />
@@ -75,7 +73,151 @@ uri="http://sargue.net/jsptags/time" prefix="javatime" %>
         <div class="col-auto">
           <jsp:include page="../sideNav.jsp" />
         </div>
-        <div class="col">Thay đổi mật khẩu</div>
+        <div class="col" style="min-width: 830px">
+          <div
+            class="rounded shadow-sm bg-white p-4 pb-5 d-flex flex-column"
+            style="min-height: 450px"
+          >
+            <h2 class="fs-3 mb-4">Thay đổi mật khẩu</h2>
+            <div class="row justify-content-center">
+              <div class="col-7">
+                <form:form
+                  id="changePassword-form"
+                  action="/profile/account/password"
+                  method="post"
+                  modelAttribute="changePasswordDTO"
+                  novalidate="true"
+                >
+                  <table
+                    class="table table-borderless"
+                    style="border-collapse: separate; border-spacing: 5px 10px"
+                  >
+                    <!-- password -->
+                    <tr>
+                      <td class="text-end fw-medium text-nowrap">
+                        <form:label path="password" cssClass="mt-3">
+                          Mật khẩu hiện tại
+                        </form:label>
+                      </td>
+                      <td>
+                        <c:set var="passwordError">
+                          <form:errors
+                            path="password"
+                            cssClass="invalid-feedback server-validate-feedback"
+                          />
+                        </c:set>
+                        <div class="input-group has-validation">
+                          <form:input
+                            type="password"
+                            path="password"
+                            cssClass="form-control ${not empty passwordError ? 'is-invalid' : ''}"
+                            required="true"
+                          />
+                          <span class="input-group-text rounded-end">
+                            <i
+                              class="bi bi-eye-slash-fill fs-4"
+                              role="button"
+                              id="toggle-password"
+                            >
+                            </i>
+                          </span>
+                          <div class="invalid-feedback">
+                            Vui lòng nhập mật khẩu
+                          </div>
+                          ${passwordError}
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td colspan="2"><hr /></td>
+                    </tr>
+                    <!-- new password -->
+                    <tr>
+                      <td class="text-end fw-medium text-nowrap">
+                        <form:label path="newPassword" cssClass="mt-3"
+                          >Mật khẩu mới</form:label
+                        >
+                      </td>
+                      <td>
+                        <c:set var="newPasswordError">
+                          <form:errors
+                            path="newPassword"
+                            cssClass="invalid-feedback server-validate-feedback"
+                          />
+                        </c:set>
+                        <div class="input-group has-validation">
+                          <form:input
+                            type="password"
+                            path="newPassword"
+                            cssClass="form-control ${not empty newPasswordError ? 'is-invalid' : ''}"
+                            required="true"
+                          />
+                          <span class="input-group-text rounded-end">
+                            <i
+                              class="bi bi-eye-slash-fill fs-4"
+                              role="button"
+                              id="toggle-newPassword"
+                            >
+                            </i>
+                          </span>
+                          <div class="invalid-feedback">
+                            Vui lòng nhập mật khẩu mới
+                          </div>
+                          ${newPasswordError}
+                        </div>
+                        <div
+                          class="form-text ${not empty newPasswordError ? 'd-none' : ''}"
+                        >
+                          Chứa tối thiểu 8 kí tự bao gồm chữ in hoa, in thường,
+                          số và kí tự đặc biệt
+                        </div>
+                      </td>
+                    </tr>
+                    <!-- confirm new password -->
+                    <tr>
+                      <td class="text-end fw-medium text-nowrap">
+                        <form:label
+                          path="confirmNewPassword"
+                          cssClass="col-form-label"
+                        >
+                          Nhập lại mật khẩu mới
+                        </form:label>
+                      </td>
+                      <td>
+                        <c:set var="confirmNewPasswordError">
+                          <form:errors
+                            path="confirmNewPassword"
+                            cssClass="invalid-feedback server-validate-feedback"
+                          />
+                        </c:set>
+                        <form:input
+                          type="password"
+                          path="confirmNewPassword"
+                          class="form-control ${not empty confirmNewPasswordError ? 'is-invalid' : ''}"
+                          required="true"
+                        />
+                        <div class="invalid-feedback">
+                          Vui lòng nhập lại mật khẩu mới
+                        </div>
+                        ${confirmNewPasswordError}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td colspan="2"></td>
+                    </tr>
+                  </table>
+                  <div class="row justify-content-center">
+                    <div class="col-auto">
+                      <button type="submit" class="btn btn-primary px-4">
+                        Xác nhận
+                      </button>
+                    </div>
+                  </div>
+                </form:form>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -100,5 +242,56 @@ uri="http://sargue.net/jsptags/time" prefix="javatime" %>
 
     <!-- Template Javascript -->
     <script src="/client/js/main.js"></script>
+
+    <script>
+      $(document).ready(function () {
+        $(".server-validate-feedback")
+          .siblings(".invalid-feedback")
+          .addClass("d-none");
+
+        // handle events
+        $("#changePassword-form").submit(function (e) {
+          if (!this.checkValidity()) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            $(this)
+              .find("input")
+              .each(function () {
+                if (!this.checkValidity()) $(this).addClass("is-invalid");
+              });
+          }
+        });
+
+        $("#changePassword-form input").on("input", function () {
+          $(this).siblings(".server-validate-feedback").remove();
+          $(this)
+            .siblings(".invalid-feedback:not(.server-validate-feedback)")
+            .removeClass("d-none");
+          $(this).parent().siblings(".form-text").removeClass("d-none");
+
+          if (!this.checkValidity()) {
+            $(this).addClass("is-invalid");
+          } else {
+            $(this).removeClass("is-invalid");
+          }
+        });
+
+        $("#toggle-password").on("click", function () {
+          const show =
+            $("#password").attr("type") === "password" ? true : false;
+          $("#password").attr("type", show ? "text" : "password");
+          $(this).removeClass(show ? "bi-eye-slash-fill" : "bi-eye-fill");
+          $(this).addClass(show ? "bi-eye-fill" : "bi-eye-slash-fill");
+        });
+        $("#toggle-newPassword").on("click", function () {
+          const show =
+            $("#newPassword").attr("type") === "password" ? true : false;
+          $("#newPassword").attr("type", show ? "text" : "password");
+          $(this).removeClass(show ? "bi-eye-slash-fill" : "bi-eye-fill");
+          $(this).addClass(show ? "bi-eye-fill" : "bi-eye-slash-fill");
+        });
+      });
+    </script>
   </body>
 </html>

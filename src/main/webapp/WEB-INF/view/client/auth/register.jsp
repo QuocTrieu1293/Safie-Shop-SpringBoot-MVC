@@ -37,7 +37,7 @@ uri="http://www.springframework.org/tags/form" %>
     />
 
     <!-- Customized Bootstrap Stylesheet -->
-    <link href="css/styles.css" rel="stylesheet" />
+    <link href="/css/styles.css" rel="stylesheet" />
     <link href="/client/css/bootstrap.min.css" rel="stylesheet" />
 
     <!-- Template Stylesheet -->
@@ -88,7 +88,7 @@ uri="http://www.springframework.org/tags/form" %>
                       cssClass="pt-3"
                     >
                       <!-- email -->
-                      <div class="input-group mb-3 has-validation rounded">
+                      <div class="input-group mb-3 has-validation">
                         <c:set var="emailError">
                           <form:errors
                             path="email"
@@ -104,7 +104,7 @@ uri="http://www.springframework.org/tags/form" %>
                         >
                           <form:input
                             type="text"
-                            cssClass="form-control ${not empty emailError ? 'is-invalid' : ''}"
+                            cssClass="form-control ${not empty emailError ? 'is-invalid' : ''} rounded-end"
                             path="email"
                             required="true"
                             placeholder="Nhập địa chỉ email"
@@ -118,7 +118,7 @@ uri="http://www.springframework.org/tags/form" %>
                       </div>
 
                       <!-- fullName -->
-                      <div class="input-group mb-3 has-validation rounded">
+                      <div class="input-group mb-3 has-validation">
                         <c:set var="fullNameError">
                           <form:errors
                             path="fullName"
@@ -134,7 +134,7 @@ uri="http://www.springframework.org/tags/form" %>
                         >
                           <form:input
                             type="text"
-                            cssClass="form-control ${not empty fullNameError ? 'is-invalid' : ''}"
+                            cssClass="form-control ${not empty fullNameError ? 'is-invalid' : ''} rounded-end"
                             path="fullName"
                             required="true"
                             placeholder="Nhập họ tên"
@@ -148,7 +148,7 @@ uri="http://www.springframework.org/tags/form" %>
                       </div>
 
                       <!-- password -->
-                      <div class="mb-3 input-group has-validation rounded">
+                      <div class="input-group has-validation mb-3">
                         <c:set var="passwordError">
                           <form:errors
                             path="password"
@@ -167,7 +167,7 @@ uri="http://www.springframework.org/tags/form" %>
                           />
                           <form:label path="password">Mật khẩu</form:label>
                         </div>
-                        <span class="input-group-text"
+                        <span class="input-group-text rounded-end"
                           ><i
                             class="bi bi-eye-slash-fill fs-4"
                             role="button"
@@ -187,7 +187,7 @@ uri="http://www.springframework.org/tags/form" %>
                       </div>
 
                       <!-- confirm password -->
-                      <div class="input-group has-validation rounded">
+                      <div class="input-group has-validation">
                         <c:set var="confirmPasswordError">
                           <form:errors
                             path="confirmPassword"
@@ -198,7 +198,7 @@ uri="http://www.springframework.org/tags/form" %>
                           class="form-floating ${not empty confirmPasswordError ? 'is-invalid' : ''}"
                         >
                           <form:input
-                            cssClass="form-control ${not empty confirmPasswordError ? 'is-invalid' : ''}"
+                            cssClass="form-control ${not empty confirmPasswordError ? 'is-invalid' : ''} rounded-end"
                             type="password"
                             placeholder="confirmPassword"
                             required="true"
@@ -286,7 +286,7 @@ uri="http://www.springframework.org/tags/form" %>
       crossorigin="anonymous"
     ></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
-    <script src="js/scripts.js"></script>
+    <script src="/js/scripts.js"></script>
     <script>
       $(document).ready(() => {
         if ($("#registration-form .server-validate-feedback").length > 0) {

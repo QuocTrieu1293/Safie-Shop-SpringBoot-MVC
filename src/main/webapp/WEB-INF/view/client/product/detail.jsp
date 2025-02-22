@@ -78,7 +78,7 @@ uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb mb-5">
             <li class="breadcrumb-item"><a href="/">Trang chủ</a></li>
-            <li class="breadcrumb-item active">Chi tiết sản phẩm</li>
+            <li class="breadcrumb-item active fw-medium">Chi tiết sản phẩm</li>
           </ol>
         </nav>
         <div class="row g-5 mb-5">
@@ -103,7 +103,9 @@ uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
                   </div>
                 </div>
                 <div class="col-lg-6">
-                  <h4 class="fw-medium mb-3">${product.name}</h4>
+                  <h4 class="fw-medium mb-3" style="text-align: justify">
+                    ${product.name}
+                  </h4>
                   <div class="mb-3">
                     <p>
                       Danh mục:
@@ -157,7 +159,9 @@ uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
                     <i class="fa fa-star text-warning"></i>
                     <i class="fa fa-star"></i>
                   </div>
-                  <p class="mb-4">${product.shortDesc}</p>
+                  <p class="mb-4" style="text-align: justify">
+                    ${product.shortDesc}
+                  </p>
 
                   <div
                     class="input-group quantity mb-3 align-items-center"
@@ -255,7 +259,7 @@ uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
                       aholehole trumpetfish pilot fish airbreathing catfish,
                       electric ray sweeper.
                     </p> -->
-                    <p>${product.detailDesc}</p>
+                    <p style="text-align: justify">${product.detailDesc}</p>
                     <div class="px-2">
                       <div class="row g-4">
                         <div class="col-6">
@@ -303,7 +307,7 @@ uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
                     <div class="d-flex">
                       <img
                         src="/client/img/avatar.jpg"
-                        class="w-100 rounded-circle p-3"
+                        class="rounded-circle p-3"
                         style="width: 100px; height: 100px; object-fit: cover"
                         alt=""
                       />
@@ -332,7 +336,7 @@ uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
                     <div class="d-flex">
                       <img
                         src="/client/img/avatar.jpg"
-                        class="w-100 rounded-circle p-3"
+                        class="rounded-circle p-3"
                         style="width: 100px; height: 100px; object-fit: cover"
                         alt=""
                       />
@@ -371,7 +375,7 @@ uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
                   </div>
                 </div>
               </div>
-              <form action="#">
+              <!-- <form action="#">
                 <h4 class="mb-5 fw-bold">Leave a Reply</h4>
                 <div class="row g-4">
                   <div class="col-lg-6">
@@ -429,7 +433,7 @@ uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
                     </div>
                   </div>
                 </div>
-              </form>
+              </form> -->
             </div>
           </div>
 

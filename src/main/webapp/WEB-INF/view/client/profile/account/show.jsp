@@ -76,10 +76,10 @@ uri="http://www.springframework.org/tags/form" %>
         </div>
         <div class="col" style="min-width: 830px">
           <div
-            class="rounded shadow-sm bg-white p-3 pb-5 d-flex flex-column"
-            style="min-height: 450px"
+            class="rounded shadow-sm bg-white p-4 pb-5 d-flex flex-column"
+            style="min-height: 463px"
           >
-            <h2 class="fs-3">Thông tin tài khoản</h2>
+            <h2 class="fs-3 mb-4">Thông tin tài khoản</h2>
             <form:form
               action="/profile/account"
               method="post"

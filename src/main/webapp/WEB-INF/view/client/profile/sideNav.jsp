@@ -11,7 +11,7 @@ uri="http://java.sun.com/jsp/jstl/core" %>
         class="rounded-circle"
     /></a>
     <div class="d-flex flex-column text-truncate">
-      <span class="fw-bold text-black d-inline-block text-truncate"
+      <span class="fw-bold d-inline-block text-truncate" style="color: black"
         >${fullName}</span
       >
       <span style="font-size: 14px"

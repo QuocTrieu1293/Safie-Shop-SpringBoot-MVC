@@ -88,11 +88,15 @@ public class User {
     System.out.println("User created");
   }
 
-  public User(String email, String password, String fullName, String address, String phone) {
+  public User(String email, String password, String fullName, String phone, String avatar, String gender,
+      String authenProvider) {
     this.email = email;
     this.password = password;
     this.fullName = fullName;
     this.phone = phone;
+    this.avatar = avatar;
+    this.gender = gender;
+    this.authenProvider = authenProvider;
     this.id = -1;
   }
 
@@ -196,19 +200,19 @@ public class User {
     this.addressBook = addressBook;
   }
 
-  @Override
-  public String toString() {
-    return "User [id=" + id + ", email=" + email + ", password=" + password + ", fullName=" + fullName + ", phone="
-        + phone + ", avatar=" + avatar + ", role=" + role + ", orders=" + orders + ", cart=[id="
-        + cart.getId() + ", authenProvider=" + authenProvider + ", gender=" + gender + "enabled=" + enabled + "]]";
-  }
-
   public boolean isEnabled() {
     return enabled;
   }
 
   public void setEnabled(boolean enabled) {
     this.enabled = enabled;
+  }
+
+  @Override
+  public String toString() {
+    return "User [id=" + id + ", email=" + email + ", password=" + password + ", fullName=" + fullName + ", phone="
+        + phone + ", avatar=" + avatar + ", role=" + role + ", orders=" + orders + ", cart=[id="
+        + cart.getId() + ", authenProvider=" + authenProvider + ", gender=" + gender + "enabled=" + enabled + "]]";
   }
 
 }

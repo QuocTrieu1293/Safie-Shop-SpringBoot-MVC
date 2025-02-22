@@ -78,7 +78,7 @@ uri="http://www.springframework.org/tags/form" prefix="form"%>
             <li class="breadcrumb-item">
               <a href="/cart">Giỏ hàng</a>
             </li>
-            <li class="breadcrumb-item active">Đặt hàng</li>
+            <li class="breadcrumb-item active fw-medium">Đặt hàng</li>
           </ol>
         </nav>
         <h1 class="mb-4">Thông tin đơn hàng</h1>

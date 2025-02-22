@@ -79,7 +79,7 @@ uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb mb-5">
             <li class="breadcrumb-item"><a href="/">Trang chủ</a></li>
-            <li class="breadcrumb-item active">Sản phẩm</li>
+            <li class="breadcrumb-item active fw-medium">Sản phẩm</li>
           </ol>
         </nav>
         <div class="row g-4">

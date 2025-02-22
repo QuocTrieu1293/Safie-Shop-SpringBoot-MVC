@@ -29,6 +29,6 @@ public class DashboardController {
     model.addAttribute("productCount", productRepository.count());
     model.addAttribute("orderCount", orderRepository.count());
 
-    return "admin/dashboard/show";
+    return "/admin/dashboard/show";
   }
 }

@@ -386,107 +386,112 @@ uri="http://www.springframework.org/tags/form" %>
         <div class="col-auto">
           <jsp:include page="../sideNav.jsp" />
         </div>
-        <div class="col">
-          <div class="d-flex justify-content-between mb-4">
-            <h2 class="fs-3 text-nowrap me-5">Sổ địa chỉ nhận hàng</h2>
-            <button
-              class="btn btn-primary rounded-pill text-nowrap"
-              data-bs-toggle="modal"
-              data-bs-target="#address-modal"
-              id="add-address-btn"
-            >
-              Thêm địa chỉ mới
-            </button>
-          </div>
-          <c:choose>
-            <c:when test="${not empty addressList}">
-              <div class="list-group shadow-sm rounded-2">
-                <c:forEach
-                  var="address"
-                  items="${addressList}"
-                  varStatus="status"
-                >
-                  <div
-                    class="list-group-item list-group-item-action d-flex gap-4 p-3 border-start-0 border-end-0 border-top-0 align-items-center ${status.last ? 'border-bottom-0' : ''}"
-                    style="cursor: default; min-width: fit-content"
-                  >
-                    <div class="col d-flex gap-2 align-items-center">
-                      <div
-                        class="rounded-circle position-relative flex-shrink-0 ${status.first ? 'bg-light-primary-2' : 'bg-secondary'}"
-                        style="width: 48px; height: 48px"
-                      >
-                        <i
-                          class="${address.type == 'HOME' ? 'bi bi-house-door-fill' : 'bi bi-building-fill'} fs-3 ${status.first ? 'text-primary' : 'text-black'} position-absolute top-50 start-50 translate-middle"
-                        ></i>
-                      </div>
-                      <div class="flex-grow-1">
-                        <div class="d-flex align-items-center flex-nowrap">
-                          <span class="fw-medium text-nowrap"
-                            >${address.fullName}</span
-                          >
-                          <span
-                            class="border-start border-2 ps-2 ms-2"
-                            style="font-size: 15px"
-                            >${address.phone}</span
-                          >
-                          <c:if test="${status.first}">
-                            <span
-                              class="ms-3 rounded-pill px-2 py-1 text-primary border-light-primary border fw-medium text-nowrap"
-                              style="font-size: 13px; background-color: #ede3da"
-                            >
-                              Mặc định
-                            </span>
-                          </c:if>
-                        </div>
-                        <div
-                          class="col d-flex flex-column text-nowrap text-dark fw-medium"
-                          style="font-size: 14px"
-                        >
-                          <span>${address.street}</span>
-                          <span
-                            >${address.ward}, ${address.district},
-                            ${address.city}</span
-                          >
-                        </div>
-                      </div>
-                    </div>
-                    <div
-                      class="col-auto text-nowrap d-flex flex-nowrap ms-auto"
-                    >
-                      <span
-                        role="button"
-                        class="col fw-medium text-primary fs-6 update-address-btn"
-                        data-address-id="${address.id}"
-                        >Sửa</span
-                      >
-                      <span
-                        role="button"
-                        class="col fw-medium fs-6 border-start border-2 ms-2 ps-2 delete-address-btn"
-                        data-address-id="${address.id}"
-                        data-bs-toggle="modal"
-                        data-bs-target="#remove-confirm-modal"
-                      >
-                        Xoá
-                      </span>
-                    </div>
-                  </div>
-                </c:forEach>
-              </div>
-            </c:when>
-            <c:otherwise>
-              <div
-                class="d-flex flex-column justify-content-center align-items-center text-center"
+        <div class="col" style="min-width: 830px">
+          <div class="p-4 pb-5">
+            <div class="d-flex justify-content-between mb-4">
+              <h2 class="fs-3 text-nowrap me-5">Sổ địa chỉ nhận hàng</h2>
+              <button
+                class="btn btn-primary rounded-pill text-nowrap"
+                data-bs-toggle="modal"
+                data-bs-target="#address-modal"
+                id="add-address-btn"
               >
-                <img src="/images/others/empty_address_book.png" alt="" />
-                <span class="fs-5 fw-medium text-nowrap"
-                  >Bạn chưa lưu địa chỉ nào</span
+                Thêm địa chỉ mới
+              </button>
+            </div>
+            <c:choose>
+              <c:when test="${not empty addressList}">
+                <div class="list-group shadow-sm rounded-2">
+                  <c:forEach
+                    var="address"
+                    items="${addressList}"
+                    varStatus="status"
+                  >
+                    <div
+                      class="list-group-item list-group-item-action d-flex gap-4 p-3 border-start-0 border-end-0 border-top-0 align-items-center ${status.last ? 'border-bottom-0' : ''}"
+                      style="cursor: default; min-width: fit-content"
+                    >
+                      <div class="col d-flex gap-2 align-items-center">
+                        <div
+                          class="rounded-circle position-relative flex-shrink-0 ${status.first ? 'bg-light-primary-2' : 'bg-secondary'}"
+                          style="width: 48px; height: 48px"
+                        >
+                          <i
+                            class="${address.type == 'HOME' ? 'bi bi-house-door-fill' : 'bi bi-building-fill'} fs-3 ${status.first ? 'text-primary' : 'text-black'} position-absolute top-50 start-50 translate-middle"
+                          ></i>
+                        </div>
+                        <div class="flex-grow-1">
+                          <div class="d-flex align-items-center flex-nowrap">
+                            <span class="fw-medium text-nowrap"
+                              >${address.fullName}</span
+                            >
+                            <span
+                              class="border-start border-2 ps-2 ms-2"
+                              style="font-size: 15px"
+                              >${address.phone}</span
+                            >
+                            <c:if test="${status.first}">
+                              <span
+                                class="ms-3 rounded-pill px-2 py-1 text-primary border-light-primary border fw-medium text-nowrap"
+                                style="
+                                  font-size: 13px;
+                                  background-color: #ede3da;
+                                "
+                              >
+                                Mặc định
+                              </span>
+                            </c:if>
+                          </div>
+                          <div
+                            class="col d-flex flex-column text-nowrap text-dark fw-medium"
+                            style="font-size: 14px"
+                          >
+                            <span>${address.street}</span>
+                            <span
+                              >${address.ward}, ${address.district},
+                              ${address.city}</span
+                            >
+                          </div>
+                        </div>
+                      </div>
+                      <div
+                        class="col-auto text-nowrap d-flex flex-nowrap ms-auto"
+                      >
+                        <span
+                          role="button"
+                          class="col fw-medium text-primary fs-6 update-address-btn"
+                          data-address-id="${address.id}"
+                          >Sửa</span
+                        >
+                        <span
+                          role="button"
+                          class="col fw-medium fs-6 border-start border-2 ms-2 ps-2 delete-address-btn"
+                          data-address-id="${address.id}"
+                          data-bs-toggle="modal"
+                          data-bs-target="#remove-confirm-modal"
+                        >
+                          Xoá
+                        </span>
+                      </div>
+                    </div>
+                  </c:forEach>
+                </div>
+              </c:when>
+              <c:otherwise>
+                <div
+                  class="d-flex flex-column justify-content-center align-items-center text-center"
                 >
-                <span class="fw-medium">
-                  Cập nhật địa chỉ ngay để có trải nghiệm mua hàng nhanh nhất.
-                </span>
-              </div>
-            </c:otherwise>
-          </c:choose>
+                  <img src="/images/others/empty_address_book.png" alt="" />
+                  <span class="fs-5 fw-medium text-nowrap"
+                    >Bạn chưa lưu địa chỉ nào</span
+                  >
+                  <span class="fw-medium">
+                    Cập nhật địa chỉ ngay để có trải nghiệm mua hàng nhanh nhất.
+                  </span>
+                </div>
+              </c:otherwise>
+            </c:choose>
+          </div>
         </div>
       </div>
     </div>

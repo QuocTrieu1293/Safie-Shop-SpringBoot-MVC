@@ -95,7 +95,7 @@ public class ProductController {
     }
     model.addAttribute("queryString", queryString);
 
-    return "admin/product/show";
+    return "/admin/product/show";
   }
 
   @GetMapping("/admin/product/create")
@@ -103,7 +103,7 @@ public class ProductController {
 
     model.addAttribute("newProduct", new Product());
 
-    return "admin/product/create";
+    return "/admin/product/create";
   }
 
   @PostMapping("/admin/product/create")
@@ -127,7 +127,7 @@ public class ProductController {
       errors.forEach(
           (e) -> System.out.println(">>> ERR Create Product: " + e.getField() + " - " + e.getDefaultMessage()));
 
-      return "admin/product/create";
+      return "/admin/product/create";
     }
 
     Product newProduct = productService.createProduct(product);
@@ -140,7 +140,7 @@ public class ProductController {
     Product product = productService.get(id);
     model.addAttribute("product", product);
 
-    return "admin/product/update";
+    return "/admin/product/update";
   }
 
   @PostMapping("/admin/product/update")
@@ -156,7 +156,7 @@ public class ProductController {
       List<FieldError> errors = productBindingResult.getFieldErrors();
       errors.forEach(
           (e) -> System.out.println(">>> ERR Update Product: " + e.getField() + " - " + e.getDefaultMessage()));
-      return "admin/product/update";
+      return "/admin/product/update";
     }
 
     if (!file.isEmpty()) {
@@ -179,7 +179,7 @@ public class ProductController {
   public String getProductDeletePage(@PathVariable long id, Model model) {
     Product product = productService.get(id);
     model.addAttribute("product", product);
-    return "admin/product/delete";
+    return "/admin/product/delete";
   }
 
   @PostMapping("/admin/product/delete/{id}")
@@ -200,7 +200,7 @@ public class ProductController {
   @GetMapping("/admin/product/{id}")
   public String getProductDetailPage(@PathVariable long id, Model model) {
     model.addAttribute("product", productService.get(id));
-    return "admin/product/detail";
+    return "/admin/product/detail";
   }
 
 }

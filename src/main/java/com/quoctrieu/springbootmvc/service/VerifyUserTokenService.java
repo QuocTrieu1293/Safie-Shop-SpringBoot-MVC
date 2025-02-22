@@ -2,6 +2,7 @@ package com.quoctrieu.springbootmvc.service;
 
 import java.util.UUID;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,10 +18,13 @@ public class VerifyUserTokenService {
 
   private final VerifyUserTokenRepository verifyTokenRepo;
   private final UserRepository userRepository;
+  private final PasswordEncoder passwordEncoder;
 
-  public VerifyUserTokenService(VerifyUserTokenRepository verifyTokenRepo, UserRepository userRepository) {
+  public VerifyUserTokenService(VerifyUserTokenRepository verifyTokenRepo, UserRepository userRepository,
+      PasswordEncoder passwordEncoder) {
     this.verifyTokenRepo = verifyTokenRepo;
     this.userRepository = userRepository;
+    this.passwordEncoder = passwordEncoder;
   }
 
   public VerifyUserToken createToken(User user) {
@@ -42,11 +46,26 @@ public class VerifyUserTokenService {
   }
 
   @Transactional
-  public void verifyToken(String token) throws Exception {
+  public void verifyRegistration(String token) throws Exception {
     VerifyUserToken verifyToken = verifyTokenRepo.findByToken(token);
     User user = verifyToken.getUser();
+    if (user.isEnabled())
+      throw new Exception("User is already enabled");
     user.setEnabled(true);
     userRepository.save(user);
+    verifyTokenRepo.delete(verifyToken);
+  }
+
+  @Transactional
+  public void resetPassword(String token, String newPassword) throws Exception {
+    VerifyUserToken verifyToken = verifyTokenRepo.findByToken(token);
+    User user = verifyToken.getUser();
+    if (!user.isEnabled())
+      throw new Exception("User has not enabled yet");
+    String encodedPassword = passwordEncoder.encode(newPassword);
+    user.setPassword(encodedPassword);
+    user.setAuthenProvider("Local");
+    user = userRepository.save(user);
     verifyTokenRepo.delete(verifyToken);
   }
 }

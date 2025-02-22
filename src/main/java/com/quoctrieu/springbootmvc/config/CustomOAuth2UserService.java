@@ -58,16 +58,17 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
     User user = userRepository.findByEmail(email);
     if (user == null) {
-      String password = RandomStringUtils.randomAlphanumeric(8);
+      String password = RandomStringUtils.randomAlphanumeric(8, 16);
+      String encodedPassword = passwordEncoder.encode(password);
+
       user = new User(
-          email,
-          password,
+          email, encodedPassword,
           Optional.ofNullable((String) oauth2User.getAttribute("name"))
               .orElse(registrationId.equals("github") ? oauth2User.getAttribute("login") : email),
-          null,
-          null);
-      user.setAuthenProvider(userRequest.getClientRegistration().getClientName());
+          null, null, null, userRequest.getClientRegistration().getClientName());
+
       user.setRole(roleRepository.findByName("User"));
+
       try {
         UrlResource avatarResource = new UrlResource(
             (String) oauth2User.getAttribute(registrationId.equals("github") ? "avatar_url" : "picture"));
@@ -87,12 +88,13 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         e.printStackTrace();
       }
 
-      String hashPassword = passwordEncoder.encode(user.getPassword());
-      user.setPassword(hashPassword);
+      user.setEnabled(true);
 
       user = userRepository.save(user);
+    } else if (!user.isEnabled()) {
+      user.setEnabled(true);
+      user = userRepository.save(user);
     }
-    user.setEnabled(true);
 
     Set<GrantedAuthority> authorities = new LinkedHashSet<>(oauth2User.getAuthorities());
     authorities.add(new SimpleGrantedAuthority("ROLE_" + user.getRole().getName()));

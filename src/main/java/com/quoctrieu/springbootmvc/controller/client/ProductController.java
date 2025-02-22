@@ -60,7 +60,7 @@ public class ProductController {
     }
     model.addAttribute("queryString", queryString);
 
-    return "client/product/show";
+    return "/client/product/show";
   }
 
   @GetMapping("/product/{id}")
@@ -75,7 +75,7 @@ public class ProductController {
     model.addAttribute("featuredProducts", featuredProducts);
     model.addAttribute("categories", categoryRepository.findAll());
 
-    return "client/product/detail";
+    return "/client/product/detail";
   }
 
 }

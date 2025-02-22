@@ -6,6 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.quoctrieu.springbootmvc.domain.Cart;
 import com.quoctrieu.springbootmvc.domain.Order;
@@ -32,6 +33,7 @@ public class UserService {
     this.verifyTokenService = verifyTokenService;
   }
 
+  @Transactional
   public User registerUser(User user) {
     String hashed_password = passwordEncoder.encode(user.getPassword());
     user.setPassword(hashed_password);
@@ -39,6 +41,13 @@ public class UserService {
     user = userRepository.save(user);
 
     VerifyUserToken verifyToken = verifyTokenService.createToken(user);
+    return user;
+  }
+
+  public User updatePassword(User user, String newPassword) throws Exception {
+    String encodedPassword = passwordEncoder.encode(newPassword);
+    user.setPassword(encodedPassword);
+    user = userRepository.save(user);
     return user;
   }
 

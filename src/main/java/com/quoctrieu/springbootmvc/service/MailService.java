@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -14,10 +15,12 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import com.quoctrieu.springbootmvc.domain.Order;
 import com.quoctrieu.springbootmvc.domain.OrderDetail;
 import com.quoctrieu.springbootmvc.domain.Product;
+import com.quoctrieu.springbootmvc.domain.User;
 import com.quoctrieu.springbootmvc.domain.VerifyUserToken;
 
 import jakarta.activation.DataHandler;
@@ -41,11 +44,27 @@ public class MailService {
   @Value("${spring.mail.username}")
   private String fromAddress;
 
+  private enum MailType {
+    VERIFY_REGISTRATION(new MailConfig("Xác thực tài khoản", "http://localhost:8080/verifyRegistration/verify",
+        "Chào %s! Gửi bạn đường dẫn xác thực tài khoản", "Xác thực")),
+    SET_PASSWORD(new MailConfig("Thiết lập mật khẩu", "http://localhost:8080/profile/account/password/reset",
+        "Chào %s! Gửi bạn đường dẫn thiết lập mật khẩu", "Thiết lập"));
+
+    private final MailConfig mailConfig;
+
+    MailType(MailConfig mailConfig) {
+      this.mailConfig = mailConfig;
+    }
+
+    public MailConfig getMailConfig() {
+      return this.mailConfig;
+    }
+  }
+
   private final String VERIFY_ORDER_MAIL = "/WEB-INF/view/template/verifyOrderMail.jsp";
   private final String VERIFY_ORDER_MAIL_SUBJECT = "Xác nhận đơn hàng";
 
-  private final String VERIFY_USER_MAIL = "/WEB-INF/view/template/verifyUserMail.jsp";
-  private final String VERIFY_USER_SUBJECT = "Xác thực tài khoản";
+  private final String VERIFY_TOKEN_MAIL = "/WEB-INF/view/template/verifyTokenMail.jsp";
 
   private final JavaMailSender mailSender;
   private final ServletContext servletContext;
@@ -80,6 +99,34 @@ public class MailService {
     dispatcher.include(request, responseWrapper);
 
     return stringWriter.toString();
+  }
+
+  private void sendVerifyTokenMail(VerifyUserToken verifyToken, MailType mailType)
+      throws MessagingException, ServletException, IOException {
+    User user = verifyToken.getUser();
+    MailConfig mailConfig = mailType.getMailConfig();
+
+    MimeMessage message = mailSender.createMimeMessage();
+    MimeMessageHelper helper = new MimeMessageHelper(message, "UTF-8");
+
+    helper.setFrom(fromAddress);
+    helper.setTo(user.getEmail());
+    helper.setPriority(1);
+    helper.setSubject(mailConfig.getSubject());
+    helper.setSentDate(new Date());
+
+    String verifyUrl = UriComponentsBuilder.fromHttpUrl(mailConfig.getUrl())
+        .queryParam("token", verifyToken.getToken())
+        .toUriString();
+    String mailMessage = String.format(mailConfig.getMessageTemplate(), user.getFullName());
+    Map<String, Object> model = new HashMap<>();
+    model.put("verifyUrl", verifyUrl);
+    model.put("message", mailMessage);
+    model.put("buttonLabel", mailConfig.getButtonLabel());
+    String htmlString = renderHtmlJspTemplate(VERIFY_TOKEN_MAIL, model);
+    helper.setText(htmlString, true);
+
+    mailSender.send(message);
   }
 
   // @Async
@@ -134,28 +181,61 @@ public class MailService {
 
   public void sendVerifyRegistrationMail(VerifyUserToken verifyToken)
       throws MessagingException, ServletException, IOException {
-    MimeMessage message = mailSender.createMimeMessage();
-    MimeMessageHelper helper = new MimeMessageHelper(message, "UTF-8");
-    helper.setFrom(fromAddress);
-    String toAddress = verifyToken.getUser().getEmail();
-    helper.setTo(toAddress);
-    helper.setPriority(1);
-    helper.setSubject(VERIFY_USER_SUBJECT);
-    helper.setSentDate(new Date());
+    sendVerifyTokenMail(verifyToken, MailType.VERIFY_REGISTRATION);
+  }
 
-    String htmlString = renderHtmlJspTemplate(VERIFY_USER_MAIL,
-        Map.of("verifyToken", verifyToken, "verifyURL",
-            "http://localhost:8080/verifyUser/verify?token=" + verifyToken.getToken()));
-    helper.setText(htmlString, true);
+  public void sendSetPasswordMail(VerifyUserToken verifyToken)
+      throws MessagingException, ServletException, IOException {
+    sendVerifyTokenMail(verifyToken, MailType.SET_PASSWORD);
+  }
 
-    // SimpleMailMessage message = new SimpleMailMessage();
-    // message.setFrom(fromAddress);
-    // String toAddress = verifyToken.getUser().getEmail();
-    // message.setTo(toAddress);
-    // message.setSubject(VERIFY_USER_SUBJECT);
-    // message.setText("http://localhost:8080/verifyUser?token=" +
-    // verifyToken.getToken());
+  private static class MailConfig {
+    private String subject;
+    private String url;
+    private String messageTemplate;
+    private String buttonLabel;
 
-    mailSender.send(message);
+    public MailConfig() {
+    }
+
+    public MailConfig(String subject, String url, String messageTemplate, String buttonLabel) {
+      this.subject = subject;
+      this.url = url;
+      this.messageTemplate = messageTemplate;
+      this.buttonLabel = buttonLabel;
+    }
+
+    public String getSubject() {
+      return subject;
+    }
+
+    public void setSubject(String subject) {
+      this.subject = subject;
+    }
+
+    public String getUrl() {
+      return url;
+    }
+
+    public void setUrl(String url) {
+      this.url = url;
+    }
+
+    public String getMessageTemplate() {
+      return messageTemplate;
+    }
+
+    public void setMessageTemplate(String messageTemplate) {
+      this.messageTemplate = messageTemplate;
+    }
+
+    public String getButtonLabel() {
+      return buttonLabel;
+    }
+
+    public void setButtonLabel(String buttonLabel) {
+      this.buttonLabel = buttonLabel;
+    }
+
   }
 }

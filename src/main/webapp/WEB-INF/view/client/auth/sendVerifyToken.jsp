@@ -13,7 +13,7 @@ uri="http://www.springframework.org/tags/form" %>
     />
     <meta name="description" content="" />
     <meta name="author" content="" />
-    <title>Safie - An tâm cho con | Xác thực tài khoản</title>
+    <title>Safie - An tâm cho con | ${title}</title>
 
     <!-- Google Web Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -37,7 +37,7 @@ uri="http://www.springframework.org/tags/form" %>
     />
 
     <!-- Customized Bootstrap Stylesheet -->
-    <link href="css/styles.css" rel="stylesheet" />
+    <link href="/css/styles.css" rel="stylesheet" />
     <link href="/client/css/bootstrap.min.css" rel="stylesheet" />
 
     <!-- Template Stylesheet -->
@@ -53,7 +53,7 @@ uri="http://www.springframework.org/tags/form" %>
             alt="Safie brand"
             style="height: 76px; object-fit: contain"
         /></a>
-        <div class="text-black fs-2 pt-2">Xác thực tài khoản</div>
+        <div class="text-black fs-2 pt-2" style="color: black">${title}</div>
       </div>
     </nav>
 
@@ -82,9 +82,7 @@ uri="http://www.springframework.org/tags/form" %>
                       <img src="/images/others/mail.png" alt="" class="w-50" />
                     </div>
                     <p class="fw-medium" style="text-align: justify">
-                      Đường dẫn xác thực tài khoản đã được gửi qua địa chỉ email
-                      <b class="text-primary">${param.email}</b>. Bạn vui vòng
-                      kiểm tra hòm thư!
+                      ${message}
                     </p>
                     <div class="text-center">
                       <a href="/login" class="btn btn-secondary shadow-sm">
@@ -139,7 +137,7 @@ uri="http://www.springframework.org/tags/form" %>
       crossorigin="anonymous"
     ></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
-    <script src="js/scripts.js"></script>
+    <script src="/js/scripts.js"></script>
     <script>
       const COUNT_DOWN_TIME = 60;
 
@@ -167,7 +165,7 @@ uri="http://www.springframework.org/tags/form" %>
         };
         const sendVerifyMail = () => {
           $.post(
-            "/verifyUser/sendMail",
+            "${sendMailAPI}",
             JSON.stringify({
               email: "${param.email}",
             }),

@@ -36,6 +36,8 @@ $(document).ready(function () {
     $("input[type='radio'], input[type='checkbox'], input[type='submit'], button, .btn").focus(function () {
         $(this).blur();
     });
+
+
 });
 
 function goBack() {

@@ -27,7 +27,6 @@ import com.quoctrieu.springbootmvc.domain.dto.OrderCriteriaDTO;
 import com.quoctrieu.springbootmvc.repository.OrderRepository;
 import com.quoctrieu.springbootmvc.service.AddressService;
 import com.quoctrieu.springbootmvc.service.CartService;
-import com.quoctrieu.springbootmvc.service.MailService;
 import com.quoctrieu.springbootmvc.service.OrderService;
 import com.quoctrieu.springbootmvc.service.VNPayService;
 
@@ -42,16 +41,14 @@ public class OrderController {
   private final OrderRepository orderRepository;
   private final OrderService orderService;
   private final VNPayService vNPayService;
-  private final MailService mailService;
   private final AddressService addressService;
 
   public OrderController(CartService cartService, OrderRepository orderRepository,
-      OrderService orderService, VNPayService vnPayService, MailService mailService, AddressService addressService) {
+      OrderService orderService, VNPayService vnPayService, AddressService addressService) {
     this.cartService = cartService;
     this.orderRepository = orderRepository;
     this.orderService = orderService;
     this.vNPayService = vnPayService;
-    this.mailService = mailService;
     this.addressService = addressService;
   }
 
@@ -74,7 +71,7 @@ public class OrderController {
     model.addAttribute("checkoutDTO", checkoutDTO);
     model.addAttribute("receiveInfos", receiveInfos);
 
-    return "client/cart/checkout";
+    return "/client/cart/checkout";
   }
 
   @PostMapping("/checkout")
@@ -102,7 +99,7 @@ public class OrderController {
       if (errorMessage != null)
         model.addAttribute("errorMessage", errorMessage);
 
-      return "client/cart/checkout";
+      return "/client/cart/checkout";
     }
 
     Order newOrder = orderService.create(cartId, checkoutDTO);
@@ -144,14 +141,7 @@ public class OrderController {
       return "redirect:/thankyou";
     }
 
-    // send verify order mail
-    // try {
-    // mailService.sendVerifyOrderMail(email, order);
-    // } catch (Exception e) {
-    // e.printStackTrace();
-    // }
-
-    return "client/cart/thankyou";
+    return "/client/cart/thankyou";
   }
 
   @GetMapping("/profile/order-history")
@@ -176,7 +166,7 @@ public class OrderController {
     }
     model.addAttribute("queryString", queryString);
 
-    return "client/profile/orderHistory";
+    return "/client/profile/orderHistory";
   }
 
 }

@@ -280,7 +280,7 @@ uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
                 style="bottom: 30px; right: 0"
               ></i>
               <div class="mb-4 pb-4 border-bottom border-secondary">
-                <p class="mb-0">
+                <p class="mb-0" style="text-align: justify">
                   "Quần áo và găng tay cho bé sơ sinh này thật sự rất mềm mại và
                   dễ chịu. Chất liệu cotton hữu cơ là sự lựa chọn tuyệt vời cho
                   làn da nhạy cảm của bé. Tôi đã mua bộ quần áo cho con gái và
@@ -319,7 +319,7 @@ uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
                 style="bottom: 30px; right: 0"
               ></i>
               <div class="mb-4 pb-4 border-bottom border-secondary">
-                <p class="mb-0">
+                <p class="mb-0" style="text-align: justify">
                   "Tôi rất hài lòng với sản phẩm quần áo hữu cơ này. Chất liệu
                   cotton mát mẻ và an toàn, bé nhà tôi mặc vào rất thoải mái,
                   không bị hầm nóng hay kích ứng da. Găng tay cũng rất vừa vặn
@@ -357,7 +357,7 @@ uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
                 style="bottom: 30px; right: 0"
               ></i>
               <div class="mb-4 pb-4 border-bottom border-secondary">
-                <p class="mb-0">
+                <p class="mb-0" style="text-align: justify">
                   "Chất lượng tuyệt vời, tôi rất thích những bộ quần áo organic
                   này! Các sản phẩm đều được làm từ nguyên liệu tự nhiên, nhẹ
                   nhàng cho làn da mỏng manh của bé. Sau khi giặt, quần áo vẫn

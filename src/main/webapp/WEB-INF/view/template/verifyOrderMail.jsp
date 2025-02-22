@@ -1661,7 +1661,7 @@ uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
                                       mso-line-height-alt: 19.5px;
                                     "
                                   >
-                                    <p style="margin: 0">
+                                    <p style="margin: 0; text-align: justify">
                                       Cảm ơn bạn đã tin tưởng và lựa chọn sản
                                       phẩm của nhà Safie. Mong bạn có trải
                                       nghiệm thật tốt. Nếu có thắc mắc, phản hồi

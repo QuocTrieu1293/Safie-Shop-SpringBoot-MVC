@@ -28,9 +28,10 @@ public class CustomAuthenticationFailureHandler implements AuthenticationFailure
       AuthenticationException exception) throws IOException, ServletException {
     if (response.isCommitted()) {
       logger.debug("Response has already been committed. Unable to redirect!");
-    } else if (exception.getCause().getClass() == UserNotEnabledException.class) {
+    } else if (exception.getCause() != null && exception.getCause().getClass() == UserNotEnabledException.class) {
       String email = request.getParameter("username");
-      String targetUrl = UriComponentsBuilder.fromPath("/verifyUser/sendMail").queryParam("email", email).toUriString();
+      String targetUrl = UriComponentsBuilder.fromPath("/verifyRegistration/sendMail").queryParam("email", email)
+          .toUriString();
       redirectStrategy.sendRedirect(request, response, targetUrl);
       HttpSession session = request.getSession();
       session.setAttribute("errorMessage", "Tài khoản chưa được xác thực");

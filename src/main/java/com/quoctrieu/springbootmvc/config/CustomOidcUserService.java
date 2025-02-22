@@ -57,15 +57,14 @@ public class CustomOidcUserService extends OidcUserService {
 
     User user = userRepository.findByEmail(email);
     if (user == null) {
-      String password = RandomStringUtils.randomAlphanumeric(8);
-      user = new User(
-          email,
-          password,
-          Optional.ofNullable(oidcUser.getFullName()).orElse(email),
-          null,
-          null);
-      user.setAuthenProvider(userRequest.getClientRegistration().getClientName());
+      String password = RandomStringUtils.randomAlphanumeric(8, 16);
+      String encodedPassword = passwordEncoder.encode(password);
+
+      user = new User(email, encodedPassword, Optional.ofNullable(oidcUser.getFullName()).orElse(email), null, null,
+          null, userRequest.getClientRegistration().getClientName());
+
       user.setRole(roleRepository.findByName("User"));
+
       try {
         UrlResource avatarResource = new UrlResource(oidcUser.getPicture());
         String fileName = StringUtils.cleanPath(avatarResource.getFilename());
@@ -84,12 +83,13 @@ public class CustomOidcUserService extends OidcUserService {
         e.printStackTrace();
       }
 
-      String hashPassword = passwordEncoder.encode(user.getPassword());
-      user.setPassword(hashPassword);
+      user.setEnabled(true);
 
       user = userRepository.save(user);
+    } else if (!user.isEnabled()) {
+      user.setEnabled(true);
+      user = userRepository.save(user);
     }
-    user.setEnabled(true);
 
     Set<GrantedAuthority> authorities = new LinkedHashSet<>(oidcUser.getAuthorities());
     authorities.add(new SimpleGrantedAuthority("ROLE_" + user.getRole().getName()));

@@ -66,7 +66,7 @@ public class ProfileController {
 
     model.addAttribute("user", accountInfo);
 
-    return "client/profile/account/show";
+    return "/client/profile/account/show";
   }
 
   @PostMapping("")
@@ -77,7 +77,7 @@ public class ProfileController {
     if (bindingResult.hasErrors()) {
       bindingResult.getFieldErrors().forEach(error -> System.out
           .println(">>> ERR updateAccountInfo: " + error.getField() + " - " + error.getDefaultMessage()));
-      return "client/profile/account/show";
+      return "/client/profile/account/show";
     }
 
     Long userId = (Long) session.getAttribute("userId");

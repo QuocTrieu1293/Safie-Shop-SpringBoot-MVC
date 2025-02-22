@@ -40,8 +40,8 @@ uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
         >
         <small class="me-3"
           ><i class="fas fa-envelope me-2 text-warning"></i
-          ><a href="mailto:21522714@gm.uit.edu.vn" class="text-white"
-            >contact@safie.com</a
+          ><a href="mailto:safie.shop.babycloth@gmail.com" class="text-white"
+            >safie.shop.babycloth@gmail.com</a
           ></small
         >
       </div>
@@ -153,13 +153,19 @@ uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
                   </li>
 
                   <li>
-                    <a class="dropdown-item" href="/profile/account"
+                    <a
+                      class="dropdown-item"
+                      href="/profile/account"
+                      style="text-align: justify"
                       >Quản lý tài khoản</a
                     >
                   </li>
 
                   <li>
-                    <a class="dropdown-item" href="/profile/order-history"
+                    <a
+                      class="dropdown-item"
+                      href="/profile/order-history"
+                      style="text-align: justify"
                       >Lịch sử mua hàng</a
                     >
                   </li>
@@ -167,7 +173,12 @@ uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
                     <hr class="dropdown-divider" />
                   </li>
                   <li>
-                    <form action="/logout" method="post">
+                    <form
+                      action="/logout"
+                      method="post"
+                      class="text-center"
+                      style="text-align: justify"
+                    >
                       <input
                         type="hidden"
                         name="${_csrf.parameterName}"

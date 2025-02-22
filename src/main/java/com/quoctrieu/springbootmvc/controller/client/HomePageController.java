@@ -26,6 +26,8 @@ import com.quoctrieu.springbootmvc.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 
 @Controller
 public class HomePageController {
@@ -51,7 +53,7 @@ public class HomePageController {
     List<Product> products = productService.getPage(PageRequest.of(0, 8)).getContent();
     model.addAttribute("products", products);
 
-    return "client/homepage/show";
+    return "/client/homepage/show";
   }
 
   @GetMapping("/register")
@@ -62,7 +64,7 @@ public class HomePageController {
 
     model.addAttribute("registerUser", new RegisterDTO());
 
-    return "client/auth/register";
+    return "/client/auth/register";
   }
 
   @PostMapping("/register")
@@ -73,14 +75,14 @@ public class HomePageController {
       List<FieldError> errors = bindingResult.getFieldErrors();
       errors.forEach(
           (e) -> System.out.println(">>> ERR Validate RegisterDTO: " + e.getField() + " - " + e.getDefaultMessage()));
-      return "client/auth/register";
+      return "/client/auth/register";
     }
 
     User user = registerDTO.toUser();
     user.setRole(roleRepository.findByName("User"));
     User registeredUser = userService.registerUser(user);
 
-    return "redirect:/verifyUser/sendMail?email=" + registeredUser.getEmail();
+    return "redirect:/verifyRegistration/sendMail?email=" + registeredUser.getEmail();
   }
 
   @GetMapping("/login")
@@ -93,12 +95,36 @@ public class HomePageController {
       return "redirect:/";
     }
 
-    return "client/auth/login";
+    return "/client/auth/login";
+  }
+
+  @GetMapping("/forgetPassword")
+  public String getForgetPasswordPage() {
+    return "/client/auth/forgetPassword";
+  }
+
+  @PostMapping("/forgetPassword")
+  public String sendResetPasswordLink(
+      @RequestParam String email, Model model) {
+
+    if (!email.matches("^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$")) {
+      model.addAttribute("emailError", "Email không đúng định dạng");
+      model.addAttribute("email", email);
+      return "/client/auth/forgetPassword";
+    }
+
+    model.addAttribute("title", "Quên mật khẩu");
+    model.addAttribute("message", String.format(
+        "Đường dẫn thiết lập lại mật khẩu đã được gửi qua địa chỉ email <b class='text-primary'>%s</b>. Bạn vui vòng kiểm tra hòm thư!",
+        email));
+    model.addAttribute("sendMailAPI", "/profile/account/password/sendMail");
+
+    return "/client/auth/sendVerifyToken";
   }
 
   @GetMapping("/access-deny")
   public String getAccessDenyPage() {
-    return "client/auth/deny";
+    return "/client/auth/deny";
   }
 
 }

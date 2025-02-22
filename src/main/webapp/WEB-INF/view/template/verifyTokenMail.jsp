@@ -469,10 +469,7 @@ uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
                                       mso-line-height-alt: 30px;
                                     "
                                   >
-                                    <p style="margin: 0">
-                                      Chào ${verifyToken.user.fullName}! Gửi bạn
-                                      đường dẫn xác thực tài khoản
-                                    </p>
+                                    <p style="margin: 0">${message}</p>
                                   </div>
                                 </td>
                               </tr>
@@ -560,7 +557,7 @@ uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
                                   "
                                 >
                                   <a
-                                    href="${verifyURL}"
+                                    href="${verifyUrl}"
                                     target="_blank"
                                     style="
                                       padding: 8px 15px;
@@ -578,7 +575,8 @@ uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
                                       cursor: pointer;
                                     "
                                   >
-                                    Kích hoạt
+                                    ${not empty buttonLabel ? buttonLabel :
+                                    "Kích hoạt"}
                                   </a>
                                 </td>
                               </tr>
@@ -777,7 +775,7 @@ uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
                                       mso-line-height-alt: 19.5px;
                                     "
                                   >
-                                    <p style="margin: 0">
+                                    <p style="margin: 0; text-align: justify">
                                       Cảm ơn bạn đã tin tưởng và lựa chọn nhà
                                       Safie. Mong bạn có trải nghiệm thật tốt.
                                       Nếu có thắc mắc, phản hồi từng ngần ngại

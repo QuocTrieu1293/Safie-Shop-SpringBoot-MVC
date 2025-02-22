@@ -46,7 +46,7 @@ public class OrderController {
     }
     model.addAttribute("queryString", queryString);
 
-    return "admin/order/show";
+    return "/admin/order/show";
   }
 
   @GetMapping("/admin/order/{id}")
@@ -56,7 +56,7 @@ public class OrderController {
 
     model.addAttribute("order", order);
 
-    return "admin/order/detail";
+    return "/admin/order/detail";
   }
 
   @GetMapping("/admin/order/delete/{id}")
@@ -66,7 +66,7 @@ public class OrderController {
 
     model.addAttribute("order", order);
 
-    return "admin/order/delete";
+    return "/admin/order/delete";
   }
 
   @PostMapping("/admin/order/delete/{id}")

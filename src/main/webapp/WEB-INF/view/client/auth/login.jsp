@@ -37,7 +37,7 @@ uri="http://www.springframework.org/tags/form" %>
     />
 
     <!-- Customized Bootstrap Stylesheet -->
-    <link href="css/styles.css" rel="stylesheet" />
+    <link href="/css/styles.css" rel="stylesheet" />
     <link href="/client/css/bootstrap.min.css" rel="stylesheet" />
 
     <!-- Template Stylesheet -->
@@ -197,7 +197,9 @@ uri="http://www.springframework.org/tags/form" %>
                       <div
                         class="d-flex align-items-center justify-content-between mt-4 mb-0"
                       >
-                        <a class="small text-blue" href="#">Quên mật khẩu?</a>
+                        <a class="small text-blue" href="/forgetPassword"
+                          >Quên mật khẩu?</a
+                        >
                         <button
                           type="submit"
                           class="btn btn-primary text-uppercase"
@@ -275,7 +277,7 @@ uri="http://www.springframework.org/tags/form" %>
       crossorigin="anonymous"
     ></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
-    <script src="js/scripts.js"></script>
+    <script src="/js/scripts.js"></script>
     <script>
       // set referrer url in cookie
       if (document.referrer) {

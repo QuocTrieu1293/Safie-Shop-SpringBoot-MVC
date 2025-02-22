@@ -5,12 +5,12 @@ import java.util.Map;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.quoctrieu.springbootmvc.domain.User;
 import com.quoctrieu.springbootmvc.domain.VerifyUserToken;
@@ -20,15 +20,15 @@ import com.quoctrieu.springbootmvc.service.MailService;
 import com.quoctrieu.springbootmvc.service.VerifyUserTokenService;
 
 @Controller
-@RequestMapping("/verifyUser")
-public class VerifyUserController {
+@RequestMapping("/verifyRegistration")
+public class VerifyRegistrationController {
 
   private final UserRepository userRepository;
   private final VerifyUserTokenRepository verifyTokenRepo;
   private final VerifyUserTokenService verifyTokenService;
   private final MailService mailService;
 
-  public VerifyUserController(UserRepository userRepository, VerifyUserTokenRepository verifyTokenRepo,
+  public VerifyRegistrationController(UserRepository userRepository, VerifyUserTokenRepository verifyTokenRepo,
       VerifyUserTokenService verifyTokenService,
       MailService mailService) {
     this.userRepository = userRepository;
@@ -39,13 +39,19 @@ public class VerifyUserController {
   }
 
   @GetMapping("/sendMail")
-  public String getVerifyMailPage(@RequestParam String email) {
+  public String getSendingVerifyMailPage(@RequestParam String email, Model model) {
 
     User user = userRepository.findByEmail(email);
     if (user == null || user.isEnabled())
       return "redirect:/login";
 
-    return "client/auth/verifyUser";
+    model.addAttribute("title", "Xác thực tài khoản");
+    model.addAttribute("message", String.format(
+        "Đường dẫn xác thực tài khoản đã được gửi qua địa chỉ email <b class='text-primary'>%s</b>. Bạn vui vòng kiểm tra hòm thư!",
+        email));
+    model.addAttribute("sendMailAPI", "/verifyRegistration/sendMail");
+
+    return "/client/auth/sendVerifyToken";
   }
 
   @PostMapping("/sendMail")
@@ -58,18 +64,18 @@ public class VerifyUserController {
           .body("Không tồn tại tài khoản ứng với email " + email);
     } else if (user.isEnabled()) {
       return ResponseEntity.badRequest().contentType(MediaType.valueOf("text/plain; charset=UTF-8"))
-          .body("Tài khoản đã được xác thực");
+          .body("Tài khoản đã được xác thực trước đó rồi");
     }
     VerifyUserToken verifyToken = verifyTokenRepo.findByUserId(user.getId());
     if (verifyToken == null)
       return ResponseEntity.badRequest().contentType(MediaType.valueOf("text/plain; charset=UTF-8"))
-          .body("Gửi mail thất bại");
+          .body("Gửi mail không thành công");
     try {
       mailService.sendVerifyRegistrationMail(verifyToken);
     } catch (Exception e) {
       e.printStackTrace();
       return ResponseEntity.internalServerError().contentType(MediaType.valueOf("text/plain; charset=UTF-8"))
-          .body("Gửi mail thất bại");
+          .body("Gửi mail không thành công");
     }
 
     return ResponseEntity.ok().contentType(MediaType.valueOf("text/plain; charset=UTF-8"))
@@ -77,16 +83,20 @@ public class VerifyUserController {
   }
 
   @GetMapping("/verify")
-  public String verifyUser(@RequestParam String token, RedirectAttributes redirectAttributes) {
+  public String verifyRegistration(@RequestParam String token, Model model) {
+    model.addAttribute("title", "Xác thực tài khoản");
+
+    VerifyUserToken verifyToken = verifyTokenRepo.findByToken(token);
     try {
-      verifyTokenService.verifyToken(token);
-      redirectAttributes.addFlashAttribute("successMessage", "Xác thực tài khoản thành công");
+      verifyTokenService.verifyRegistration(token);
+      model.addAttribute("successMessage", String.format("Xác thực tài khoản <b class='text-primary'>%s</b> thành công",
+          verifyToken.getUser().getEmail()));
     } catch (Exception e) {
       e.printStackTrace();
-      redirectAttributes.addFlashAttribute("errorMessage", "Có lỗi xảy ra khi xác thực tài khoản");
+      model.addAttribute("errorMessage", "Có lỗi xảy ra khi xác thực tài khoản");
     }
 
-    return "redirect:/login";
+    return "/client/auth/verifyTokenResult";
   }
 
 }

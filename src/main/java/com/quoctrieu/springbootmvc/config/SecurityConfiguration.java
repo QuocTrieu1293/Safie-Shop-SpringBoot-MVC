@@ -111,11 +111,12 @@ public class SecurityConfiguration {
             .dispatcherTypeMatchers(DispatcherType.FORWARD, DispatcherType.INCLUDE).permitAll()
 
             .requestMatchers("/login", "/register", "/", "/product/**", "/products/**", "/api/product/{id}",
-                "/api/product/search", "/client/**", "/css/**", "/images/**", "/js/**", "/api/test/**",
-                "/verifyUser/**")
+                "/api/product/search", "/client/**", "/css/**", "/images/**", "/js/**", "/api/test/**", "css/**",
+                "/verifyRegistration/**", "/profile/account/password/reset", "/forgetPassword",
+                "/profile/account/password/sendMail")
             .permitAll()
-            // .requestMatchers(HttpMethod.POST, "/verifyUser/sendMail").permitAll() //Vẫn
-            // chạy được khi ko explicit include HttpMethod.POST
+            // .requestMatchers(HttpMethod.POST, "/verifyRegistration/sendMail").permitAll()
+            // vẫn chạy được khi ko explicit include HttpMethod.POST
             .requestMatchers("/admin/**", "/api/order/update").hasRole("Admin")
 
             .anyRequest().authenticated())
@@ -126,8 +127,7 @@ public class SecurityConfiguration {
             // .failureUrl("/login?error")
             // .defaultSuccessUrl("/product/3")
             .failureHandler(customAuthenticationFailureHandler)
-            .successHandler(customAuthenticationSuccessHandler)
-            .permitAll())
+            .successHandler(customAuthenticationSuccessHandler))
 
         .oauth2Login(o -> o
             .loginPage("/login")
@@ -150,15 +150,13 @@ public class SecurityConfiguration {
                     response.sendRedirect("/login?error="
                         + URLEncoder.encode("Đăng nhập thất bại, vui lòng thử lại!", StandardCharsets.UTF_8));
                   }
-                })
-            .permitAll())
+                }))
 
         .logout(logout -> logout
             .logoutSuccessHandler(customLogoutSuccessHandler).permitAll()
             .deleteCookies("SESSION").invalidateHttpSession(true))
 
-        .exceptionHandling(ex -> ex.accessDeniedPage("/access-deny")
-            .authenticationEntryPoint(customAuthenticationEntryPoint))
+        .exceptionHandling(ex -> ex.accessDeniedPage("/access-deny"))
 
         .sessionManagement((sessionManagement) -> sessionManagement
             .sessionCreationPolicy(SessionCreationPolicy.ALWAYS)
