@@ -34,5 +34,6 @@ build/
 node_modules/
 .env
 src/main/resources/application-dev.properties
+src/main/resources/application-prod.properties
 src/main/webapp/resources/images/
 Safie Shop EC2.pem
