@@ -48,7 +48,7 @@ public class AddressBookController {
   public String getAddressBookPage(Model model) {
     model.addAttribute("addressDto", new AddressDTO());
 
-    return "/client/profile/account/addressBook";
+    return "client/profile/account/addressBook";
   }
 
   @PostMapping("")
@@ -69,7 +69,7 @@ public class AddressBookController {
         redirectAttributes.addFlashAttribute("errorMessage", "Có lỗi xảy ra, vui lòng thử lại!");
         return "redirect:/profile/account/address";
       }
-      return "/client/profile/account/addressBook";
+      return "client/profile/account/addressBook";
     }
 
     Long userId = (Long) session.getAttribute("userId");
@@ -96,7 +96,7 @@ public class AddressBookController {
         return "redirect:/profile/account/address";
       }
       model.addAttribute("formAction", "/profile/account/address/update/" + id);
-      return "/client/profile/account/addressBook";
+      return "client/profile/account/addressBook";
     }
 
     Long userId = (Long) session.getAttribute("userId");

@@ -33,16 +33,16 @@ public class SecurityConfiguration {
   // @Bean
   // OAuth2UserService<OidcUserRequest, OidcUser> customOidcUserService(
   // UserService userService,
-  // RoleRepository roleRepository, ServletContext servletContext) {
-  // return new CustomOidcUserService(userService, roleRepository,
+  // RoleService roleService, ServletContext servletContext) {
+  // return new CustomOidcUserService(userService, roleService,
   // servletContext);
   // }
 
   // @Bean
   // OAuth2UserService<OAuth2UserRequest, OAuth2User> customOAuth2UserService(
   // UserService userService,
-  // RoleRepository roleRepository, ServletContext servletContext) {
-  // return new CustomOAuth2UserService(userService, roleRepository,
+  // RoleService roleService, ServletContext servletContext) {
+  // return new CustomOAuth2UserService(userService, roleService,
   // servletContext);
   // }
 
@@ -111,7 +111,7 @@ public class SecurityConfiguration {
             .dispatcherTypeMatchers(DispatcherType.FORWARD, DispatcherType.INCLUDE).permitAll()
 
             .requestMatchers("/login", "/register", "/", "/product/**", "/products/**", "/api/product/{id}",
-                "/api/product/search", "/client/**", "/css/**", "/images/**", "/js/**", "/api/test/**", "css/**",
+                "/api/product/search", "/client/**", "/css/**", "/images/**", "/js/**", "/test/**", "css/**",
                 "/verifyRegistration/**", "/profile/account/password/reset", "/forgetPassword",
                 "/profile/account/password/sendMail")
             .permitAll()

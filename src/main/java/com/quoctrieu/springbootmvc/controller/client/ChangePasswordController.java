@@ -57,10 +57,10 @@ public class ChangePasswordController {
     Long userId = (Long) session.getAttribute("userId");
     User user = userService.get(userId);
     if (user.getAuthenProvider() != null && !user.getAuthenProvider().equals("Local"))
-      return "/client/profile/account/changeOAuth2Password";
+      return "client/profile/account/changeOAuth2Password";
 
     model.addAttribute("changePasswordDTO", new ChangePasswordDTO());
-    return "/client/profile/account/changePassword";
+    return "client/profile/account/changePassword";
   }
 
   @PostMapping("")
@@ -84,7 +84,7 @@ public class ChangePasswordController {
     if (bindingResult.hasErrors()) {
       bindingResult.getFieldErrors().forEach(
           e -> System.out.println(">>> ERR changePassword: " + e.getField() + " - " + e.getDefaultMessage()));
-      return "/client/profile/account/changePassword";
+      return "client/profile/account/changePassword";
     }
 
     user.setPassword(passwordEncoder.encode(changePasswordDTO.getNewPassword()));
@@ -129,7 +129,7 @@ public class ChangePasswordController {
     dto.setToken(token);
     model.addAttribute("resetPasswordDTO", dto);
 
-    return "/client/auth/resetPassword";
+    return "client/auth/resetPassword";
   }
 
   @PostMapping("/reset")
@@ -143,7 +143,7 @@ public class ChangePasswordController {
     if (bindingResult.hasErrors()) {
       bindingResult.getFieldErrors().forEach(
           e -> System.out.println(">>> ERR setPassword: " + e.getField() + " - " + e.getDefaultMessage()));
-      return "/client/auth/resetPassword";
+      return "client/auth/resetPassword";
     }
 
     model.addAttribute("title", "Thiết lập mật khẩu");
@@ -158,6 +158,6 @@ public class ChangePasswordController {
       model.addAttribute("errorMessage", "Có lỗi xảy ra khi thiết lập mật khẩu");
     }
 
-    return "/client/auth/verifyTokenResult";
+    return "client/auth/verifyTokenResult";
   }
 }

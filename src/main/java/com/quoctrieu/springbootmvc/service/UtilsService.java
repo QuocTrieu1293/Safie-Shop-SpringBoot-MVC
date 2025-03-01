@@ -1,9 +1,7 @@
 package com.quoctrieu.springbootmvc.service;
 
 import org.springframework.data.domain.PageRequest;
-import org.springframework.stereotype.Service;
 
-@Service
 public class UtilsService {
 
   public static PageRequest getPageRequest(String page, int size) {

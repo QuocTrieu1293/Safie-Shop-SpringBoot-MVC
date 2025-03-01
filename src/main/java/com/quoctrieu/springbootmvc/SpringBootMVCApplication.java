@@ -2,13 +2,21 @@ package com.quoctrieu.springbootmvc;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.scheduling.annotation.EnableAsync;
+import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
+import org.springframework.cache.annotation.EnableCaching;
 
 @SpringBootApplication
 // @SpringBootApplication(exclude =
 // org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration.class)
-@EnableAsync
-public class SpringBootMVCApplication {
+// @EnableAsync
+@EnableCaching
+public class SpringBootMVCApplication extends SpringBootServletInitializer {
+
+	@Override
+	protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
+		return builder.sources(SpringBootMVCApplication.class);
+	}
 
 	public static void main(String[] args) {
 		SpringApplication.run(SpringBootMVCApplication.class, args);

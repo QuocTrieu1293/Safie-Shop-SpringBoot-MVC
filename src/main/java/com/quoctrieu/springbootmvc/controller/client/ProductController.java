@@ -11,30 +11,30 @@ import org.springframework.web.bind.annotation.PathVariable;
 import com.quoctrieu.springbootmvc.domain.Category;
 import com.quoctrieu.springbootmvc.domain.Product;
 import com.quoctrieu.springbootmvc.domain.dto.ProductCriteriaDTO;
-import com.quoctrieu.springbootmvc.repository.BrandRepository;
-import com.quoctrieu.springbootmvc.repository.CategoryRepository;
 import com.quoctrieu.springbootmvc.repository.ProductRepository;
-import com.quoctrieu.springbootmvc.repository.SizeRepository;
+import com.quoctrieu.springbootmvc.service.BrandService;
+import com.quoctrieu.springbootmvc.service.CategoryService;
 import com.quoctrieu.springbootmvc.service.ProductService;
+import com.quoctrieu.springbootmvc.service.SizeService;
 
 import jakarta.servlet.http.HttpServletRequest;
 
 @Controller("ClientProductController")
 public class ProductController {
 
-  private final ProductService productService;
-  private final SizeRepository sizeRepository;
   private final ProductRepository productRepository;
-  private final CategoryRepository categoryRepository;
-  private final BrandRepository brandRepository;
+  private final ProductService productService;
+  private final SizeService sizeService;
+  private final CategoryService categoryService;
+  private final BrandService brandService;
 
-  ProductController(ProductService productService, SizeRepository sizeRepository,
-      ProductRepository productRepository, CategoryRepository categoryRepository, BrandRepository brandRepository) {
-    this.productService = productService;
-    this.sizeRepository = sizeRepository;
+  ProductController(ProductRepository productRepository, ProductService productService, SizeService sizeService,
+      CategoryService categoryService, BrandService brandService) {
     this.productRepository = productRepository;
-    this.categoryRepository = categoryRepository;
-    this.brandRepository = brandRepository;
+    this.productService = productService;
+    this.sizeService = sizeService;
+    this.categoryService = categoryService;
+    this.brandService = brandService;
 
   }
 
@@ -48,9 +48,9 @@ public class ProductController {
     model.addAttribute("currentPage", pagedProduct.getNumber() + 1);
     model.addAttribute("totalProducts", pagedProduct.getTotalElements());
 
-    model.addAttribute("categories", categoryRepository.findAll());
-    model.addAttribute("brands", brandRepository.findAll());
-    model.addAttribute("sizes", sizeRepository.findAll());
+    model.addAttribute("categories", categoryService.findAll());
+    model.addAttribute("brands", brandService.findAll());
+    model.addAttribute("sizes", sizeService.findAll());
 
     String queryString = request.getQueryString();
     if (queryString != null) {
@@ -60,7 +60,7 @@ public class ProductController {
     }
     model.addAttribute("queryString", queryString);
 
-    return "/client/product/show";
+    return "client/product/show";
   }
 
   @GetMapping("/product/{id}")
@@ -73,9 +73,9 @@ public class ProductController {
     model.addAttribute("relatedProducts",
         productRepository.findByCategoryIdAndIdNot(cateId, id));
     model.addAttribute("featuredProducts", featuredProducts);
-    model.addAttribute("categories", categoryRepository.findAll());
+    model.addAttribute("categories", categoryService.findAll());
 
-    return "/client/product/detail";
+    return "client/product/detail";
   }
 
 }

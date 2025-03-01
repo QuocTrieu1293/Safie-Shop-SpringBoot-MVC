@@ -75,10 +75,4 @@ public class AccountInfoDTO {
     this.gender = gender;
   }
 
-  @Override
-  public String toString() {
-    return "AccountInfoDTO [fullName=" + fullName + ", phone=" + phone + ", avatar=" + avatar + ", gender=" + gender
-        + "]";
-  }
-
 }

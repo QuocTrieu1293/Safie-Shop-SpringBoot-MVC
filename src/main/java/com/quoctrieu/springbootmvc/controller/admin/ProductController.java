@@ -23,12 +23,12 @@ import com.quoctrieu.springbootmvc.domain.Category;
 import com.quoctrieu.springbootmvc.domain.Product;
 import com.quoctrieu.springbootmvc.domain.Size;
 import com.quoctrieu.springbootmvc.domain.dto.ProductCriteriaDTO;
-import com.quoctrieu.springbootmvc.repository.BrandRepository;
-import com.quoctrieu.springbootmvc.repository.CategoryRepository;
-import com.quoctrieu.springbootmvc.repository.SizeRepository;
+import com.quoctrieu.springbootmvc.service.BrandService;
+import com.quoctrieu.springbootmvc.service.CategoryService;
 import com.quoctrieu.springbootmvc.service.FileService;
 import com.quoctrieu.springbootmvc.service.FileService.Type;
 import com.quoctrieu.springbootmvc.service.ProductService;
+import com.quoctrieu.springbootmvc.service.SizeService;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
@@ -37,9 +37,9 @@ import jakarta.validation.Valid;
 public class ProductController {
 
   private final ProductService productService;
-  private final CategoryRepository categoryRepository;
-  private final BrandRepository brandRepository;
-  private final SizeRepository sizeRepository;
+  private final SizeService sizeService;
+  private final CategoryService categoryService;
+  private final BrandService brandService;
   private final FileService fileService;
 
   @InitBinder
@@ -47,31 +47,31 @@ public class ProductController {
     binder.registerCustomEditor(String.class, new StringTrimmerEditor(true)); // Converts "" to null
   }
 
-  public ProductController(ProductService productService, CategoryRepository categoryRepository,
-      BrandRepository brandRepository,
-      SizeRepository sizeRepository,
+  public ProductController(ProductService productService, SizeService sizeService,
+      CategoryService categoryService,
+      BrandService brandService,
       FileService fileService) {
 
     this.productService = productService;
-    this.categoryRepository = categoryRepository;
-    this.brandRepository = brandRepository;
-    this.sizeRepository = sizeRepository;
+    this.sizeService = sizeService;
+    this.categoryService = categoryService;
+    this.brandService = brandService;
     this.fileService = fileService;
   }
 
   @ModelAttribute("categories")
   public List<Category> populateCategories() {
-    return categoryRepository.findAll();
+    return categoryService.findAll();
   }
 
   @ModelAttribute("brands")
   public List<Brand> populateBrand() {
-    return brandRepository.findAll();
+    return brandService.findAll();
   }
 
   @ModelAttribute("sizes")
   public List<Size> populateSizes() {
-    return sizeRepository.findAll();
+    return sizeService.findAll();
   }
 
   @GetMapping("/admin/product")
@@ -83,8 +83,8 @@ public class ProductController {
     model.addAttribute("productList", productList);
     model.addAttribute("totalPages", pagedProduct.getTotalPages());
     model.addAttribute("currentPage", pagedProduct.getNumber() + 1);
-    model.addAttribute("categories", categoryRepository.findAll());
-    model.addAttribute("brands", brandRepository.findAll());
+    model.addAttribute("categories", categoryService.findAll());
+    model.addAttribute("brands", brandService.findAll());
     model.addAttribute("totalProducts", pagedProduct.getTotalElements());
 
     String queryString = request.getQueryString();
@@ -95,7 +95,7 @@ public class ProductController {
     }
     model.addAttribute("queryString", queryString);
 
-    return "/admin/product/show";
+    return "admin/product/show";
   }
 
   @GetMapping("/admin/product/create")
@@ -103,7 +103,7 @@ public class ProductController {
 
     model.addAttribute("newProduct", new Product());
 
-    return "/admin/product/create";
+    return "admin/product/create";
   }
 
   @PostMapping("/admin/product/create")
@@ -127,7 +127,7 @@ public class ProductController {
       errors.forEach(
           (e) -> System.out.println(">>> ERR Create Product: " + e.getField() + " - " + e.getDefaultMessage()));
 
-      return "/admin/product/create";
+      return "admin/product/create";
     }
 
     Product newProduct = productService.createProduct(product);
@@ -140,7 +140,7 @@ public class ProductController {
     Product product = productService.get(id);
     model.addAttribute("product", product);
 
-    return "/admin/product/update";
+    return "admin/product/update";
   }
 
   @PostMapping("/admin/product/update")
@@ -156,7 +156,7 @@ public class ProductController {
       List<FieldError> errors = productBindingResult.getFieldErrors();
       errors.forEach(
           (e) -> System.out.println(">>> ERR Update Product: " + e.getField() + " - " + e.getDefaultMessage()));
-      return "/admin/product/update";
+      return "admin/product/update";
     }
 
     if (!file.isEmpty()) {
@@ -179,7 +179,7 @@ public class ProductController {
   public String getProductDeletePage(@PathVariable long id, Model model) {
     Product product = productService.get(id);
     model.addAttribute("product", product);
-    return "/admin/product/delete";
+    return "admin/product/delete";
   }
 
   @PostMapping("/admin/product/delete/{id}")
@@ -200,7 +200,7 @@ public class ProductController {
   @GetMapping("/admin/product/{id}")
   public String getProductDetailPage(@PathVariable long id, Model model) {
     model.addAttribute("product", productService.get(id));
-    return "/admin/product/detail";
+    return "admin/product/detail";
   }
 
 }

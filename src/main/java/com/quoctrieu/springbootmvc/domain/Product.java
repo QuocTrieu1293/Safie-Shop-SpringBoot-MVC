@@ -151,15 +151,4 @@ public class Product {
     this.sizes = sizes;
   }
 
-  @Override
-  public String toString() {
-    return "Product [id=" + id + ", name=" + name + ", price=" + price + ", image=" + image + ", detailDesc="
-        + detailDesc + ", shortDesc=" + shortDesc + ", quantity=" + quantity + ", sold=" + sold + ", category=[id="
-        + category.getId() + ", name=" + category.getName() + "], brand=[id=" + brand.getId() + ", name="
-        + brand.getName() + "], sizes="
-        + Arrays.toString(
-            sizes.stream().map(size -> "[id=" + size.getId() + ", name=" + size.getName() + "]").toArray())
-        + "]";
-  }
-
 }

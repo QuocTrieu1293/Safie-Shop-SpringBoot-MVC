@@ -36,7 +36,7 @@ public class CartController {
     model.addAttribute("cartItems", cartItems);
     model.addAttribute("totalPrice", cartService.getTotalPrice(cart.getId()));
 
-    return "/client/cart/show";
+    return "client/cart/show";
   }
 
 }

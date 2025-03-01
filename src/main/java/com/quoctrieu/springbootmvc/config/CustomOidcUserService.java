@@ -22,8 +22,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import com.quoctrieu.springbootmvc.domain.User;
-import com.quoctrieu.springbootmvc.repository.RoleRepository;
 import com.quoctrieu.springbootmvc.repository.UserRepository;
+import com.quoctrieu.springbootmvc.service.RoleService;
 
 import jakarta.servlet.ServletContext;
 
@@ -32,14 +32,14 @@ public class CustomOidcUserService extends OidcUserService {
 
   private final UserRepository userRepository;
   private final PasswordEncoder passwordEncoder;
-  private final RoleRepository roleRepository;
+  private final RoleService roleService;
   private final ServletContext servletContext;
 
   public CustomOidcUserService(UserRepository userRepository, PasswordEncoder passwordEncoder,
-      RoleRepository roleRepository, ServletContext servletContext) {
+      RoleService roleService, ServletContext servletContext) {
     this.userRepository = userRepository;
     this.passwordEncoder = passwordEncoder;
-    this.roleRepository = roleRepository;
+    this.roleService = roleService;
     this.servletContext = servletContext;
   }
 
@@ -63,7 +63,7 @@ public class CustomOidcUserService extends OidcUserService {
       user = new User(email, encodedPassword, Optional.ofNullable(oidcUser.getFullName()).orElse(email), null, null,
           null, userRequest.getClientRegistration().getClientName());
 
-      user.setRole(roleRepository.findByName("User"));
+      user.setRole(roleService.findByName("User"));
 
       try {
         UrlResource avatarResource = new UrlResource(oidcUser.getPicture());

@@ -2,22 +2,10 @@ package com.quoctrieu.springbootmvc.domain;
 
 import java.sql.Timestamp;
 
+import jakarta.persistence.*;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import com.quoctrieu.springbootmvc.domain.dto.AddressDTO;
-
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.PrePersist;
-import jakarta.persistence.PreUpdate;
-import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "addresses")
@@ -86,7 +74,7 @@ public class Address {
   @Column(nullable = false, name = "updated_at")
   private Timestamp updatedAt;
 
-  @ManyToOne
+  @ManyToOne(fetch = FetchType.EAGER)
   @JoinColumn(name = "user_id")
   private User user;
 

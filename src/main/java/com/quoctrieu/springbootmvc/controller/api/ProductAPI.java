@@ -68,13 +68,6 @@ public class ProductAPI {
     return searchedProducts;
   }
 
-  // @GetMapping("/test")
-  // public List<Product> testAPI(@RequestParam String search) {
-  // Page<Product> pagedProduct = productRepository.findByNameContaining(search,
-  // PageRequest.of(0, 3));
-  // return pagedProduct.getContent();
-  // }
-
 }
 
 class AddProductResponse {

@@ -1,12 +1,6 @@
 package com.quoctrieu.springbootmvc.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "cart_detail")
@@ -17,15 +11,15 @@ public class CartDetail {
   private int quantity;
 
   // cart_id: long
-  @ManyToOne
+  @ManyToOne(fetch = FetchType.EAGER)
   @JoinColumn(name = "cart_id")
   private Cart cart;
   // product_id: long
-  @ManyToOne
+  @ManyToOne(fetch = FetchType.EAGER)
   @JoinColumn(name = "product_id")
   private Product product;
 
-  @ManyToOne
+  @ManyToOne(fetch = FetchType.EAGER)
   @JoinColumn(name = "size_id")
   Size size;
 
@@ -73,11 +67,4 @@ public class CartDetail {
     return quantity * product.getPrice();
   }
 
-  @Override
-  public String toString() {
-    return "CartDetail [id=" + id + ", quantity=" + quantity + ", price=" + quantity * product.getPrice()
-        + ", cart=[id=" + cart.getId()
-        + "], product="
-        + product + ", size=[id=" + size.getId() + ",name=" + size.getName() + "]]";
-  }
 }

@@ -26,6 +26,7 @@ import com.quoctrieu.springbootmvc.domain.VerifyUserToken;
 import jakarta.activation.DataHandler;
 import jakarta.activation.DataSource;
 import jakarta.activation.FileDataSource;
+import jakarta.annotation.PostConstruct;
 import jakarta.mail.BodyPart;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeBodyPart;
@@ -44,11 +45,23 @@ public class MailService {
   @Value("${spring.mail.username}")
   private String fromAddress;
 
+  @Value("${app.url}")
+  private String appUrl;
+
+  private static String APP_URL;
+
+  @PostConstruct
+  private void postConstruct() {
+    APP_URL = appUrl;
+  }
+
   private enum MailType {
-    VERIFY_REGISTRATION(new MailConfig("Xác thực tài khoản", "http://localhost:8080/verifyRegistration/verify",
-        "Chào %s! Gửi bạn đường dẫn xác thực tài khoản", "Xác thực")),
-    SET_PASSWORD(new MailConfig("Thiết lập mật khẩu", "http://localhost:8080/profile/account/password/reset",
-        "Chào %s! Gửi bạn đường dẫn thiết lập mật khẩu", "Thiết lập"));
+    VERIFY_REGISTRATION(
+        new MailConfig("Xác thực tài khoản", String.format("%s/verifyRegistration/verify", APP_URL),
+            "Chào %s! Gửi bạn đường dẫn xác thực tài khoản", "Xác thực")),
+    SET_PASSWORD(
+        new MailConfig("Thiết lập mật khẩu", String.format("%s/profile/account/password/reset", APP_URL),
+            "Chào %s! Gửi bạn đường dẫn thiết lập mật khẩu", "Thiết lập"));
 
     private final MailConfig mailConfig;
 
@@ -61,10 +74,10 @@ public class MailService {
     }
   }
 
-  private final String VERIFY_ORDER_MAIL = "/WEB-INF/view/template/verifyOrderMail.jsp";
+  private final String VERIFY_ORDER_MAIL = "/WEB-INF/views/template/verifyOrderMail.jsp";
   private final String VERIFY_ORDER_MAIL_SUBJECT = "Xác nhận đơn hàng";
 
-  private final String VERIFY_TOKEN_MAIL = "/WEB-INF/view/template/verifyTokenMail.jsp";
+  private final String VERIFY_TOKEN_MAIL = "/WEB-INF/views/template/verifyTokenMail.jsp";
 
   private final JavaMailSender mailSender;
   private final ServletContext servletContext;
@@ -101,34 +114,6 @@ public class MailService {
     return stringWriter.toString();
   }
 
-  private void sendVerifyTokenMail(VerifyUserToken verifyToken, MailType mailType)
-      throws MessagingException, ServletException, IOException {
-    User user = verifyToken.getUser();
-    MailConfig mailConfig = mailType.getMailConfig();
-
-    MimeMessage message = mailSender.createMimeMessage();
-    MimeMessageHelper helper = new MimeMessageHelper(message, "UTF-8");
-
-    helper.setFrom(fromAddress);
-    helper.setTo(user.getEmail());
-    helper.setPriority(1);
-    helper.setSubject(mailConfig.getSubject());
-    helper.setSentDate(new Date());
-
-    String verifyUrl = UriComponentsBuilder.fromHttpUrl(mailConfig.getUrl())
-        .queryParam("token", verifyToken.getToken())
-        .toUriString();
-    String mailMessage = String.format(mailConfig.getMessageTemplate(), user.getFullName());
-    Map<String, Object> model = new HashMap<>();
-    model.put("verifyUrl", verifyUrl);
-    model.put("message", mailMessage);
-    model.put("buttonLabel", mailConfig.getButtonLabel());
-    String htmlString = renderHtmlJspTemplate(VERIFY_TOKEN_MAIL, model);
-    helper.setText(htmlString, true);
-
-    mailSender.send(message);
-  }
-
   // @Async
   public void sendSimpleMail(String toAddress, String content) throws MailException {
     SimpleMailMessage message = new SimpleMailMessage();
@@ -155,7 +140,8 @@ public class MailService {
     BodyPart messageBodyPart = new MimeBodyPart();
 
     // Thêm code HTML dưới dạng string vào email
-    String htmlString = renderHtmlJspTemplate(VERIFY_ORDER_MAIL, Map.of("order", order));
+    String htmlString = renderHtmlJspTemplate(VERIFY_ORDER_MAIL,
+        Map.of("order", order, "appUrl", APP_URL));
     messageBodyPart.setContent(htmlString, "text/html; charset=UTF-8");
     mimeMultipart.addBodyPart(messageBodyPart);
 
@@ -177,6 +163,35 @@ public class MailService {
 
     mailSender.send(message);
 
+  }
+
+  private void sendVerifyTokenMail(VerifyUserToken verifyToken, MailType mailType)
+      throws MessagingException, ServletException, IOException {
+    User user = verifyToken.getUser();
+    MailConfig mailConfig = mailType.getMailConfig();
+
+    MimeMessage message = mailSender.createMimeMessage();
+    MimeMessageHelper helper = new MimeMessageHelper(message, "UTF-8");
+
+    helper.setFrom(fromAddress);
+    helper.setTo(user.getEmail());
+    helper.setPriority(1);
+    helper.setSubject(mailConfig.getSubject());
+    helper.setSentDate(new Date());
+
+    String verifyUrl = UriComponentsBuilder.fromHttpUrl(mailConfig.getUrl())
+        .queryParam("token", verifyToken.getToken())
+        .toUriString();
+    String mailMessage = String.format(mailConfig.getMessageTemplate(), user.getFullName());
+    Map<String, Object> model = new HashMap<>();
+    model.put("verifyUrl", verifyUrl);
+    model.put("message", mailMessage);
+    model.put("buttonLabel", mailConfig.getButtonLabel());
+    model.put("appUrl", APP_URL);
+    String htmlString = renderHtmlJspTemplate(VERIFY_TOKEN_MAIL, model);
+    helper.setText(htmlString, true);
+
+    mailSender.send(message);
   }
 
   public void sendVerifyRegistrationMail(VerifyUserToken verifyToken)

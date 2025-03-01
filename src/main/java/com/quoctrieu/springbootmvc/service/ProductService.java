@@ -3,9 +3,10 @@ package com.quoctrieu.springbootmvc.service;
 import java.util.Arrays;
 import java.util.List;
 
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
@@ -25,6 +26,8 @@ import com.quoctrieu.springbootmvc.specification.ProductSpecs;
 @Service
 public class ProductService {
 
+  private final String CACHE_NAME = "products";
+
   private final ProductRepository productRepository;
   private final UserService userService;
   private final CartDetailRepository cartDetailRepository;
@@ -40,6 +43,7 @@ public class ProductService {
     this.sizeRepository = sizeRepository;
   }
 
+  @CacheEvict(value = CACHE_NAME, allEntries = true)
   public Product createProduct(Product product) {
     return productRepository.save(product);
   }
@@ -48,10 +52,17 @@ public class ProductService {
     return productRepository.findAll();
   }
 
-  public Page<Product> getPage(Pageable pageable) {
-    return productRepository.findAll(pageable);
+  @Cacheable(value = CACHE_NAME, key = "'homepage'")
+  public List<Product> getProductHomePage() {
+    ProductCriteriaDTO criteria = new ProductCriteriaDTO();
+    criteria.setPage("0");
+    criteria.setPageSize(8);
+    Page<Product> pagedProduct = getPageWithSpec(criteria);
+    List<Product> products = pagedProduct.getContent();
+    return products;
   }
 
+  @Cacheable(CACHE_NAME)
   public Page<Product> getPageWithSpec(ProductCriteriaDTO productCriteria) {
     PageRequest pageRequest = UtilsService.getPageRequest(productCriteria.getPage(), productCriteria.getPageSize());
     Sort sort = switch (productCriteria.getSort()) {
@@ -101,6 +112,7 @@ public class ProductService {
     return productRepository.existsByName(name);
   }
 
+  @CacheEvict(value = CACHE_NAME, allEntries = true)
   public Product updateProduct(Product product) throws Exception {
     Product updatedProduct = productRepository.findById(product.getId()).orElse(null);
     if (updatedProduct == null)
@@ -120,6 +132,7 @@ public class ProductService {
     return productRepository.save(updatedProduct);
   }
 
+  @CacheEvict(value = CACHE_NAME, allEntries = true)
   public void delete(long id) {
     productRepository.deleteById(id);
   }

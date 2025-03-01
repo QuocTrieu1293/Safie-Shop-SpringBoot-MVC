@@ -21,7 +21,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
   ViewResolver viewResolver() {
     final InternalResourceViewResolver bean = new InternalResourceViewResolver();
     bean.setViewClass(JstlView.class);
-    bean.setPrefix("/WEB-INF/view");
+    bean.setPrefix("/WEB-INF/views/");
     bean.setSuffix(".jsp");
     return bean;
   }
@@ -38,6 +38,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
     registry.addResourceHandler("/images/**").addResourceLocations("/resources/images/");
     registry.addResourceHandler("/client/**").addResourceLocations("/resources/client/");
 
+    registry.addResourceHandler("/**").addResourceLocations("classpath:/static/");
   }
 
   @Override

@@ -1,5 +1,7 @@
 package com.quoctrieu.springbootmvc.domain.dto;
 
+import java.util.Arrays;
+
 public class ProductCriteriaDTO {
   private String page = "1";
 
@@ -93,6 +95,71 @@ public class ProductCriteriaDTO {
 
   public void setSearch(String search) {
     this.search = search;
+  }
+
+  // Cần override hashCode() và equals() để làm key cho cache
+  @Override
+  public int hashCode() {
+    final int prime = 83;
+    int result = 1;
+    result = prime * result + ((page == null) ? 0 : page.hashCode());
+    result = prime * result + pageSize;
+    result = prime * result + ((category == null) ? 0 : category.hashCode());
+    result = prime * result + Arrays.hashCode(brands);
+    result = prime * result + ((brand == null) ? 0 : brand.hashCode());
+    result = prime * result + ((price == null) ? 0 : price.hashCode());
+    result = prime * result + Arrays.hashCode(sizes);
+    result = prime * result + ((sort == null) ? 0 : sort.hashCode());
+    result = prime * result + ((search == null) ? 0 : search.hashCode());
+    return result;
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj)
+      return true;
+    if (obj == null)
+      return false;
+    if (getClass() != obj.getClass())
+      return false;
+    ProductCriteriaDTO other = (ProductCriteriaDTO) obj;
+    if (page == null) {
+      if (other.page != null)
+        return false;
+    } else if (!page.equals(other.page))
+      return false;
+    if (pageSize != other.pageSize)
+      return false;
+    if (category == null) {
+      if (other.category != null)
+        return false;
+    } else if (!category.equals(other.category))
+      return false;
+    if (!Arrays.equals(brands, other.brands))
+      return false;
+    if (brand == null) {
+      if (other.brand != null)
+        return false;
+    } else if (!brand.equals(other.brand))
+      return false;
+    if (price == null) {
+      if (other.price != null)
+        return false;
+    } else if (!price.equals(other.price))
+      return false;
+    if (!Arrays.equals(sizes, other.sizes))
+      return false;
+    if (sort == null) {
+      if (other.sort != null)
+        return false;
+    } else if (!sort.equals(other.sort))
+      return false;
+    if (search == null) {
+      if (other.search != null)
+        return false;
+    } else if (!search.equals(other.search))
+      return false;
+    return true;
   }
 
 }

@@ -90,7 +90,7 @@ public class UserController {
     }
     model.addAttribute("queryString", queryString);
 
-    return "/admin/user/show";
+    return "admin/user/show";
   }
 
   @RequestMapping("/admin/user/create")
@@ -99,7 +99,7 @@ public class UserController {
     // Không cần truyền xuống mỗi lân request nx do đã lưu trong session bằng
     // @SessionAttribute
     model.addAttribute("roles", roleService.getAll());
-    return "/admin/user/create";
+    return "admin/user/create";
   }
 
   @RequestMapping(value = "/admin/user/create", method = RequestMethod.POST)
@@ -115,7 +115,7 @@ public class UserController {
       List<FieldError> errors = userBindingResult.getFieldErrors();
       errors.forEach((e) -> System.out.println(">>> ERR Create User: " + e.getField() + " - " + e.getDefaultMessage()));
       model.addAttribute("roles", roleService.getAll());
-      return "/admin/user/create"; // return view -> dữ liệu input vẫn còn lưu
+      return "admin/user/create"; // return view -> dữ liệu input vẫn còn lưu
       // return "redirect:/admin/user/create"; // redirect thì như refresh lại vào lại
       // url đó -> dữ liệu input bị mất
     }
@@ -135,7 +135,7 @@ public class UserController {
     if (user == null)
       user = new User();
     model.addAttribute("user", user);
-    return "/admin/user/detail";
+    return "admin/user/detail";
   }
 
   @GetMapping("/admin/user/update/{id}")
@@ -149,7 +149,7 @@ public class UserController {
     // @SessionAttribute
     model.addAttribute("roles", roleService.getAll());
 
-    return "/admin/user/update";
+    return "admin/user/update";
   }
 
   @PostMapping("/admin/user/update")
@@ -163,7 +163,7 @@ public class UserController {
       List<FieldError> errors = userBindingResult.getFieldErrors();
       errors.forEach((e) -> System.out.println(">>> ERR Update User: " + e.getField() + " - " + e.getDefaultMessage()));
       model.addAttribute("roles", roleService.getAll());
-      return "/admin/user/update";
+      return "admin/user/update";
     }
 
     if (isDeleteAvatar) {
@@ -188,7 +188,7 @@ public class UserController {
   public String getUserDeletePage(@PathVariable long id, Model model) {
     User user = userService.get(id);
     model.addAttribute("user", user);
-    return "/admin/user/delete";
+    return "admin/user/delete";
   }
 
   @PostMapping("/admin/user/delete/{id}")

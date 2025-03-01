@@ -3,7 +3,6 @@ package com.quoctrieu.springbootmvc.controller.client;
 import java.util.List;
 
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -19,41 +18,39 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.quoctrieu.springbootmvc.domain.Product;
 import com.quoctrieu.springbootmvc.domain.User;
 import com.quoctrieu.springbootmvc.domain.dto.RegisterDTO;
-import com.quoctrieu.springbootmvc.repository.RoleRepository;
 import com.quoctrieu.springbootmvc.service.ProductService;
+import com.quoctrieu.springbootmvc.service.RoleService;
 import com.quoctrieu.springbootmvc.service.UserService;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
 
 @Controller
 public class HomePageController {
 
   private final ProductService productService;
   private final UserService userService;
-  private final RoleRepository roleRepository;
+  private final RoleService roleService;
 
   @InitBinder
   public void initBinder(WebDataBinder binder) {
     binder.registerCustomEditor(String.class, new StringTrimmerEditor(true)); // Converts "" to null
   }
 
-  public HomePageController(ProductService productService, UserService userService, RoleRepository roleRepository) {
+  public HomePageController(ProductService productService, UserService userService, RoleService roleService) {
     this.productService = productService;
     this.userService = userService;
-    this.roleRepository = roleRepository;
+    this.roleService = roleService;
   }
 
   @GetMapping("/")
   public String getHomePage(Model model, HttpServletRequest request) {
 
-    List<Product> products = productService.getPage(PageRequest.of(0, 8)).getContent();
+    List<Product> products = productService.getProductHomePage();
     model.addAttribute("products", products);
 
-    return "/client/homepage/show";
+    return "client/homepage/show";
   }
 
   @GetMapping("/register")
@@ -64,7 +61,7 @@ public class HomePageController {
 
     model.addAttribute("registerUser", new RegisterDTO());
 
-    return "/client/auth/register";
+    return "client/auth/register";
   }
 
   @PostMapping("/register")
@@ -75,11 +72,11 @@ public class HomePageController {
       List<FieldError> errors = bindingResult.getFieldErrors();
       errors.forEach(
           (e) -> System.out.println(">>> ERR Validate RegisterDTO: " + e.getField() + " - " + e.getDefaultMessage()));
-      return "/client/auth/register";
+      return "client/auth/register";
     }
 
     User user = registerDTO.toUser();
-    user.setRole(roleRepository.findByName("User"));
+    user.setRole(roleService.findByName("User"));
     User registeredUser = userService.registerUser(user);
 
     return "redirect:/verifyRegistration/sendMail?email=" + registeredUser.getEmail();
@@ -95,12 +92,12 @@ public class HomePageController {
       return "redirect:/";
     }
 
-    return "/client/auth/login";
+    return "client/auth/login";
   }
 
   @GetMapping("/forgetPassword")
   public String getForgetPasswordPage() {
-    return "/client/auth/forgetPassword";
+    return "client/auth/forgetPassword";
   }
 
   @PostMapping("/forgetPassword")
@@ -110,7 +107,7 @@ public class HomePageController {
     if (!email.matches("^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$")) {
       model.addAttribute("emailError", "Email không đúng định dạng");
       model.addAttribute("email", email);
-      return "/client/auth/forgetPassword";
+      return "client/auth/forgetPassword";
     }
 
     model.addAttribute("title", "Quên mật khẩu");
@@ -119,12 +116,12 @@ public class HomePageController {
         email));
     model.addAttribute("sendMailAPI", "/profile/account/password/sendMail");
 
-    return "/client/auth/sendVerifyToken";
+    return "client/auth/sendVerifyToken";
   }
 
   @GetMapping("/access-deny")
   public String getAccessDenyPage() {
-    return "/client/auth/deny";
+    return "client/auth/deny";
   }
 
 }

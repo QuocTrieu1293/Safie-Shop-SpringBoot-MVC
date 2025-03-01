@@ -3,14 +3,7 @@ package com.quoctrieu.springbootmvc.domain;
 import java.util.Arrays;
 import java.util.List;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "carts")
@@ -21,11 +14,11 @@ public class Cart {
   // @Min(value = 0)
   private int sum;
   // user_id
-  @OneToOne()
+  @OneToOne(fetch = FetchType.EAGER)
   @JoinColumn(name = "user_id")
   private User user;
   // cart_detail_id
-  @OneToMany(mappedBy = "cart")
+  @OneToMany(mappedBy = "cart", fetch = FetchType.LAZY)
   List<CartDetail> cartDetails;
 
   public long getId() {
@@ -58,14 +51,6 @@ public class Cart {
 
   public void setCartDetails(List<CartDetail> cartDetails) {
     this.cartDetails = cartDetails;
-  }
-
-  @Override
-  public String toString() {
-    return "Cart [id=" + id + ", sum=" + sum + ", user=[id=" + user.getId() + "], cartDetails="
-        + Arrays.toString(cartDetails.stream().map(detail -> "[id=" + detail.getId() + ", quantity="
-            + detail.getQuantity() + ", price=" + detail.getPrice() + "]").toArray())
-        + "]";
   }
 
 }

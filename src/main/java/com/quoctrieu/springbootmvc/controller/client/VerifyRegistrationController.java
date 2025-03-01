@@ -51,7 +51,7 @@ public class VerifyRegistrationController {
         email));
     model.addAttribute("sendMailAPI", "/verifyRegistration/sendMail");
 
-    return "/client/auth/sendVerifyToken";
+    return "client/auth/sendVerifyToken";
   }
 
   @PostMapping("/sendMail")
@@ -96,7 +96,7 @@ public class VerifyRegistrationController {
       model.addAttribute("errorMessage", "Có lỗi xảy ra khi xác thực tài khoản");
     }
 
-    return "/client/auth/verifyTokenResult";
+    return "client/auth/verifyTokenResult";
   }
 
 }

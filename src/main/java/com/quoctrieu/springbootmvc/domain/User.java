@@ -208,11 +208,4 @@ public class User {
     this.enabled = enabled;
   }
 
-  @Override
-  public String toString() {
-    return "User [id=" + id + ", email=" + email + ", password=" + password + ", fullName=" + fullName + ", phone="
-        + phone + ", avatar=" + avatar + ", role=" + role + ", orders=" + orders + ", cart=[id="
-        + cart.getId() + ", authenProvider=" + authenProvider + ", gender=" + gender + "enabled=" + enabled + "]]";
-  }
-
 }

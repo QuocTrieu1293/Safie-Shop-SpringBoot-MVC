@@ -71,7 +71,7 @@ public class OrderController {
     model.addAttribute("checkoutDTO", checkoutDTO);
     model.addAttribute("receiveInfos", receiveInfos);
 
-    return "/client/cart/checkout";
+    return "client/cart/checkout";
   }
 
   @PostMapping("/checkout")
@@ -99,7 +99,7 @@ public class OrderController {
       if (errorMessage != null)
         model.addAttribute("errorMessage", errorMessage);
 
-      return "/client/cart/checkout";
+      return "client/cart/checkout";
     }
 
     Order newOrder = orderService.create(cartId, checkoutDTO);
@@ -141,7 +141,7 @@ public class OrderController {
       return "redirect:/thankyou";
     }
 
-    return "/client/cart/thankyou";
+    return "client/cart/thankyou";
   }
 
   @GetMapping("/profile/order-history")
@@ -166,7 +166,7 @@ public class OrderController {
     }
     model.addAttribute("queryString", queryString);
 
-    return "/client/profile/orderHistory";
+    return "client/profile/orderHistory";
   }
 
 }

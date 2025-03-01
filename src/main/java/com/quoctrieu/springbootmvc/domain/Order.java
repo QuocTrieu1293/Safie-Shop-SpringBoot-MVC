@@ -3,22 +3,11 @@ package com.quoctrieu.springbootmvc.domain;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import com.quoctrieu.springbootmvc.domain.dto.CheckoutDTO;
-
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "`orders`")
@@ -37,11 +26,11 @@ public class Order {
   @Column(scale = 2)
   private double totalPrice;
 
-  @ManyToOne
+  @ManyToOne(fetch = FetchType.EAGER)
   @JoinColumn(name = "user_id", nullable = true)
   private User user;
 
-  @OneToMany(mappedBy = "order")
+  @OneToMany(mappedBy = "order", fetch = FetchType.LAZY)
   private List<OrderDetail> orderDetails;
 
   private String receiverName;
@@ -203,8 +192,4 @@ public class Order {
     this.lastModified = lastModified;
   }
 
-  @Override
-  public String toString() {
-    return "Order [id=" + id + ", totalPrice=" + totalPrice + ", user=" + user + ", orderDetails=" + orderDetails + "]";
-  }
 }

@@ -2,13 +2,7 @@ package com.quoctrieu.springbootmvc.domain;
 
 import java.util.Set;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "brands")
@@ -16,19 +10,19 @@ public class Brand {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private long id;
+  private Long id;
 
   @Column(unique = true, nullable = false)
   private String name;
 
-  @OneToMany(mappedBy = "brand")
+  @OneToMany(mappedBy = "brand", fetch = FetchType.LAZY)
   private Set<Product> products;
 
-  public long getId() {
+  public Long getId() {
     return id;
   }
 
-  public void setId(long id) {
+  public void setId(Long id) {
     this.id = id;
   }
 
@@ -48,9 +42,6 @@ public class Brand {
     this.products = products;
   }
 
-  @Override
-  public String toString() {
-    return "Brand [id=" + id + ", name=" + name + ", products=" + products + "]";
-  }
+
 
 }
