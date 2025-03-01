@@ -64,7 +64,8 @@ public class OrderController {
     Cart cart = cartService.get(cartId);
     double totalPrice = cartService.getTotalPrice(cartId);
     List<AddressDTO> receiveInfos = addressService.findByUser(userId);
-    CheckoutDTO checkoutDTO = new CheckoutDTO(receiveInfos != null ? receiveInfos.get(0) : null);
+    CheckoutDTO checkoutDTO = new CheckoutDTO(
+        (receiveInfos != null && !receiveInfos.isEmpty()) ? receiveInfos.get(0) : null);
 
     model.addAttribute("cart", cart);
     model.addAttribute("totalPrice", totalPrice);
@@ -101,6 +102,11 @@ public class OrderController {
 
       return "client/cart/checkout";
     }
+
+    Long userId = (Long) session.getAttribute("userId");
+    boolean isExistAddress = addressService.existsByUserId(userId);
+    if (!isExistAddress)
+      addressService.create(checkoutDTO.getReceiveInfo(), userId);
 
     Order newOrder = orderService.create(cartId, checkoutDTO);
     session.setAttribute("cartSum", 0);

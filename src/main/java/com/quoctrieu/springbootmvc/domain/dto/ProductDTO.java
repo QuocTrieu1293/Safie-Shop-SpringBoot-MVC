@@ -1,6 +1,7 @@
 package com.quoctrieu.springbootmvc.domain.dto;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import com.quoctrieu.springbootmvc.domain.Product;
 
@@ -21,7 +22,7 @@ public class ProductDTO {
     image = product.getImage();
     brand = product.getBrand().getName();
     category = product.getCategory().getName();
-    sizes = product.getSizes().stream().map(SizeDTO::new).toList();
+    sizes = product.getSizes().stream().map(SizeDTO::new).collect(Collectors.toList());
   }
 
   public long getId() {

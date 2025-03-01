@@ -1,6 +1,7 @@
 package com.quoctrieu.springbootmvc.service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
@@ -19,8 +20,8 @@ public class AddressService {
   }
 
   public List<AddressDTO> findByUser(Long userId) {
-    List<Address> addressList = addressRepo.findByUser(userId);
-    List<AddressDTO> dtoList = addressList.stream().map(addr -> new AddressDTO(addr)).toList();
+    List<Address> addressList = addressRepo.findByUser(userId); // Nếu không tìm được trả về list rỗng (size = 0)
+    List<AddressDTO> dtoList = addressList.stream().map(addr -> new AddressDTO(addr)).collect(Collectors.toList());
     return dtoList;
   }
 
@@ -71,6 +72,11 @@ public class AddressService {
     if (user.getId() != userId)
       return;
     addressRepo.deleteById(id);
+  }
+
+  public boolean existsByUserId(Long userId) {
+    boolean isExist = addressRepo.existsByUserId(userId);
+    return isExist;
   }
 
 }

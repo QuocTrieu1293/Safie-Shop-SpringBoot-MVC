@@ -1,6 +1,8 @@
 package com.quoctrieu.springbootmvc.controller.api;
 
 import java.util.List;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -64,7 +66,8 @@ public class ProductAPI {
   @GetMapping("/search")
   public List<SearchedProduct> getSearchedProduct(@RequestParam("q") String search) {
     List<Product> products = productRepository.findTop3ByNameContainingOrderByQuantityDesc(search);
-    List<SearchedProduct> searchedProducts = products.stream().map(product -> new SearchedProduct(product)).toList();
+    List<SearchedProduct> searchedProducts = products.stream().map(product -> new SearchedProduct(product))
+        .collect(Collectors.toList());
     return searchedProducts;
   }
 

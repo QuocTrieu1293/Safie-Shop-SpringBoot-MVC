@@ -3,6 +3,7 @@ package com.quoctrieu.springbootmvc.service;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -79,9 +80,9 @@ public class FileService {
       File dir = new File(rootPath + File.separator + arrType[i]);
       List<String> filenames = null;
       if (arrType[i] == Type.AVATAR) {
-        filenames = userService.getAll().stream().map(user -> user.getAvatar()).toList();
+        filenames = userService.getAll().stream().map(user -> user.getAvatar()).collect(Collectors.toList());
       } else {
-        filenames = productService.getAll().stream().map(product -> product.getImage()).toList();
+        filenames = productService.getAll().stream().map(product -> product.getImage()).collect(Collectors.toList());
       }
 
       final List<String> final_filenames = new ArrayList<>(filenames);
