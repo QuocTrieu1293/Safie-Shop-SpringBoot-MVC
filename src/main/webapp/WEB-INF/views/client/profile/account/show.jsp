@@ -173,7 +173,7 @@ uri="http://www.springframework.org/tags/form" %>
                     <!-- Gender -->
                     <tr>
                       <td class="text-end pe-3 fw-medium">
-                        <form:label path="gender">Gender</form:label>
+                        <form:label path="gender">Giới tính</form:label>
                       </td>
                       <td>
                         <div class="form-check form-check-inline">

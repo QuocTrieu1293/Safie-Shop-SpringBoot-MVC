@@ -100,11 +100,11 @@ public class ChangePasswordController {
     User user = userRepository.findByEmail(email);
     if (user == null) {
       return ResponseEntity.badRequest().contentType(MediaType.valueOf("text/plain; charset=UTF-8"))
-          .body("Tài khoản không tồn tại");
+          .body("Gửi mail thất bại, tài khoản không tồn tại!");
     }
     if (!user.isEnabled()) {
       return ResponseEntity.badRequest().contentType(MediaType.valueOf("text/plain; charset=UTF-8"))
-          .body("Tài khoản chưa được xác thực");
+          .body("Gửi mail thất bại, tài khoản chưa được xác thực!");
     }
 
     VerifyUserToken verifyToken = verifyTokenRepo.findByUserId(user.getId());
@@ -116,7 +116,7 @@ public class ChangePasswordController {
     } catch (Exception e) {
       e.printStackTrace();
       return ResponseEntity.internalServerError().contentType(MediaType.valueOf("text/plain; charset=UTF-8"))
-          .body("Gửi mail không thành công");
+          .body("Gửi mail thất bại");
     }
 
     return ResponseEntity.ok().contentType(MediaType.valueOf("text/plain; charset=UTF-8"))

@@ -136,7 +136,7 @@ uri="http://www.springframework.org/tags/form" %>
     <script src="/client/js/main.js"></script>
 
     <script>
-      const COUNT_DOWN_TIME = 60;
+      const COUNT_DOWN_TIME = 30;
 
       $(document).ready(() => {
         $.ajaxSetup({
@@ -173,15 +173,20 @@ uri="http://www.springframework.org/tags/form" %>
           )
             .done((response) => {
               alert(response);
-            })
-            .fail((response) => {
-              alert(response.responseText);
-            })
-            .always(() => {
+
               $("#sending-loader").fadeOut("fast", () => {
                 $("#resend-counter").text(COUNT_DOWN_TIME);
                 $("#resend-text").removeClass("d-none");
                 startCountDown();
+              });
+            })
+            .fail((response) => {
+              alert(response.responseText);
+
+              // khi send mail thất bại thì cho phép người dùng gửi lại liền luôn
+              $("#sending-loader").fadeOut("fast", () => {
+                $("#send-btn-label").text("Gửi lại").removeClass("d-none");
+                $("#send-btn").removeAttr("disabled");
               });
             });
         });

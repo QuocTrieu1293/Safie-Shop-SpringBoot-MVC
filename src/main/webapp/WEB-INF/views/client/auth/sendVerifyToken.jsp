@@ -141,7 +141,7 @@ uri="http://www.springframework.org/tags/form" %>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
     <script src="/js/scripts.js"></script>
     <script>
-      const COUNT_DOWN_TIME = 60;
+      const COUNT_DOWN_TIME = 30;
 
       $(document).ready(() => {
         $.ajaxSetup({
@@ -171,14 +171,16 @@ uri="http://www.springframework.org/tags/form" %>
             JSON.stringify({
               email: "${param.email}",
             }),
-            function (response) {
+            (response) => {
               alert(response);
-            }
-          )
-            .fail((response) => alert(response.responseText))
-            .always(() => {
               $("#resend-loader").fadeOut("fast", () => startCountDown());
+            }
+          ).fail((response) => {
+            alert(response.responseText);
+            $("#resend-loader").fadeOut("fast", () => {
+              $("#resend-btn").css("display", "inline");
             });
+          });
         };
 
         sendVerifyMail();

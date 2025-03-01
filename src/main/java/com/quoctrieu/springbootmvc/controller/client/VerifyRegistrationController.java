@@ -61,21 +61,21 @@ public class VerifyRegistrationController {
     User user = userRepository.findByEmail(email);
     if (user == null) {
       return ResponseEntity.badRequest().contentType(MediaType.valueOf("text/plain; charset=UTF-8"))
-          .body("Không tồn tại tài khoản ứng với email " + email);
+          .body("Gửi mail thất bại, không tồn tại tài khoản ứng với email " + email);
     } else if (user.isEnabled()) {
       return ResponseEntity.badRequest().contentType(MediaType.valueOf("text/plain; charset=UTF-8"))
-          .body("Tài khoản đã được xác thực trước đó rồi");
+          .body("Gửi mail thất bại, tài khoản đã được xác thực trước đó rồi");
     }
     VerifyUserToken verifyToken = verifyTokenRepo.findByUserId(user.getId());
     if (verifyToken == null)
       return ResponseEntity.badRequest().contentType(MediaType.valueOf("text/plain; charset=UTF-8"))
-          .body("Gửi mail không thành công");
+          .body("Gửi mail thất bại, token không hợp lệ!");
     try {
       mailService.sendVerifyRegistrationMail(verifyToken);
     } catch (Exception e) {
       e.printStackTrace();
       return ResponseEntity.internalServerError().contentType(MediaType.valueOf("text/plain; charset=UTF-8"))
-          .body("Gửi mail không thành công");
+          .body("Gửi mail thất bại");
     }
 
     return ResponseEntity.ok().contentType(MediaType.valueOf("text/plain; charset=UTF-8"))
