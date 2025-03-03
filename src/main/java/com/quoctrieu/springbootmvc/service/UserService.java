@@ -105,11 +105,6 @@ public class UserService {
 
     Cart cart = user.getCart();
     if (cart != null) {
-      List<CartDetail> cartDetails = cart.getCartDetails();
-      if (cartDetails != null) {
-        cartDetails.removeIf(cd -> cd.getProduct().isDeleted());
-        cart.setSum(cartDetails.size());
-      }
       return cart;
     }
 

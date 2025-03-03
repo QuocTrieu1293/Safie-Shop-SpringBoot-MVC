@@ -20,11 +20,6 @@ public class CartService {
     Cart cart = cartRepository.findById(id).orElse(null);
     List<CartDetail> cartDetails = cart.getCartDetails();
 
-    if (cart != null && cartDetails != null) {
-      cartDetails.removeIf(cd -> cd.getProduct().isDeleted());
-      cart.setSum(cartDetails.size());
-    }
-
     return cart;
   }
 

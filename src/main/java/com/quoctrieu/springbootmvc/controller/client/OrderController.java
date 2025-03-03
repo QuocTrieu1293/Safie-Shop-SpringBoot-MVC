@@ -62,7 +62,6 @@ public class OrderController {
     long cartId = (long) session.getAttribute("cartId");
     long userId = (long) session.getAttribute("userId");
     Cart cart = cartService.get(cartId);
-    session.setAttribute("cartSum", cart.getSum());
 
     double totalPrice = cartService.getTotalPrice(cartId);
     List<AddressDTO> receiveInfos = addressService.findByUser(userId);
@@ -96,7 +95,6 @@ public class OrderController {
       }
 
       Cart cart = cartService.get(cartId);
-      session.setAttribute("cartSum", cart.getSum());
       double totalPrice = cartService.getTotalPrice(cartId);
       model.addAttribute("cart", cart);
       model.addAttribute("totalPrice", totalPrice);
