@@ -12,8 +12,8 @@ uri="http://www.springframework.org/tags/form" prefix="form"%>
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
     <meta content="" name="keywords" />
     <meta content="" name="description" />
-    <link rel="manifest" href="/site.webmanifest" />
-    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="manifest" href="/static/site.webmanifest" />
+    <link rel="icon" type="image/x-icon" href="/static/favicon.ico" />
 
     <!-- Google Web Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />

@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import com.quoctrieu.springbootmvc.domain.Category;
 import com.quoctrieu.springbootmvc.domain.Product;
 import com.quoctrieu.springbootmvc.domain.dto.ProductCriteriaDTO;
-import com.quoctrieu.springbootmvc.repository.ProductRepository;
 import com.quoctrieu.springbootmvc.service.BrandService;
 import com.quoctrieu.springbootmvc.service.CategoryService;
 import com.quoctrieu.springbootmvc.service.ProductService;
@@ -22,15 +21,13 @@ import jakarta.servlet.http.HttpServletRequest;
 @Controller("ClientProductController")
 public class ProductController {
 
-  private final ProductRepository productRepository;
   private final ProductService productService;
   private final SizeService sizeService;
   private final CategoryService categoryService;
   private final BrandService brandService;
 
-  ProductController(ProductRepository productRepository, ProductService productService, SizeService sizeService,
+  ProductController(ProductService productService, SizeService sizeService,
       CategoryService categoryService, BrandService brandService) {
-    this.productRepository = productRepository;
     this.productService = productService;
     this.sizeService = sizeService;
     this.categoryService = categoryService;
@@ -68,10 +65,10 @@ public class ProductController {
     Product product = productService.get(id);
     Category category = product.getCategory();
     Long cateId = category.getId();
-    List<Product> featuredProducts = productRepository.findTop5ByIdNotOrderByQuantityDesc(id);
+    List<Product> featuredProducts = productService.findFeaturedProducts(id);
     model.addAttribute("product", product);
     model.addAttribute("relatedProducts",
-        productRepository.findByCategoryIdAndIdNot(cateId, id));
+        productService.findRelatedProducts(cateId, id));
     model.addAttribute("featuredProducts", featuredProducts);
     model.addAttribute("categories", categoryService.findAll());
 

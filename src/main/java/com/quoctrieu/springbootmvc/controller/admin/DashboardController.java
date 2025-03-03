@@ -5,20 +5,20 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import com.quoctrieu.springbootmvc.repository.OrderRepository;
-import com.quoctrieu.springbootmvc.repository.ProductRepository;
 import com.quoctrieu.springbootmvc.repository.UserRepository;
+import com.quoctrieu.springbootmvc.service.ProductService;
 
 @Controller
 public class DashboardController {
 
   private final UserRepository userRepository;
-  private final ProductRepository productRepository;
+  private final ProductService productService;
   private final OrderRepository orderRepository;
 
-  DashboardController(UserRepository userRepository, ProductRepository productRepository,
+  DashboardController(UserRepository userRepository, ProductService productService,
       OrderRepository orderRepository) {
     this.userRepository = userRepository;
-    this.productRepository = productRepository;
+    this.productService = productService;
     this.orderRepository = orderRepository;
   }
 
@@ -26,7 +26,7 @@ public class DashboardController {
   public String getDashboard(Model model) {
 
     model.addAttribute("userCount", userRepository.count());
-    model.addAttribute("productCount", productRepository.count());
+    model.addAttribute("productCount", productService.count());
     model.addAttribute("orderCount", orderRepository.count());
 
     return "admin/dashboard/show";

@@ -11,8 +11,8 @@ uri="http://sargue.net/jsptags/time" prefix="javatime" %>
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
     <meta content="" name="keywords" />
     <meta content="" name="description" />
-    <link rel="manifest" href="/site.webmanifest" />
-    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="manifest" href="/static/site.webmanifest" />
+    <link rel="icon" type="image/x-icon" href="/static/favicon.ico" />
 
     <!-- Google Web Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -168,16 +168,28 @@ uri="http://sargue.net/jsptags/time" prefix="javatime" %>
                               <div class="col-12">
                                 <div class="row gx-3">
                                   <div class="col-auto">
-                                    <a href="/product/${item.product.id}">
-                                      <img
-                                        src="/images/product/${item.product.image}"
-                                        alt=""
-                                        style="
+                                    <c:choose>
+                                      <c:when test="${item.product.deleted}">
+                                        <img src="/images/product/${item.product.image}"
+                                             alt=""
+                                             style="
+                                              width: 100px;
+                                              aspect-ratio: 1 / 1;
+                                             "
+                                        />
+                                      </c:when>
+                                      <c:otherwise>
+                                        <a href="/product/${item.product.id}">
+                                          <img src="/images/product/${item.product.image}"
+                                               alt=""
+                                               style="
                                           width: 100px;
                                           aspect-ratio: 1 / 1;
                                         "
-                                      />
-                                    </a>
+                                          />
+                                        </a>
+                                      </c:otherwise>
+                                    </c:choose>
                                   </div>
                                   <div
                                     class="col d-flex justify-content-between"

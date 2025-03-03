@@ -15,8 +15,8 @@ uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
     <meta name="description" content="Safie shop" />
     <meta name="author" content="Quoc Trieu" />
     <title>Admin Dashboard</title>
-    <link rel="manifest" href="/site.webmanifest" />
-    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="manifest" href="/static/site.webmanifest" />
+    <link rel="icon" type="image/x-icon" href="/static/favicon.ico" />
     <link
       href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css"
       rel="stylesheet"
@@ -144,9 +144,16 @@ uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
                     </td>
                     <td class="">
                       <p>
-                        <a href="/admin/product/${item.product.id}"
-                          >${item.product.name}</a
-                        >
+                        <c:choose>
+                          <c:when test="${item.product.deleted}">
+                            ${item.product.name}
+                          </c:when>
+                          <c:otherwise>
+                            <a href="/product/${item.product.id}">
+                              ${item.product.name}
+                            </a>
+                          </c:otherwise>
+                        </c:choose>
                       </p>
                       <div>
                         <span><b>Brand:</b> ${item.product.brand.name}</span>

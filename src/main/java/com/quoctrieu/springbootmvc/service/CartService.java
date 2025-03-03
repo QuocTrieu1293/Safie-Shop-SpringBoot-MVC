@@ -17,11 +17,19 @@ public class CartService {
   }
 
   public Cart get(long id) {
-    return cartRepository.findById(id).orElse(null);
+    Cart cart = cartRepository.findById(id).orElse(null);
+    List<CartDetail> cartDetails = cart.getCartDetails();
+
+    if (cart != null && cartDetails != null) {
+      cartDetails.removeIf(cd -> cd.getProduct().isDeleted());
+      cart.setSum(cartDetails.size());
+    }
+
+    return cart;
   }
 
   public double getTotalPrice(long cartId) {
-    Cart cart = cartRepository.findById(cartId).orElse(null);
+    Cart cart = get(cartId);
     if (cart == null)
       return 0;
 

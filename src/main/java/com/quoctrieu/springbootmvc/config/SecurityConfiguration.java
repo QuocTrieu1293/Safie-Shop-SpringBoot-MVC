@@ -111,7 +111,7 @@ public class SecurityConfiguration {
             .dispatcherTypeMatchers(DispatcherType.FORWARD, DispatcherType.INCLUDE).permitAll()
 
             .requestMatchers("/login", "/register", "/", "/product/**", "/products/**", "/api/product/{id}",
-                "/api/product/search", "/client/**", "/css/**", "/images/**", "/js/**", "/test/**", "css/**",
+                "/api/product/search", "/client/**", "/css/**", "/images/**", "/js/**", "/static/**", "/test/**",
                 "/verifyRegistration/**", "/profile/account/password/reset", "/forgetPassword",
                 "/profile/account/password/sendMail")
             .permitAll()
@@ -157,7 +157,6 @@ public class SecurityConfiguration {
             .deleteCookies("SESSION").invalidateHttpSession(true))
 
         .exceptionHandling(ex -> ex.accessDeniedPage("/access-deny"))
-
         .sessionManagement((sessionManagement) -> sessionManagement
             .sessionCreationPolicy(SessionCreationPolicy.ALWAYS)
             /*

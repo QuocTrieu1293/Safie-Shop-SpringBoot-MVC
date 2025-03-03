@@ -20,6 +20,9 @@ public class Category {
   @Column(unique = true, nullable = false)
   private String name;
 
+  @Transient
+  private Long productCount;
+
   public Long getId() {
     return id;
   }
@@ -44,4 +47,20 @@ public class Category {
     this.products = products;
   }
 
+  public Long getProductCount() {
+    return productCount;
+  }
+
+  public void setProductCount(Long productCount) {
+    this.productCount = productCount;
+  }
+
+  @Override
+  public String toString() {
+    return "Category{" +
+            "id=" + id +
+            ", name='" + name + '\'' +
+            ", productCount=" + productCount +
+            '}';
+  }
 }

@@ -1,7 +1,6 @@
 package com.quoctrieu.springbootmvc.controller.api;
 
 import java.util.List;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import org.springframework.http.ResponseEntity;
@@ -15,7 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.quoctrieu.springbootmvc.domain.Cart;
 import com.quoctrieu.springbootmvc.domain.Product;
 import com.quoctrieu.springbootmvc.domain.dto.ProductDTO;
-import com.quoctrieu.springbootmvc.repository.ProductRepository;
 import com.quoctrieu.springbootmvc.repository.SizeRepository;
 import com.quoctrieu.springbootmvc.service.ProductService;
 
@@ -28,12 +26,10 @@ public class ProductAPI {
 
   private final ProductService productService;
   private final SizeRepository sizeRepository;
-  private final ProductRepository productRepository;
 
-  public ProductAPI(ProductService productService, SizeRepository sizeRepository, ProductRepository productRepository) {
+  public ProductAPI(ProductService productService, SizeRepository sizeRepository) {
     this.productService = productService;
     this.sizeRepository = sizeRepository;
-    this.productRepository = productRepository;
   }
 
   @GetMapping("/{id}")
@@ -65,7 +61,7 @@ public class ProductAPI {
 
   @GetMapping("/search")
   public List<SearchedProduct> getSearchedProduct(@RequestParam("q") String search) {
-    List<Product> products = productRepository.findTop3ByNameContainingOrderByQuantityDesc(search);
+    List<Product> products = productService.findTop3Search(search);
     List<SearchedProduct> searchedProducts = products.stream().map(product -> new SearchedProduct(product))
         .collect(Collectors.toList());
     return searchedProducts;

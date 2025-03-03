@@ -14,8 +14,8 @@ uri="http://www.springframework.org/tags/form" %>
     <meta name="description" content="" />
     <meta name="author" content="" />
     <title>Safie - An tâm cho con | Thiết lập mật khẩu</title>
-    <link rel="manifest" href="/site.webmanifest" />
-    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="manifest" href="/static/site.webmanifest" />
+    <link rel="icon" type="image/x-icon" href="/static/favicon.ico" />
 
     <!-- Google Web Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />

@@ -10,7 +10,7 @@ import com.quoctrieu.springbootmvc.repository.BrandRepository;
 
 @Service
 public class BrandService {
-  private final String CACHE_NAME = "brands";
+  public static final String CACHE_NAME = "brands";
   private final BrandRepository repo;
 
   public BrandService(BrandRepository repo) {

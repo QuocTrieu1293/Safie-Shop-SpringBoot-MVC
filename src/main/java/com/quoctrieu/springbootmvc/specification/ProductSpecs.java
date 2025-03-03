@@ -23,6 +23,8 @@ public class ProductSpecs {
 
             List<Predicate> predicates = new ArrayList<>();
 
+            predicates.add(criteriaBuilder.isFalse(root.get(Product_.DELETED)));
+
             if (categoryName != null) {
                 predicates.add(criteriaBuilder.equal(root.get(Product_.CATEGORY).get(Category_.NAME), categoryName));
             }

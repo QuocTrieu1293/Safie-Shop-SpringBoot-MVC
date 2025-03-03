@@ -13,8 +13,8 @@ uri="http://java.sun.com/jsp/jstl/core" %>
     <meta name="description" content="" />
     <meta name="author" content="" />
     <title>Safie - An tâm cho con | ${title}</title>
-    <link rel="manifest" href="/site.webmanifest" />
-    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="manifest" href="/static/site.webmanifest" />
+    <link rel="icon" type="image/x-icon" href="/static/favicon.ico" />
 
     <!-- Google Web Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />

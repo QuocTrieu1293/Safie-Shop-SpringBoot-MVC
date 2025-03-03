@@ -16,19 +16,19 @@ import com.quoctrieu.springbootmvc.domain.Product;
 public interface ProductRepository extends JpaRepository<Product, Long>, JpaSpecificationExecutor<Product> {
   Product save(Product product);
 
-  List<Product> findAll();
+  List<Product> findByDeletedFalse();
 
-  Optional<Product> findById(Long id);
+  Optional<Product> findByIdAndDeletedFalse(Long id);
 
-  boolean existsByNameAndIdNot(String name, Long id);
+  boolean existsByNameAndIdNotAndDeletedFalse(String name, Long id);
 
-  boolean existsByName(String name);
+  boolean existsByNameAndDeletedFalse(String name);
 
   void deleteById(Long id);
 
-  List<Product> findByCategoryIdAndIdNot(Long categoryId, Long id);
+  List<Product> findByCategoryIdAndIdNotAndDeletedFalse(Long categoryId, Long id);
 
-  List<Product> findTop5ByIdNotOrderByQuantityDesc(Long id);
+  List<Product> findTop5ByIdNotAndDeletedFalseOrderByQuantityDesc(Long id);
 
   Page<Product> findAll(Pageable pageable);
 
@@ -36,8 +36,10 @@ public interface ProductRepository extends JpaRepository<Product, Long>, JpaSpec
 
   // @Query("select p from Product p where lower(p.name) like lower(concat('%',
   // :name, '%'))")
-  Page<Product> findByNameContaining(String name, Pageable pageable);
+  Page<Product> findByNameContainingAndDeletedFalse(String name, Pageable pageable);
 
-  List<Product> findTop3ByNameContainingOrderByQuantityDesc(String name);
+  List<Product> findTop3ByNameContainingAndDeletedFalseOrderByQuantityDesc(String name);
+
+  Long countByDeletedFalse();
 
 }

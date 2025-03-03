@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -40,6 +41,7 @@ public class UserController {
   private final UserService userService;
   private final FileService fileService;
   private final RoleService roleService;
+  private final JdbcTemplate jdbcTemplate;
 
   @InitBinder
   public void initBinder(WebDataBinder binder) {
@@ -52,11 +54,12 @@ public class UserController {
   // }
 
   public UserController(UserRepository userRepository, UserService userService, FileService fileService,
-      RoleService roleService) {
+      RoleService roleService, JdbcTemplate jdbcTemplate) {
     this.userRepository = userRepository;
     this.userService = userService;
     this.fileService = fileService;
     this.roleService = roleService;
+    this.jdbcTemplate = jdbcTemplate;
   }
 
   // @RequestMapping("/")
@@ -202,6 +205,8 @@ public class UserController {
       fileService.deleteImage(fileName, Type.AVATAR);
     }
     userService.delete(id);
+    int deletedRows = jdbcTemplate.update("delete from SPRING_SESSION where PRINCIPAL_NAME = ?", user.getEmail());
+
     redirectAttributes.addFlashAttribute("successMessage", "User deleted successfully!");
     return "redirect:/admin/user";
   }

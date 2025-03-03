@@ -67,4 +67,14 @@ public class CartDetail {
     return quantity * product.getPrice();
   }
 
+  @Override
+  public String toString() {
+    return "CartDetail{" +
+            "id=" + id +
+            ", quantity=" + quantity +
+            ", cart_id=" + cart.getId() +
+            ", product_id=" + product.getId() +
+            ", size=" + size +
+            '}';
+  }
 }

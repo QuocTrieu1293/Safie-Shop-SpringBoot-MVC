@@ -1,7 +1,8 @@
 package com.quoctrieu.springbootmvc.domain;
 
-import java.util.Arrays;
 import java.util.List;
+
+import org.hibernate.annotations.SQLDelete;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -22,6 +23,7 @@ import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "products")
+@SQLDelete(sql = "update products set deleted = true where id = ?")
 public class Product {
 
   @Id
@@ -47,6 +49,9 @@ public class Product {
 
   @Min(value = 0, message = "Sold must be greater than or equal to 0")
   private long sold;
+
+  @Column(name = "deleted")
+  private boolean deleted = false;
 
   @ManyToOne(fetch = FetchType.EAGER)
   @JoinColumn(name = "category_id")
@@ -151,4 +156,11 @@ public class Product {
     this.sizes = sizes;
   }
 
+  public boolean isDeleted() {
+    return deleted;
+  }
+
+  public void setDeleted(boolean deleted) {
+    this.deleted = deleted;
+  }
 }

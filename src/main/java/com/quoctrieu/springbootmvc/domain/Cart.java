@@ -1,9 +1,10 @@
 package com.quoctrieu.springbootmvc.domain;
 
-import java.util.Arrays;
-import java.util.List;
-
 import jakarta.persistence.*;
+import org.hibernate.annotations.Filter;
+import org.hibernate.annotations.FilterDef;
+
+import java.util.List;
 
 @Entity
 @Table(name = "carts")
@@ -11,14 +12,14 @@ public class Cart {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private long id;
-  // @Min(value = 0)
+
   private int sum;
-  // user_id
+
   @OneToOne(fetch = FetchType.EAGER)
   @JoinColumn(name = "user_id")
   private User user;
-  // cart_detail_id
-  @OneToMany(mappedBy = "cart", fetch = FetchType.LAZY)
+
+  @OneToMany(mappedBy = "cart", fetch = FetchType.EAGER)
   List<CartDetail> cartDetails;
 
   public long getId() {

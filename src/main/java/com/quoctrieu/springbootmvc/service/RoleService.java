@@ -11,7 +11,7 @@ import com.quoctrieu.springbootmvc.repository.RoleRepository;
 @Service
 public class RoleService {
 
-  private final String CACHE_NAME = "roles";
+  public static final String CACHE_NAME = "roles";
   private final RoleRepository repo;
 
   public RoleService(RoleRepository repo) {

@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -26,7 +27,7 @@ import com.quoctrieu.springbootmvc.specification.ProductSpecs;
 @Service
 public class ProductService {
 
-  private final String CACHE_NAME = "products";
+  public static final String CACHE_NAME = "products";
 
   private final ProductRepository productRepository;
   private final UserService userService;
@@ -43,13 +44,16 @@ public class ProductService {
     this.sizeRepository = sizeRepository;
   }
 
-  @CacheEvict(value = CACHE_NAME, allEntries = true)
+  @Caching(evict = {
+      @CacheEvict(value = CACHE_NAME, allEntries = true),
+      @CacheEvict(value = CategoryService.CACHE_NAME, allEntries = true)
+  })
   public Product createProduct(Product product) {
     return productRepository.save(product);
   }
 
   public List<Product> getAll() {
-    return productRepository.findAll();
+    return productRepository.findByDeletedFalse();
   }
 
   @Cacheable(value = CACHE_NAME, key = "'homepage'")
@@ -103,18 +107,21 @@ public class ProductService {
   }
 
   public Product get(long id) {
-    return productRepository.findById(id).orElse(null);
+    return productRepository.findByIdAndDeletedFalse(id).orElse(null);
   }
 
   public boolean nameExists(String name, Long id) {
     if (id != null && id > 0)
-      return productRepository.existsByNameAndIdNot(name, id);
-    return productRepository.existsByName(name);
+      return productRepository.existsByNameAndIdNotAndDeletedFalse(name, id);
+    return productRepository.existsByNameAndDeletedFalse(name);
   }
 
-  @CacheEvict(value = CACHE_NAME, allEntries = true)
+  @Caching(evict = {
+      @CacheEvict(value = CACHE_NAME, allEntries = true),
+      @CacheEvict(value = CategoryService.CACHE_NAME, allEntries = true)
+  })
   public Product updateProduct(Product product) throws Exception {
-    Product updatedProduct = productRepository.findById(product.getId()).orElse(null);
+    Product updatedProduct = productRepository.findByIdAndDeletedFalse(product.getId()).orElse(null);
     if (updatedProduct == null)
       throw new Exception("cannot find product with id = " + product.getId());
 
@@ -132,14 +139,21 @@ public class ProductService {
     return productRepository.save(updatedProduct);
   }
 
-  @CacheEvict(value = CACHE_NAME, allEntries = true)
+  @Caching(evict = {
+      @CacheEvict(value = CACHE_NAME, allEntries = true),
+      @CacheEvict(value = CategoryService.CACHE_NAME, allEntries = true)
+  })
   public void delete(long id) {
     productRepository.deleteById(id);
   }
 
   public Cart addToCart(long userId, long productId, long sizeId, int quantity) {
     Cart cart = userService.getCart(userId);
+
     Product product = get(productId);
+    if (product.isDeleted())
+      return cart;
+
     Size size = sizeRepository.findById(sizeId);
 
     if (cart == null || product == null || size == null)
@@ -160,6 +174,22 @@ public class ProductService {
     cart = cartRepository.save(cart);
 
     return cart;
+  }
+
+  public Long count() {
+    return productRepository.countByDeletedFalse();
+  }
+
+  public List<Product> findTop3Search(String search) {
+    return productRepository.findTop3ByNameContainingAndDeletedFalseOrderByQuantityDesc(search);
+  }
+
+  public List<Product> findFeaturedProducts(Long id) {
+    return productRepository.findTop5ByIdNotAndDeletedFalseOrderByQuantityDesc(id);
+  }
+
+  public List<Product> findRelatedProducts(Long cateId, Long id) {
+    return productRepository.findByCategoryIdAndIdNotAndDeletedFalse(cateId, id);
   }
 
 }

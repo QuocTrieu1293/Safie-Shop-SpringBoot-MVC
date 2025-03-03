@@ -13,8 +13,8 @@ uri="http://java.sun.com/jsp/jstl/core" %>
     <meta name="description" content="Safie shop" />
     <meta name="author" content="Quoc Trieu" />
     <title>Admin Dashboard</title>
-    <link rel="manifest" href="/site.webmanifest" />
-    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="manifest" href="/static/site.webmanifest" />
+    <link rel="icon" type="image/x-icon" href="/static/favicon.ico" />
 
     <!-- css -->
     <link

@@ -8,8 +8,8 @@
     <title>Lỗi 403 - Truy cập từ chối</title>
     <link href="/client/css/style.css" rel="stylesheet" />
     <link href="/client/css/bootstrap.min.css" rel="stylesheet" />
-    <link rel="manifest" href="/site.webmanifest" />
-    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="manifest" href="/static/site.webmanifest" />
+    <link rel="icon" type="image/x-icon" href="/static/favicon.ico" />
   </head>
   <body>
     <div class="container pt-4 vh-100">

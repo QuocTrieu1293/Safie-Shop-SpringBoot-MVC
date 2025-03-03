@@ -31,6 +31,8 @@ public class CartController {
     Long userId = (Long) session.getAttribute("userId");
 
     Cart cart = userService.getCart(userId);
+    session.setAttribute("cartSum", cart.getSum());
+
     List<CartDetail> cartItems = cart.getCartDetails();
 
     model.addAttribute("cartItems", cartItems);

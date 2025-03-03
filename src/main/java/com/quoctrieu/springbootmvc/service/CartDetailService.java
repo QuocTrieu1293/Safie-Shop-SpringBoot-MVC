@@ -17,6 +17,9 @@ public class CartDetailService {
 
   public CartDetail updateQuantity(long cartDetailId, int quantity, HttpSession session) {
     CartDetail item = cartDetailRepository.findById(cartDetailId).orElse(null);
+    if (item.getProduct().isDeleted()) {
+      return item;
+    }
     if (item == null || quantity < 0)
       return null;
 

@@ -188,10 +188,10 @@ public class ProductController {
     if (product == null)
       return "redirect:/admin/product";
 
-    String fileName = product.getImage();
-    if (fileName != null && !fileName.isEmpty()) {
-      fileService.deleteImage(fileName, Type.PRODUCT);
-    }
+//    String fileName = product.getImage();
+//    if (fileName != null && !fileName.isEmpty()) {
+//      fileService.deleteImage(fileName, Type.PRODUCT);
+//    }
     productService.delete(id);
     redirectAttributes.addFlashAttribute("successMessage", "Product deleted successfully!");
     return "redirect:/admin/product";

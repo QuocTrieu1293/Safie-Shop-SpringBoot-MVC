@@ -10,7 +10,7 @@ import com.quoctrieu.springbootmvc.repository.SizeRepository;
 
 @Service
 public class SizeService {
-  private final String CACHE_NAME = "sizes";
+  public static final String CACHE_NAME = "sizes";
   private final SizeRepository repo;
 
   public SizeService(SizeRepository repo) {
