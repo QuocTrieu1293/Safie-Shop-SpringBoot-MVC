@@ -4,13 +4,11 @@ import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.quoctrieu.springbootmvc.domain.Cart;
-import com.quoctrieu.springbootmvc.domain.CartDetail;
 import com.quoctrieu.springbootmvc.domain.Order;
 import com.quoctrieu.springbootmvc.domain.User;
 import com.quoctrieu.springbootmvc.domain.VerifyUserToken;

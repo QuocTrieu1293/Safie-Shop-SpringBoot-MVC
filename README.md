@@ -10,7 +10,16 @@ For better live demo, the project is deployed on *AWS Elastic Beanstalk*.
 
 **Admin Access:** visit `/admin` and login with `admin@gmail.com` / `12345678` to see the admin features.
 
-❌ *VNPAY does not work in deploy environment*
+**VNPAY Online Payment Test Account**
+|                     |                     |
+|---------------------|---------------------|
+| **Bank**            | NCB                 |
+| **Card Number**     | 9704198526191432198 |
+| **Cardholder Name** | NGUYEN VAN A        |
+| **Issue Date**      | 07/15               |
+| **OTP Password**    | 123456              |
+
+
 
 ## 🏗️ Tech Stack
 
@@ -73,6 +82,8 @@ For better live demo, the project is deployed on *AWS Elastic Beanstalk*.
 ![img19](https://github.com/QuocTrieu1293/host-image/blob/ac7e4a2e8432badd323a89a38c83b911b63888a0/Safie-Shop-SpringBoot-MVC/img19.png)
 
 ![img20](https://github.com/QuocTrieu1293/host-image/blob/ac7e4a2e8432badd323a89a38c83b911b63888a0/Safie-Shop-SpringBoot-MVC/img20.png)
+
+![img29](https://github.com/QuocTrieu1293/host-image/blob/ac7e4a2e8432badd323a89a38c83b911b63888a0/Safie-Shop-SpringBoot-MVC/img29.png)
 
 ![img21](https://github.com/QuocTrieu1293/host-image/blob/ac7e4a2e8432badd323a89a38c83b911b63888a0/Safie-Shop-SpringBoot-MVC/img21.png)
 

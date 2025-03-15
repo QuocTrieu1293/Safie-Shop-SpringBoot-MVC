@@ -1,5 +1,9 @@
 package com.quoctrieu.springbootmvc;
 
+import java.time.ZoneId;
+import java.util.TimeZone;
+
+import jakarta.annotation.PostConstruct;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
@@ -18,7 +22,13 @@ public class SpringBootMVCApplication extends SpringBootServletInitializer {
 		return builder.sources(SpringBootMVCApplication.class);
 	}
 
+	@PostConstruct
+	public void init() {
+		TimeZone.setDefault(TimeZone.getTimeZone("Asia/Ho_Chi_Minh"));
+	}
+
 	public static void main(String[] args) {
+
 		SpringApplication.run(SpringBootMVCApplication.class, args);
 		// System.out.println("hello world");
 	}
