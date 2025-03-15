@@ -83,7 +83,7 @@ For better live demo, the project is deployed on *AWS Elastic Beanstalk*.
 
 ![img20](https://github.com/QuocTrieu1293/host-image/blob/ac7e4a2e8432badd323a89a38c83b911b63888a0/Safie-Shop-SpringBoot-MVC/img20.png)
 
-![img29](https://github.com/QuocTrieu1293/host-image/blob/ac7e4a2e8432badd323a89a38c83b911b63888a0/Safie-Shop-SpringBoot-MVC/img29.png)
+![img29](https://github.com/QuocTrieu1293/host-image/blob/6623b2a6be37da065376eee7f12af14bc8fb1c2d/Safie-Shop-SpringBoot-MVC/img29.png)
 
 ![img21](https://github.com/QuocTrieu1293/host-image/blob/ac7e4a2e8432badd323a89a38c83b911b63888a0/Safie-Shop-SpringBoot-MVC/img21.png)
 
