@@ -13,7 +13,7 @@ For better live demo, the project is deployed on *AWS Elastic Beanstalk*.
 
 **VNPAY Online Payment Test Account**
 
-|                     |                     |
+| Field               | Value               |
 |---------------------|---------------------|
 | **Bank**            | NCB                 |
 | **Card Number**     | 9704198526191432198 |
@@ -40,6 +40,10 @@ For better live demo, the project is deployed on *AWS Elastic Beanstalk*.
 - Edit profile, upload avatar image, change password
 - User manage their address book: add new address, set default address for convenience in place order
 - Admin Dashboard: manage products, users, orders
+
+## 🛢️ Database Schema
+
+![database-schema](https://github.com/QuocTrieu1293/host-image/blob/3e299dfcb5edf56835965d41c3c9bc0cd405fe9f/Safie-Shop-SpringBoot-MVC/SafieShop-Schema.png)
 
 ## 📸 Screenshots
 

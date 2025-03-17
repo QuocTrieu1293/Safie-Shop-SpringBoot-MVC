@@ -748,7 +748,7 @@ uri="http://www.springframework.org/tags/form" prefix="form"%>
             throw new Error("Fail to load " + type + " API");
           }
         } catch (err) {
-          alert("Fail to fetch address API. Try reloading this page!");
+          alert("Fail to fetch data from third-party address API");
 
           // call fallback address api
           const res = await $.getJSON(
