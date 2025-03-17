@@ -537,13 +537,36 @@ uri="http://www.springframework.org/tags/form" %>
 
         $("#" + type).prop("disabled", true);
         // console.log("api calling ...");
-        const res = await $.getJSON(
-          "https://esgoo.net/api-tinhthanh/" + param1 + "/" + param2 + ".htm"
-        );
-        // console.log(res);
-        if (res.error === 0) {
-          const data = res.data;
-          $.each(data, function (_, item) {
+        try {
+          const res = await $.getJSON(
+            "https://esgoo.net/api-tinhthanh/" + param1 + "/" + param2 + ".htm"
+          );
+          // console.log(res);
+          if (res.error === 0) {
+            const data = res.data;
+            $.each(data, function (_, item) {
+              $("#" + type).append(
+                "<option data-id='" +
+                  item.id +
+                  "' value='" +
+                  item.full_name +
+                  "'>" +
+                  item.full_name +
+                  "</option>"
+              );
+            });
+            $("#" + type).prop("disabled", false);
+          } else {
+            throw new Error("Fail to load " + type + " API");
+          }
+        } catch (err) {
+          alert("Fail to fetch data from third-party address API");
+
+          // call fallback address api
+          const res = await $.getJSON(
+            "/api/address/fallback/" + param1 + "/" + param2
+          );
+          $.each(res, function (_, item) {
             $("#" + type).append(
               "<option data-id='" +
                 item.id +
@@ -555,19 +578,8 @@ uri="http://www.springframework.org/tags/form" %>
             );
           });
           $("#" + type).prop("disabled", false);
-        } else {
-          alert("Fail to fetch address API. Try reloading this page!");
-          Array.from({ length: 3 }, (_, i) =>
-            $("#" + type).append(
-              "<option data-id='-1' value='test sample " +
-                i +
-                "'>test sample " +
-                i +
-                "</option>"
-            )
-          );
-          $("#" + type).prop("disabled", false);
-          throw new Error("Fail to load " + type + " API");
+
+          throw err;
         }
       };
 

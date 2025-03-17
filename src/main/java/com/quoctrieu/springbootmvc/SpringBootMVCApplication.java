@@ -24,7 +24,7 @@ public class SpringBootMVCApplication extends SpringBootServletInitializer {
 
 	@PostConstruct
 	public void init() {
-		TimeZone.setDefault(TimeZone.getTimeZone("Asia/Ho_Chi_Minh"));
+		TimeZone.setDefault(TimeZone.getTimeZone("Asia/Bangkok"));
 	}
 
 	public static void main(String[] args) {

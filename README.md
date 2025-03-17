@@ -5,12 +5,14 @@
 An ecommerce website for selling baby clothes, this  is my pet project for learning and become familiar with Spring Boot & Spring ecosystem, the project follows MVC pattern. The web allows user to browse and search products with multiple criteria, add them to cart, place orders, process online payments with VNPAY, and view order history. User can also log in / sign up with many methods such as email / password, OAuth2 with Google, GitHub account, the password can be reset via email when forgotten. Moreover, user can edit their profile, upload avatar image, change password, ... The admin can manage products, users, and orders.
 
 ## 🚀 Deloyment
-For better live demo, the project is deployed on *AWS Elastic Beanstalk*. 
+
+For better live demo, the project is deployed on *AWS Elastic Beanstalk*.
 > **🔗Here the link:** <http://safie-shop.ap-southeast-1.elasticbeanstalk.com>
 
 **Admin Access:** visit `/admin` and login with `admin@gmail.com` / `12345678` to see the admin features.
 
 **VNPAY Online Payment Test Account**
+
 |                     |                     |
 |---------------------|---------------------|
 | **Bank**            | NCB                 |
@@ -18,8 +20,6 @@ For better live demo, the project is deployed on *AWS Elastic Beanstalk*.
 | **Cardholder Name** | NGUYEN VAN A        |
 | **Issue Date**      | 07/15               |
 | **OTP Password**    | 123456              |
-
-
 
 ## 🏗️ Tech Stack
 
@@ -102,6 +102,7 @@ For better live demo, the project is deployed on *AWS Elastic Beanstalk*.
 ![img28](https://github.com/QuocTrieu1293/host-image/blob/ac7e4a2e8432badd323a89a38c83b911b63888a0/Safie-Shop-SpringBoot-MVC/img28.png)
 
 ## Contact
-- 📩 **Email:** tcqtrieu@gmail.com
+
+- 📩 **Email:** <tcqtrieu@gmail.com>
 - 🔗 **LinkedIn:** [in/quoc-trieu-129t2003](https://www.linkedin.com/in/quoc-trieu-129t2003/)
 - 💻 **GitHub:** [QuocTrieu1293](https://github.com/QuocTrieu1293)

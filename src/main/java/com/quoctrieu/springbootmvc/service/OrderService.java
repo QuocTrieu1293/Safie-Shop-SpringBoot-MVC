@@ -61,7 +61,7 @@ public class OrderService {
     String paymentRef = UUID.randomUUID().toString().replaceAll("-", "");
     newOrder.setPaymentRef(paymentMethod == PaymentMethod.COD ? "UNKNOWN" : paymentRef);
     // newOrder.setDate(LocalDateTime.now(ZoneId.of(ZoneId.SHORT_IDS.get("VST"))));
-    // newOrder.setDate(LocalDateTime.now(ZoneId.of("Asia/Ho_Chi_Minh")));
+    // newOrder.setDate(LocalDateTime.now(ZoneId.of("Asia/Bangkok")));
     newOrder = orderRepository.save(newOrder);
 
     // create OrderDetails # Không thể đồng thời thêm OrderDetail và xoá CartDetail
