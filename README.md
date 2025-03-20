@@ -4,7 +4,7 @@
 
 An ecommerce website for selling baby clothes, this  is my pet project for learning and become familiar with Spring Boot & Spring ecosystem, the project follows MVC pattern. The web allows user to browse and search products with multiple criteria, add them to cart, place orders, process online payments with VNPAY, and view order history. User can also log in / sign up with many methods such as email / password, OAuth2 with Google, GitHub account, the password can be reset via email when forgotten. Moreover, user can edit their profile, upload avatar image, change password, ... The admin can manage products, users, and orders.
 
-## 🚀 Deloyment
+## 🚀 Deployment
 
 For better live demo, the project is deployed on *AWS Elastic Beanstalk*.
 > **🔗Here the link:** <http://safie-shop.ap-southeast-1.elasticbeanstalk.com>
